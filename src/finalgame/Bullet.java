@@ -30,7 +30,7 @@ public class Bullet extends Item{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.tweet, getX(), getY(), getWidth(), getHeight(), null);
+        //g.drawImage(Assets.tweet, getX(), getY(), getWidth(), getHeight(), null);
         //g.setColor(Color.red);
         //g.fillRect(getX(), getY(), getWidth(), getHeight());
     }

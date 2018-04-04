@@ -25,7 +25,7 @@ public class Player extends Item{
         super(x, y, width, height);
         this.game = game;
         this.lives = lives;
-        this.animation = new Animation(Assets.playerAnim, 100);
+        //this.animation = new Animation(Assets.playerAnim, 100);
         lastAnimation = 3;
     }
 
@@ -39,15 +39,6 @@ public class Player extends Item{
     
     @Override
     public void tick() {
-        //speed 6 of the player
-        if (game.getKeyManager().left) {
-           setX(getX() - 6);
-           this.animation.tick();
-        }
-        if (game.getKeyManager().right) {
-           setX(getX() + 6);
-           this.animation.tick();
-        }
         // reset x position and y position if colision
         if (getX() + 100 >= game.getWidth()) {
             setX(game.getWidth() - 100);
@@ -59,18 +50,6 @@ public class Player extends Item{
 
     @Override
     public void render(Graphics g) {
-        if (game.getKeyManager().left) {
-            g.drawImage(animation.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
-            lastAnimation = 1;
-        }
-        else if(game.getKeyManager().right) {
-            g.drawImage(animation.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
-            lastAnimation = 2;
-        }
-        g.drawImage(animation.getCurrentFrame(), getX(), getY(), 
-            getWidth(), getHeight(), null);
-       
+      
     }
 }
