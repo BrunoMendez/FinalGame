@@ -5,6 +5,9 @@
  */
 package finalgame;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author bruno
@@ -15,7 +18,12 @@ public class FinalGame {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // java - get screen size using the Toolkit class
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        Game g = new Game("Juego", screenWidth, screenHeight);
+        g.start();
     }
     
 }
