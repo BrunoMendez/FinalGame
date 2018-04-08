@@ -25,10 +25,6 @@ public class Assets {
     public static BufferedImage playerD[];
     public static BufferedImage playerA[];
     public static BufferedImage playerQ[];
-    public static BufferedImage playerEInmune[];
-    public static BufferedImage playerDInmune[];
-    public static BufferedImage playerAInmune[];
-    public static BufferedImage playerQInmune[];
     
     public static void init(){
         background = ImageLoader.loadImage("/images/background-exam.jpg");
@@ -43,11 +39,7 @@ public class Assets {
         playerD = new BufferedImage[6];
         playerA = new BufferedImage[6];
         playerQ = new BufferedImage[6];
-        
-        playerEInmune = new BufferedImage[12];
-        playerDInmune = new BufferedImage[12];
-        playerAInmune = new BufferedImage[12];
-        playerQInmune = new BufferedImage[12];
+       
         
         
         for(int i = 0; i<6; i++) {
