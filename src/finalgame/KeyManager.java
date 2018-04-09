@@ -13,19 +13,21 @@ import java.awt.event.KeyListener;
  * @author bruno
  */
 public class KeyManager implements KeyListener {
-    public boolean E;
-    public boolean D;
-    public boolean A;
-    public boolean Q;
-    public boolean P;
-    public boolean S;
-    public boolean L;
+    public boolean up;      //move up
+    public boolean down;    //move down
+    public boolean left;    //move left
+    public boolean right;   //move right
+    public boolean space;   //shoot
+    public boolean z;       //change to prev weapon
+    public boolean x;       //change to next weapon
+    public boolean p;       //pause game
+    public boolean s;       //save game
     
     private boolean keys[];
     
     public KeyManager() {
         keys = new boolean[256];
-        P = false;
+        p = false;
     }
      @Override
      public void keyTyped(KeyEvent e) {
@@ -40,11 +42,10 @@ public class KeyManager implements KeyListener {
      public void keyReleased(KeyEvent e) {
          keys[e.getKeyCode()] = false;
           if(e.getKeyCode() == KeyEvent.VK_P){
-             if(P){
-                 P = false;
-             }
-             else{
-                 P = true;
+             if (p) {
+                 p = false;
+             } else {
+                 p = true;
              }
          }
      }
@@ -53,11 +54,14 @@ public class KeyManager implements KeyListener {
       * to enable or disable moves on every tick
       */
      public void tick() {
-         E = keys[KeyEvent.VK_E];
-         D = keys[KeyEvent.VK_D];
-         A = keys[KeyEvent.VK_A];
-         Q = keys[KeyEvent.VK_Q];
-         S = keys[KeyEvent.VK_S];
-         L = keys[KeyEvent.VK_L];
+         up = keys[KeyEvent.VK_UP];
+         down = keys[KeyEvent.VK_DOWN];
+         left = keys[KeyEvent.VK_LEFT];
+         right = keys[KeyEvent.VK_RIGHT];
+         space = keys[KeyEvent.VK_SPACE];
+         z = keys[KeyEvent.VK_Z];
+         x = keys[KeyEvent.VK_X];
+         p = keys[KeyEvent.VK_P];
+         s = keys[KeyEvent.VK_S];
      }
 }
