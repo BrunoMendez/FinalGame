@@ -25,7 +25,7 @@ public class Player extends Item{
         super(x, y, width, height);
         this.game = game;
         this.lives = lives;
-        //this.animation = new Animation(Assets.playerAnim, 100);
+       
         lastAnimation = 3;
     }
 
