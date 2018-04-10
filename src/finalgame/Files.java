@@ -17,6 +17,10 @@ import java.io.PrintWriter;
  */
 public class Files {
     
+    /**
+     * To load the saved data into the game
+     * @param game to set the values with the stored data
+     */
     public static void loadFile(Game game) {
         BufferedReader br = null;
         FileReader fr = null;
@@ -50,6 +54,10 @@ public class Files {
         }
     }
     
+    /**
+     * To store the values of each item of the game
+     * @param game to obtain the values of the items in the game 
+     */
     public static void saveFile(Game game) {
         try {
             PrintWriter printWriter = new PrintWriter(new File("save.txt"));

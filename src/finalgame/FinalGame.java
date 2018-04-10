@@ -22,6 +22,7 @@ public class FinalGame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
+        //adjust game window to screen size
         Game g = new Game("Juego", screenWidth, screenHeight);
         g.start();
     }

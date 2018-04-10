@@ -23,11 +23,18 @@ public class EnemyBullet extends Item{
         this.game = game;
     }
 
-
+    /**
+     * To set the width of the enemy bullet
+     * @param width to set the width of the enemy bullet
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * To set the height of the enemy bullet
+     * @param height to set the height of the enemy bullet
+     */
     public void setHeight(int height) {
         this.height = height;
     }
@@ -39,6 +46,7 @@ public class EnemyBullet extends Item{
 
     @Override
     public void render(Graphics g) {
+        //draw the enemy bullet
         g.setColor(Color.blue);
         g.fillRect(getX(), getY(), getWidth(), getHeight());
     }
