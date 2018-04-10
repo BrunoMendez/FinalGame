@@ -60,6 +60,38 @@ public class Enemy extends Item {
     public int getPoints() {
         return points;
     }
+    
+    /**
+     * To set the enemyType
+     * @param enemyType to set the enemyType
+     */
+    public void setEnemyType(int enemyType) {
+        this.enemyType = enemyType;
+    }
+    
+    /**
+     * To get the enemyType
+     * @return an <code>int</code> of the enemyType
+     */
+    public int getEnemyType() {
+        return enemyType;
+    }
+    
+    /**
+     * To set the enemy health
+     * @param health to set the enemy health
+     */
+    public void setHealth(int health) {
+        this.health = health;
+    }
+    
+    /**
+     * To get the enemy health
+     * @return an <code>int</code> of the enemy health
+     */
+    public int getHealth() {
+        return health;
+    }
 
     @Override
     public void tick() {
