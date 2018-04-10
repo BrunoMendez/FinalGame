@@ -3,29 +3,29 @@ package finalgame;
 
 import java.awt.image.BufferedImage;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author bruno
  */
 public class Assets {
-    public static BufferedImage background; // to strore background image
-    public static BufferedImage player; // to store the player image
-    public static BufferedImage enemy;
-    public static BufferedImage pause;
-    public static BufferedImage win;
-    public static BufferedImage loose;
+    public static BufferedImage background;     // to strore background image
+    public static BufferedImage player;         // to store the player image
+    public static BufferedImage enemy;          // to store the enemy image
+    public static BufferedImage enemy2;         // to store the enemy2 image
+    public static BufferedImage pause;          // to store the pause image
+    public static BufferedImage win;            // to store the win image
+    public static BufferedImage loose;          // to store the loose image
+    public static BufferedImage menu1;          // to store the menu1 image
+    public static BufferedImage menu2;          // to store the menu2 image
     public static BufferedImage sprites;
-    public static BufferedImage playerE[];
-    public static BufferedImage playerD[];
-    public static BufferedImage playerA[];
-    public static BufferedImage playerQ[];
+    public static BufferedImage playerW[];      // to store the W movement of player
+    public static BufferedImage playerA[];      // to store the A movement of player
+    public static BufferedImage playerS[];      // to store the S movement of player
+    public static BufferedImage playerD[];      // to store the D movement of player
     
+    /**
+     * To initialize assets
+     */
     public static void init(){
         background = ImageLoader.loadImage("/images/background-exam.jpg");
         sprites = ImageLoader.loadImage("/images/spritesheet2.png");
@@ -35,18 +35,18 @@ public class Assets {
         loose = ImageLoader.loadImage("/images/loose.jpg");
         
         SpriteSheet spritesheet = new SpriteSheet(sprites);
-        playerE = new BufferedImage[6];
-        playerD = new BufferedImage[6];
+        playerW = new BufferedImage[6];
         playerA = new BufferedImage[6];
-        playerQ = new BufferedImage[6];
+        playerS = new BufferedImage[6];
+        playerD = new BufferedImage[6];
        
         
         
         for(int i = 0; i<6; i++) {
-            playerD[i] = spritesheet.crop((i+6)*32, 0, 32, 32);
+            playerW[i] = spritesheet.crop((i+6)*32, 0, 32, 32);
             playerA[i] = spritesheet.crop((i+6)*32, 32, 32, 32);
-            playerQ[i] = spritesheet.crop((i+6)*32, 64, 32, 32);
-            playerE[i] = spritesheet.crop((i+6)*32, 96, 32, 32);
+            playerS[i] = spritesheet.crop((i+6)*32, 64, 32, 32);
+            playerD[i] = spritesheet.crop((i+6)*32, 96, 32, 32);
         }
         
     }

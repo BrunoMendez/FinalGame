@@ -5,11 +5,6 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -24,10 +19,10 @@ public class Display {
     
     
     /**
-     * initializes the values for the application game
-     * @param title
-     * @param width
-     * @param height 
+     * Initializes the values for the application game
+     * @param title Window title
+     * @param width Window's height dimension
+     * @param height Window's width dimension
      */
     public Display(String title, int width, int height){
         this.title = title;
@@ -36,6 +31,9 @@ public class Display {
         createDisplay();
     }
     
+    /**
+     * Creates window and adds canvas to the window
+     */
     public void createDisplay(){
         // Create the app window
         jframe = new JFrame(title);
@@ -61,10 +59,18 @@ public class Display {
         jframe.pack();
     }
     
+    /**
+     * <code>jFrame</code> Getter
+     * @return jFrame
+     */
     public JFrame getJframe() {
         return jframe;
     }
     
+    /**
+     * <code>canvas</code> Getter
+     * @return canvas;
+     */
     public Canvas getCanvas(){
         return canvas;
     }
