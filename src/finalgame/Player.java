@@ -23,12 +23,14 @@ public class Player extends Item{
     private Animation animationLeft;
     private Animation animationRight;
     private int lastAnimation;
+    private int direction;
     
-    public Player(int x, int y, int width, int height, int lives, Game game) {
+    public Player(int x, int y, int width, int height, int lives, int direction, Game game) {
         super(x, y, width, height);
         this.game = game;
         this.lives = lives;
-       
+        this.direction = direction;
+        
         this.animationUp = new Animation(Assets.playerUp, 100);
         this.animationDown = new Animation(Assets.playerDown, 100);
         this.animationLeft = new Animation(Assets.playerLeft, 100);
@@ -44,23 +46,39 @@ public class Player extends Item{
         this.lives = lives;
     }
     
+    /*
+    Directions:
+    1 = up
+    2 = down
+    3 = right
+    4 = left
+    */
+    public int getDirection(){
+        return direction;
+    }
+    
+    
     @Override
     public void tick() {
         if(game.getKeyManager().up){
             setY(getY()-3);
             this.animationUp.tick();
+            direction = 1;
         }
         if(game.getKeyManager().down){
             setY(getY()+3);
             this.animationDown.tick();
+            direction = 2;
         }
         if(game.getKeyManager().right){
             setX(getX()+3);
             this.animationRight.tick();
+            direction = 3;
         }
         if(game.getKeyManager().left){
             setX(getX()-3);
             this.animationLeft.tick();
+            direction = 4;
         }
         
         // reset x position and y position if colision
