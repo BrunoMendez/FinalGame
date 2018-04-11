@@ -18,8 +18,8 @@ public class KeyManager implements KeyListener {
     public boolean left;    //move left
     public boolean right;   //move right
     public boolean space;   //shoot
-    public boolean z;       //change to prev weapon
-    public boolean x;       //change to next weapon
+    public boolean uno;       //change to prev weapon
+    public boolean dos;       //change to next weapon
     public boolean p;       //pause game
     public boolean s;       //save game
     
@@ -29,6 +29,15 @@ public class KeyManager implements KeyListener {
         keys = new boolean[256];
         p = false;
     }
+    
+    public boolean isUno() {
+	return keys[KeyEvent.VK_1];
+    }
+    
+    public boolean isDos() {
+	return keys[KeyEvent.VK_2];
+    }
+    
      @Override
      public void keyTyped(KeyEvent e) {
      }
@@ -59,8 +68,8 @@ public class KeyManager implements KeyListener {
          left = keys[KeyEvent.VK_LEFT];
          right = keys[KeyEvent.VK_RIGHT];
          space = keys[KeyEvent.VK_SPACE];
-         z = keys[KeyEvent.VK_Z];
-         x = keys[KeyEvent.VK_X];
+         uno = keys[KeyEvent.VK_1];
+         dos = keys[KeyEvent.VK_2];
          p = keys[KeyEvent.VK_P];
          s = keys[KeyEvent.VK_S];
      }
