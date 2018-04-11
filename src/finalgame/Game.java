@@ -93,7 +93,7 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
-        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, 1,  this);
+        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 75, 75, 3, 1,  this);
         bullets = new Bullet((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, this);
         display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
