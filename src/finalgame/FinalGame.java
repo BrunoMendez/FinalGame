@@ -23,7 +23,7 @@ public class FinalGame {
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         //adjust game window to screen size
-        Game g = new Game("Juego", 1920, 1080);
+        Game g = new Game("Juego", 1200, 750);
         g.start();
     }
     
