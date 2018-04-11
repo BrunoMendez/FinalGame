@@ -12,7 +12,7 @@ package finalgame;
 public class Weapon {
     
     private Game game;
-    private final int PISTOL = 1, UZI = 2, SHOTGUN = 3, ROCKET = 4;     //  constants to store the position of thw weapons 
+    private boolean PISTOL, UZI, SHOTGUN, ROCKET;     //  constants to store the position of thw weapons 
     private String[] weaponString = new String[4];                      //  names of all the weapons
     public int[] allWeaponsNum = new int[4];                            //  number of consecutive kills needed for each weapon
     
@@ -36,7 +36,10 @@ public class Weapon {
      * Set the names of each upgrade
      */
     public void addWeaponNames(){
-        
+        weaponString[0] = "PISTOL";
+        weaponString[1] = "UZU";
+        weaponString[2] = "SHOTGUN";
+        weaponString[3] = "ROCKET";
     }
     
     /**
@@ -52,7 +55,10 @@ public class Weapon {
      * Get the weapon at n
      * @param n 
      */
-    public void getWeapon(int n){
+    public void getWeapon(){
+        if(PISTOL = game.getKeyManager().isUno()){
+            
+        }
         
     }
     

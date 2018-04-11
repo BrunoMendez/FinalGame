@@ -94,6 +94,7 @@ public class Game implements Runnable {
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
         player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, this);
+        display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
         int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
                 : 3 * -(int)(Math.random() * getWidth());
@@ -152,6 +153,14 @@ public class Game implements Runnable {
     public Player getPlayer() {
         return player;
     }
+    
+    /**
+     * <code>Box</code> Getter
+     * @return box
+     */
+    public Box getBox() {
+        return box;
+    }
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
@@ -175,6 +184,7 @@ public class Game implements Runnable {
     
     private void tick() {
         keyManager.tick();
+        PlayerOverBox();
         box.tick();
         player.tick();
         for (Enemy enemy : enemies) {
@@ -183,6 +193,15 @@ public class Game implements Runnable {
             enemy.tick();
         }
     }
+    
+    /**
+     * Player over the box
+     */
+    public void PlayerOverBox(){
+        if(getPlayer().intersects(getBox())){
+            box.boxBroken();
+        }
+    } 
 
     private void render() {
         // get the buffer strategy from the display
