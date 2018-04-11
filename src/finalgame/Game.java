@@ -137,6 +137,14 @@ public class Game implements Runnable {
     public Player getPlayer() {
         return player;
     }
+    
+    /**
+     * <code>Box</code> Getter
+     * @return box
+     */
+    public Box getBox() {
+        return box;
+    }
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
@@ -157,13 +165,25 @@ public class Game implements Runnable {
     public void setScore(int score) {
         this.score = score;
     }
+
     
     private void tick() {
         keyManager.tick();
+        PlayerOverBox();
         box.tick();
         player.tick();
     }
 
+    /**
+     * Player over the box
+     */
+    public void PlayerOverBox(){
+        if(getPlayer().intersects(getBox())){
+            box.boxBroken();
+        }
+    } 
+    
+        
     private void render() {
         // get the buffer strategy from the display
         bs = display.getCanvas().getBufferStrategy();

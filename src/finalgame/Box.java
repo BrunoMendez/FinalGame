@@ -6,11 +6,7 @@
 package finalgame;
 
 import java.awt.Graphics;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -86,10 +82,19 @@ public class Box extends Item{
         this.counter = counter;
     }
     
+    /**
+     * When player is over the box
+     */
+    public void boxBroken(){
+        randomXY();
+        setX(xBox);
+        setY(yBox);
+    }
+    
     @Override
     public void tick() { 
         // Change the position of the box every "x" time to a new position
-        if(System.currentTimeMillis() - lastTimeTick > 10000){
+        if(System.currentTimeMillis() - lastTimeTick > 100000){
             lastTimeTick = System.currentTimeMillis();
             randomXY();
             setX(xBox);
