@@ -85,8 +85,14 @@ public class Player extends Item{
         if (getX() + 100 >= game.getWidth()) {
             setX(game.getWidth() - 100);
         }
-        else if (getX() <= 0) {
-            setX(0);
+        else if (getX() <= -50) {
+            setX(-50);
+        }
+        if(getY() + 150 >= game.getHeight()){
+            setY(game.getHeight() - 150);
+        }
+        else if(getY() <= -35){
+            setY(-35);
         }
     }
 
