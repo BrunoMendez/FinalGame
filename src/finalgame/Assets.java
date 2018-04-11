@@ -20,10 +20,10 @@ public class Assets {
     public static BufferedImage box[];          // to store the box image
     public static BufferedImage boxDown;
     public static BufferedImage sprites;
-    public static BufferedImage playerW[];      // to store the W movement of player
-    public static BufferedImage playerA[];      // to store the A movement of player
-    public static BufferedImage playerS[];      // to store the S movement of player
-    public static BufferedImage playerD[];      // to store the D movement of player
+    public static BufferedImage playerUp[];      
+    public static BufferedImage playerDown[];      
+    public static BufferedImage playerRight[];     
+    public static BufferedImage playerLeft[];      
     
     /**
      * To initialize assets
@@ -42,20 +42,24 @@ public class Assets {
 	box = new BufferedImage[1];
 	box[0] = ss.crop(0, 0, 180, 150);
         
-        //SpriteSheet spritesheet = new SpriteSheet(sprites);
+        //To store the player animation
+         //SpriteSheet spritesheet = new SpriteSheet(sprites);
         //playerW = new BufferedImage[6];
         //playerA = new BufferedImage[6];
         //playerS = new BufferedImage[6];
         //playerD = new BufferedImage[6];
        
-        
-        /**
-        for(int i = 0; i<6; i++) {
-            playerW[i] = spritesheet.crop((i+6)*32, 0, 32, 32);
-            playerA[i] = spritesheet.crop((i+6)*32, 32, 32, 32);
-            playerS[i] = spritesheet.crop((i+6)*32, 64, 32, 32);
-            playerD[i] = spritesheet.crop((i+6)*32, 96, 32, 32);
-        }**/
+        SpriteSheet playerSS = new SpriteSheet (ImageLoader.loadImage("/images/player.png"));
+        playerUp = new BufferedImage[9];
+        playerDown = new BufferedImage[9];
+        playerRight = new BufferedImage[9];
+        playerLeft = new BufferedImage[9];
+        for(int i = 0; i<9; i++){
+            playerUp[i] = playerSS.crop(i*64, 0, 64, 64);
+            playerLeft[i] = playerSS.crop(i*64, 64, 64, 64);
+            playerDown[i] = playerSS.crop(i*64, 128, 64, 64);
+            playerRight[i] = playerSS.crop(i*64, 192, 64, 64);
+        }
         
     }
 }
