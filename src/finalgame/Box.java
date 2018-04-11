@@ -6,6 +6,11 @@
 package finalgame;
 
 import java.awt.Graphics;
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -13,7 +18,10 @@ import java.awt.Graphics;
  */
 public class Box extends Item{
 
+    private Animation box;
     private Game game;
+    private int xBox;                                    // aux to store the new x of the box
+    private int yBox;                                    // aux to store the new y of the box
     private int x;                                       // x position of the box
     private int y;                                       // y position of the box
     private final int ItemCount = 4;                     // number of items in the box   
@@ -21,6 +29,7 @@ public class Box extends Item{
     private int counter;                                 // time that takes the box to appear
     private String[] names = new String[ItemCount];      // names of all the weapons in the box
     public int[] items = new int[ItemCount];             // the number of the item in the box
+    private long lastTimeTick;
     
     /**
      * <code>Box</code> Constructor
@@ -32,7 +41,10 @@ public class Box extends Item{
      */
     public Box(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
+        lastTimeTick = System.currentTimeMillis();
         this.game = game;
+        lastTimeTick = System.currentTimeMillis();
+        box = new Animation(Assets.box, 2000);
     }
     
     /**
@@ -40,6 +52,14 @@ public class Box extends Item{
      */
     public void countDown(){
         counter--;
+    }
+    
+    /**
+     * Change the x and y position of the box
+     */
+    public void randomXY(){
+        xBox = ThreadLocalRandom.current().nextInt(0, game.getWidth() + 1);
+        yBox = ThreadLocalRandom.current().nextInt(0, game.getHeight() + 1);
     }
     
     /**
@@ -67,10 +87,19 @@ public class Box extends Item{
     }
     
     @Override
-    public void tick() {
+    public void tick() { 
+        // Change the position of the box every "x" time to a new position
+        if(System.currentTimeMillis() - lastTimeTick > 10000){
+            lastTimeTick = System.currentTimeMillis();
+            randomXY();
+            setX(xBox);
+            setY(yBox);
+        }
+        box.tick();
     }
 
     @Override
     public void render(Graphics g) {
+        g.drawImage(box.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
     }
 }

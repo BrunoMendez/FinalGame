@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Game implements Runnable {
     private Thread thread;          // thread to create the game
     private boolean running;        // to set the game
     private Player player;          // to use a player
+    private Box box;
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my bricks
     private ArrayList<Bullet> bullets;          // player bullet
@@ -92,25 +94,7 @@ public class Game implements Runnable {
     private void init() {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
-        player = new Player(getWidth() / 2 - 50, getHeight() - 100, 100, 100, 3, this);
-        bullets = new ArrayList<Bullet>();
-        enemyBullets = new ArrayList<EnemyBullet>();
-        enemies = new ArrayList<Enemy>();
-        //creating enemies
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 4; j++) {
-                int width_brick = getWidth() / 15;
-                Enemy enemy = new Enemy(i * width_brick + 2, 50 * j + 10,
-                        50, 50, 1, 1, this);
-                enemies.add(enemy);
-                int points = (j == 0) ? 30 : (j < 3 && j > 0) ? 20 : 10;
-                enemy.setPoints(points);
-                if (j == 3) {
-                    enemy.setLowest(true);
-                }
-            }
-        }
-
+        box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
         display.getJframe().addKeyListener(keyManager);
     }
 
@@ -173,10 +157,8 @@ public class Game implements Runnable {
         this.score = score;
     }
     
-    
-
     private void tick() {
-            
+        box.tick();
     }
 
     private void render() {
@@ -193,24 +175,7 @@ public class Game implements Runnable {
         } else {
             g = bs.getDrawGraphics();
             g.drawImage(Assets.background, 0, 0, width, height, null);
-            player.render(g);
-            for (Enemy enemy : enemies) {
-                enemy.render(g);
-            }
-            for (Bullet bullet : bullets) {
-                bullet.render(g);
-            }
-            for(EnemyBullet eBullet : enemyBullets) {
-                eBullet.render(g);
-            }
-            
-            g.setColor(Color.white);
-            g.drawString("Score: " + String.valueOf(score), 0, height);
-            g.drawString("Lives: " + player.getLives() , 0, height - 15);
-            if (keyManager.P) {
-                g.setColor(Color.white);
-                g.drawString("Presiona: P para despausar", width / 2 - 100, height / 2 + (height / 4));
-            }
+            box.render(g);
             bs.show();
             g.dispose();
         }
