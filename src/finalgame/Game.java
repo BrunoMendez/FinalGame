@@ -27,17 +27,15 @@ public class Game implements Runnable {
     private Thread thread;          // thread to create the game
     private boolean running;        // to set the game
     private Player player;          // to use a player
-    private Box box;
+    private Box box;                // to create a box
     private KeyManager keyManager;  // to manage the keyboard
-    private ArrayList<Enemy> enemies; // my bricks
-    private ArrayList<Bullet> bullets;          // player bullet
+    private ArrayList<Enemy> enemies; // my enemies
+    private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
-    private boolean gameOver; // To stop the game
-    private boolean started;          // to start the game
+    private boolean gameOver;            // To stop the game
+    private boolean started;             // to start the game
     private long lastTime;
-    private int score; 	//score
-    private SoundClip tweet;
-    private SoundClip hit;
+    private int score;                 	 //score
     private boolean win;
 
     /**
@@ -96,6 +94,24 @@ public class Game implements Runnable {
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
         player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, this);
+        display.getJframe().addKeyListener(keyManager);
+        enemies = new ArrayList<Enemy>();
+        int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
+                : 3 * -(int)(Math.random() * getWidth());
+        int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
+                : 3 * -(int)(Math.random() * getHeight());
+        Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
+        enemies.add(enemy);
+        //creating enemies
+        /*
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 5; j++) {
+                int width_brick = getWidth() / 10;
+                Brick brick = new Brick(i * width_brick + 2, 30 * j + 10, width_brick - 10, 25, 5 - j, this);
+                bricks.add(brick);
+            }
+        }
+        */
         display.getJframe().addKeyListener(keyManager);
     }
 
@@ -172,7 +188,21 @@ public class Game implements Runnable {
         PlayerOverBox();
         box.tick();
         player.tick();
+        for (Enemy enemy : enemies) {
+            enemy.setSpeedX((enemy.getX() > player.getX()) ? -2 : 2);
+            enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
+            enemy.tick();
+        }
     }
+    
+    /**
+     * Player over the box
+     */
+    public void PlayerOverBox(){
+        if(getPlayer().intersects(getBox())){
+            box.boxBroken();
+        }
+    } 
 
     /**
      * Player over the box
@@ -198,8 +228,11 @@ public class Game implements Runnable {
         } else {
             g = bs.getDrawGraphics();
             g.drawImage(Assets.background, 0, 0, width, height, null);
-            player.render(g);
             box.render(g);
+            for (Enemy enemy : enemies) {
+                enemy.render(g);
+            }
+            player.render(g);
             bs.show();
             g.dispose();
         }

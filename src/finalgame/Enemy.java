@@ -16,35 +16,53 @@ import java.awt.Rectangle;
 public class Enemy extends Item {
 
     private Game game;
-    private int speed;      //enemy speed
+    private int speedX;      //enemy speedX
+    private int speedY;     //enemy speedY
     private int points;     //points the enemy grants
     private int enemyType;  //0 - normal, 1 - shooter
     private int health;     //enemy health
 
-    public Enemy(int x, int y, int width, int height, int speed, int health, int enemyType, Game game) {
+    public Enemy(int x, int y, int width, int height, int speedX, int speedY, int health, int enemyType, Game game) {
         super(x, y, width, height);
         this.game = game;
-        this.speed = speed;
+        this.speedX = speedX;
+        this.speedY = speedY;
         this.health = health;
         this.enemyType = enemyType;
     }
 
     /**
-     * To get the speed of the enemy
-     * @return 
+     * To get the speedX of the enemy
+     * @return an <code>int</code> of the speedX of the enemy
      */
-    public int getSpeed() {
-        return speed;
+    public int getSpeedX() {
+        return speedX;
     }
 
     /**
      * To set the speed of the enemy
-     * @param speed 
+     * @param speed To set the speedX of the enemy
      */
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
     }
 
+    /**
+     * To get the speedY of the enemy
+     * @return an <code>int</code> of the speedY of the enemy
+     */
+    public int getSpeedY() {
+        return speedY;
+    }
+
+    /**
+     * To set the speedY of the enemy
+     * @param speedY to get the speedY of the enemy
+     */
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
+    }
+    
     /**
      * To set the points the enemy grants
      * @param points to set the points the enemy grants
@@ -95,11 +113,14 @@ public class Enemy extends Item {
 
     @Override
     public void tick() {
-        setX(getX() + speed);
+        setX(getX() + speedX);
+        setY(getY() + speedY);
     }
 
     @Override
     public void render(Graphics g) {
+        g.setColor(Color.black);
+        g.fillRect(getX(), getY(), getWidth(), getHeight());
         /*
         if (enemyType == 0) {
             g.drawImage(img, x, y, observer);
