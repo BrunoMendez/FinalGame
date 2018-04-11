@@ -9,6 +9,7 @@ package finalgame;
  *
  * @author EnriqueVilla
  */
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -72,13 +73,12 @@ public class Bullet extends Item{
      */
     @Override
     public void tick() {
-        setY(getY() - 7);
+        
     }
-
+    
     @Override
     public void render(Graphics g) {
-        //g.drawImage(Assets.tweet, getX(), getY(), getWidth(), getHeight(), null);
-        //g.setColor(Color.red);
-        //g.fillRect(getX(), getY(), getWidth(), getHeight());
+        g.setColor(Color.red);
+        g.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 }

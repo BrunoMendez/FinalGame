@@ -12,7 +12,7 @@ package finalgame;
 public class Weapon {
     
     private Game game;
-    private boolean PISTOL, UZI, SHOTGUN, ROCKET;     //  constants to store the position of thw weapons 
+    private boolean PISTOL, UZI, SHOTGUN, ROCKET;                       //  constants to store the position of thw weapons 
     private String[] weaponString = new String[4];                      //  names of all the weapons
     public int[] allWeaponsNum = new int[4];                            //  number of consecutive kills needed for each weapon
     

@@ -30,7 +30,7 @@ public class Game implements Runnable {
     private Box box;                // to create a box
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my enemies
-    private ArrayList<Bullet> bullets;          // player bullets
+    private Bullet bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
     private boolean gameOver;            // To stop the game
     private boolean started;             // to start the game
@@ -94,6 +94,7 @@ public class Game implements Runnable {
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
         player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, this);
+        bullets = new Bullet((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, this);
         display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
         int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
@@ -166,7 +167,7 @@ public class Game implements Runnable {
         return enemies;
     }
 
-    public ArrayList<Bullet> getBullets() {
+    public Bullet getBullets() {
         return bullets;
     }
 
@@ -186,9 +187,17 @@ public class Game implements Runnable {
     private void tick() {
         keyManager.tick();
         PlayerOverBox();
+        
+        if(keyManager.space){
+            bullets = new Bullet(player.getX(), player.getY(), 40, 40, this);
+        }
+        
         box.tick();
         player.tick();
         for (Enemy enemy : enemies) {
+            if(getBullets().intersects(enemy)){
+                 enemies.remove(enemy);
+            }
             enemy.setSpeedX((enemy.getX() > player.getX()) ? -2 : 2);
             enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
             enemy.tick();
@@ -203,16 +212,6 @@ public class Game implements Runnable {
             box.boxBroken();
         }
     } 
-
-    /**
-     * Player over the box
-     */
-    public void PlayerOverBox(){
-        if(getPlayer().intersects(getBox())){
-            box.boxBroken();
-        }
-    } 
-    
         
     private void render() {
         // get the buffer strategy from the display
@@ -233,6 +232,7 @@ public class Game implements Runnable {
                 enemy.render(g);
             }
             player.render(g);
+            bullets.render(g);
             bs.show();
             g.dispose();
         }
