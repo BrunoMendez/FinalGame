@@ -95,6 +95,7 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
+        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, this);
         display.getJframe().addKeyListener(keyManager);
     }
 
@@ -158,7 +159,9 @@ public class Game implements Runnable {
     }
     
     private void tick() {
+        keyManager.tick();
         box.tick();
+        player.tick();
     }
 
     private void render() {
@@ -175,6 +178,7 @@ public class Game implements Runnable {
         } else {
             g = bs.getDrawGraphics();
             g.drawImage(Assets.background, 0, 0, width, height, null);
+            player.render(g);
             box.render(g);
             bs.show();
             g.dispose();
