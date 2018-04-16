@@ -30,7 +30,7 @@ public class Game implements Runnable {
     private Box box;                // to create a box
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my enemies
-    private Bullet bullets;          // player bullets
+    private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
     private boolean gameOver;            // To stop the game
     private boolean started;             // to start the game
@@ -93,8 +93,8 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
-        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 75, 75, 3, 1,  this);
-        bullets = new Bullet((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, this);
+        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, 1,  this);
+        bullets = new ArrayList<Bullet>();
         display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
         int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
@@ -167,7 +167,7 @@ public class Game implements Runnable {
         return enemies;
     }
 
-    public Bullet getBullets() {
+    public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
@@ -187,19 +187,19 @@ public class Game implements Runnable {
     private void tick() {
         keyManager.tick();
         PlayerOverBox();
-        
-        if(keyManager.space){
-            bullets = new Bullet(player.getX(), player.getY(), 40, 40, this);
-        }
-        
         box.tick();
         player.tick();
-        for (Enemy enemy : enemies) {
-            if(getBullets().intersects(enemy)){
-                 enemies.remove(enemy);
-            }
+        shootPlayer();
+        BulletTick();
+        
+        // getting every enemy by using iterator
+        Iterator itr = enemies.iterator();
+        while(itr.hasNext()){
+            // getting specific enemy
+            Enemy enemy = (Enemy) itr.next();
             enemy.setSpeedX((enemy.getX() > player.getX()) ? -2 : 2);
             enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
+            //  moving the enemy
             enemy.tick();
         }
     }
@@ -212,7 +212,53 @@ public class Game implements Runnable {
             box.boxBroken();
         }
     } 
-        
+    
+    /**
+     * Bullet keyManager, shoot when space
+     */
+    public void shootPlayer(){
+        if(this.getKeyManager().space){
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2 - 10, player.getY(), 20, 20, this));
+        }
+    }
+    
+    /**
+     * Bullet tick function
+     */
+    public void BulletTick(){
+               // getting every bullet by using iterator
+        Iterator itr = bullets.iterator();
+        while(itr.hasNext()){
+            // getting specific bullets
+            Bullet bullet = (Bullet) itr.next();
+            //  moving the enemy
+            bullet.tick();
+            //  if bullet is out of the screen
+            if (bullet.getY() <= 0){
+                //  re set y position
+                bullets.remove(bullet);
+                itr = bullets.iterator();
+            } else {
+                //  create a boolean to check removing bullet
+                boolean crashed = false;
+                // if bullet crashes an enemy 
+                Iterator itr2 = enemies.iterator();
+                while(itr2.hasNext() && !crashed){
+                    //  get specific enemy 
+                    Enemy enemy = (Enemy) itr2.next();
+                    if (enemy.intersects(bullet)){
+                        // reset enemy
+                        enemy.setY(-(int)(Math.random()*2*getHeight()));
+                        //  delete bullet
+                        bullets.remove(bullet);
+                        itr = bullets.iterator();
+                        //  set the crashon
+                        crashed = true;
+                    }
+                } 
+            }
+        }
+    }
     private void render() {
         // get the buffer strategy from the display
         bs = display.getCanvas().getBufferStrategy();
@@ -232,7 +278,11 @@ public class Game implements Runnable {
                 enemy.render(g);
             }
             player.render(g);
-            bullets.render(g);
+            Iterator itr = bullets.iterator();
+            while(itr.hasNext()){
+                Bullet bullet = (Bullet) itr.next();
+                bullet.render(g);
+            }
             bs.show();
             g.dispose();
         }
