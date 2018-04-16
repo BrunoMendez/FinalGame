@@ -73,7 +73,7 @@ public class Bullet extends Item{
      */
     @Override
     public void tick() {
-        
+        setY(getY() - 1);
     }
     
     @Override
