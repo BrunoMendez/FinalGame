@@ -31,6 +31,7 @@ public class Game implements Runnable {
     private Box box;                // to create a box
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my enemies
+    private ArrayList<Enemy2> enemies2;
     private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
     private boolean gameOver;            // To stop the game
@@ -107,6 +108,12 @@ public class Game implements Runnable {
                 : 3 * -(int)(Math.random() * getHeight());
         Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
         enemies.add(enemy);
+        enemies2 = new ArrayList<Enemy2>();
+        int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
+                : 3 * -(int)(Math.random() * getWidth());
+        int randY2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
+                : 3 * -(int)(Math.random() * getHeight());
+        Enemy2 enemy2 = new Enemy2(randX2, randY2, 150, 150, 0, 0, 100, this);
         //creating enemies
         /*
         for (int i = 0; i < 10; i++) {
@@ -170,6 +177,10 @@ public class Game implements Runnable {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+    
+    public ArrayList<Enemy2> getEnemies2() {
+        return enemies2;
+    }
 
     public ArrayList<Bullet> getBullets() {
         return bullets;
@@ -200,6 +211,7 @@ public class Game implements Runnable {
         shootPlayer();
         BulletTick();
         
+        
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
         while(itr.hasNext()){
@@ -209,6 +221,16 @@ public class Game implements Runnable {
             enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
             //  moving the enemy
             enemy.tick();
+        }
+        // getting every enemy by using iterator
+        Iterator itr2 = enemies2.iterator();
+        while(itr2.hasNext()){
+            // getting specific enemy
+            Enemy2 enemy2 = (Enemy2) itr.next();
+            enemy2.setSpeedX((enemy2.getX() > player.getX()) ? -2 : 2);
+            enemy2.setSpeedY((enemy2.getY() > player.getY()) ? -2 : 2);
+            //  moving the enemy
+            enemy2.tick();
         }
     }
     
@@ -220,6 +242,39 @@ public class Game implements Runnable {
             box.boxBroken();
         }
     } 
+    
+    public void shootEnemy() {
+        Iterator itr = enemies2.iterator();
+        while (itr.hasNext()) {
+            Enemy2 enemy2 = (Enemy2) itr.next();
+            if (System.currentTimeMillis() - enemy2.getLastTime() >= 500) {
+                switch (enemy2.getDirection()) {
+                case 1: 
+                    enemyBullets.add(new EnemyBullet(enemy2.getX() + 
+                            enemy2.getWidth()/2, enemy2.getY(),
+                        5, 20, 10, enemy2.getDirection(), this));
+                    break;
+                case 2: 
+                    enemyBullets.add(new EnemyBullet(enemy2.getX() + 
+                            enemy2.getWidth()/2, enemy2.getY() + enemy2.getHeight(),
+                        5, 20, 10, enemy2.getDirection(), this));
+                    break;
+                case 3:
+                    enemyBullets.add(new EnemyBullet(enemy2.getX() + 
+                            enemy2.getWidth(), enemy2.getY() + enemy2.getHeight()/2 
+                                    + 10, 20, 5, 10, enemy2.getDirection(), this));
+                    break;
+                case 4:
+                    enemyBullets.add(new EnemyBullet(enemy2.getX(), enemy2.getY()
+                            + enemy2.getHeight()/2,
+                        20, 5, 10, enemy2.getDirection(), this));
+                    break;
+                }
+                enemy2.setLastTime(System.currentTimeMillis());
+            }
+            enemy2.tick();
+        }
+    }
     
     /**
      * Bullet keyManager, shoot when space
@@ -285,6 +340,29 @@ public class Game implements Runnable {
                     break;
             }
             bulletTimer = System.currentTimeMillis();
+        }
+    }
+    
+    public void enemyBulletTick() {
+        Iterator itr = enemyBullets.iterator();
+        while (itr.hasNext()) {
+            EnemyBullet enemyBullet = (EnemyBullet) itr.next();
+            enemyBullet.tick();
+            if (enemyBullet.getY() <= 0) {
+                enemyBullets.remove(enemyBullet);
+                itr = enemyBullets.iterator();
+            } else {
+                boolean crashed = false;
+                //if enemybullet crashes player
+                while (!crashed){
+                    if (player.intersects(enemyBullet)){
+                        //player.setHealth(player.getHealth() - cantidad);
+                        enemyBullets.remove(enemyBullet);
+                        itr = enemyBullets.iterator();
+                        crashed = true;
+                    }
+                } 
+            }
         }
     }
     
