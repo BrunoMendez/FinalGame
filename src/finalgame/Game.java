@@ -27,6 +27,7 @@ public class Game implements Runnable {
     private Thread thread;          // thread to create the game
     private boolean running;        // to set the game
     private Player player;          // to use a player
+    private Weapon weapon;
     private Box box;                // to create a box
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my enemies
@@ -96,6 +97,7 @@ public class Game implements Runnable {
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
         player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3,  this);
+        weapon = new Weapon(this);
         bullets = new ArrayList<Bullet>();
         display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
@@ -185,11 +187,15 @@ public class Game implements Runnable {
         this.score = score;
     }
 
-    
+    public Weapon getWeapon() {
+        return weapon;
+    }
+        
     private void tick() {
         keyManager.tick();
         PlayerOverBox();
         box.tick();
+        weapon.tick();
         player.tick();
         shootPlayer();
         BulletTick();
@@ -219,23 +225,63 @@ public class Game implements Runnable {
      * Bullet keyManager, shoot when space
      */
     public void shootPlayer(){
-        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500){
+        //  PISTOL
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1){
             switch(player.getDirection()){
                 case 1: 
                     bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
-                        5, 20, 10, player.getDirection(), this));
+                        5, 20, 10, player.getDirection(), 1, this));
                     break;
                 case 2: 
                     bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
-                        5, 20, 10, player.getDirection(), this));
+                        5, 20, 10, player.getDirection(), 1, this));
                     break;
                 case 3:
                     bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
-                        20, 5, 10, player.getDirection(), this));
+                        20, 5, 10, player.getDirection(), 1, this));
                     break;
                 case 4:
                     bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
-                        20, 5, 10, player.getDirection(), this));
+                        20, 5, 10, player.getDirection(), 1, this));
+                    break;
+            }
+            bulletTimer = System.currentTimeMillis();
+        }
+        //  SHOTGUN
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 2){
+            switch(player.getDirection()){
+                case 1: 
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), 1, this));
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), 2, this));
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), 22, this));
+                    break;
+                case 2: 
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
+                        5, 20, 10, player.getDirection(), 1, this));
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
+                        5, 20, 10, player.getDirection(), 2, this));
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
+                        5, 20, 10, player.getDirection(), 22, this));
+                    break;
+                // Right
+                case 3:
+                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
+                        20, 5, 10, player.getDirection(), 1, this));
+                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
+                        20, 5, 10, player.getDirection(), 2, this));
+                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
+                        20, 5, 10, player.getDirection(), 22, this));
+                    break;
+                case 4:
+                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
+                        20, 5, 10, player.getDirection(), 1, this));
+                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
+                        20, 5, 10, player.getDirection(), 2, this));
+                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
+                        20, 5, 10, player.getDirection(), 22, this));
                     break;
             }
             bulletTimer = System.currentTimeMillis();
@@ -303,6 +349,14 @@ public class Game implements Runnable {
                 Bullet bullet = (Bullet) itr.next();
                 bullet.render(g);
             }
+            /**
+            if(keyManager.uno){
+                g.drawString("PISTOL", player.getX()+player.width/3, player.getY());
+            }
+            if(keyManager.dos){
+                g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
+            }
+            **/
             bs.show();
             g.dispose();
         }

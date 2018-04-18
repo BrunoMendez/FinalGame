@@ -15,6 +15,7 @@ public class Weapon {
     private boolean PISTOL, UZI, SHOTGUN, ROCKET;                       //  constants to store the position of thw weapons 
     private String[] weaponString = new String[4];                      //  names of all the weapons
     public int[] allWeaponsNum = new int[4];                            //  number of consecutive kills needed for each weapon
+    private int type;
     
     /**
      * <code>Weapon</code> Constructor
@@ -22,10 +23,23 @@ public class Weapon {
      */
     public Weapon(Game game) {
        this.game = game; 
-       addWeapon();
-       addWeaponNames();
+       type = 1;
+       //addWeapon();
+       //addWeaponNames();
+    }
+
+    public int getType() {
+        return type;
     }
     
+    public void tick(){
+        if(game.getKeyManager().uno){
+            type = 1;
+        }
+        if(game.getKeyManager().dos){
+            type = 2;
+        }
+    }
     /**
      * Adds the number of consecutive kills needed for each upgrade
      */
