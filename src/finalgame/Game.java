@@ -211,6 +211,7 @@ public class Game implements Runnable {
         shootPlayer();
         BulletTick();
         
+        
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
         while(itr.hasNext()){
