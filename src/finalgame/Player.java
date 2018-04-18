@@ -25,12 +25,11 @@ public class Player extends Item{
     private int lastAnimation;
     private int direction;
     
-    public Player(int x, int y, int width, int height, int lives, int direction, Game game) {
+    public Player(int x, int y, int width, int height, int lives, Game game) {
         super(x, y, width, height);
         this.game = game;
         this.lives = lives;
-        this.direction = direction;
-        
+        direction = 1;
         this.animationUp = new Animation(Assets.playerUp, 100);
         this.animationDown = new Animation(Assets.playerDown, 100);
         this.animationLeft = new Animation(Assets.playerLeft, 100);
@@ -65,17 +64,17 @@ public class Player extends Item{
             this.animationUp.tick();
             direction = 1;
         }
-        if(game.getKeyManager().down){
+        else if(game.getKeyManager().down){
             setY(getY()+3);
             this.animationDown.tick();
             direction = 2;
         }
-        if(game.getKeyManager().right){
+        else if(game.getKeyManager().right){
             setX(getX()+3);
             this.animationRight.tick();
             direction = 3;
         }
-        if(game.getKeyManager().left){
+        else if(game.getKeyManager().left){
             setX(getX()-3);
             this.animationLeft.tick();
             direction = 4;

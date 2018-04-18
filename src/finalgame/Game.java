@@ -37,6 +37,7 @@ public class Game implements Runnable {
     private long lastTime;
     private int score;                 	 //score
     private boolean win;
+    private long bulletTimer;
 
     /**
      * to create title, width and height and set the game is still not running
@@ -58,6 +59,7 @@ public class Game implements Runnable {
         //tweet = new SoundClip("/sounds/twitter_ios.wav", 0, false);
         //hit = new SoundClip("/sounds/hit.wav", 0, false);
         win = false;
+        bulletTimer = System.currentTimeMillis();
     }
 
     /**
@@ -93,7 +95,7 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
-        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3, 1,  this);
+        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3,  this);
         bullets = new ArrayList<Bullet>();
         display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
@@ -217,8 +219,26 @@ public class Game implements Runnable {
      * Bullet keyManager, shoot when space
      */
     public void shootPlayer(){
-        if(this.getKeyManager().space){
-            bullets.add(new Bullet(player.getX() + player.getWidth()/2 - 10, player.getY(), 20, 20, this));
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500){
+            switch(player.getDirection()){
+                case 1: 
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), this));
+                    break;
+                case 2: 
+                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
+                        5, 20, 10, player.getDirection(), this));
+                    break;
+                case 3:
+                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
+                        20, 5, 10, player.getDirection(), this));
+                    break;
+                case 4:
+                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
+                        20, 5, 10, player.getDirection(), this));
+                    break;
+            }
+            bulletTimer = System.currentTimeMillis();
         }
     }
     

@@ -21,6 +21,7 @@ public class Bullet extends Item{
     private int speed;          // speed of the bullet
     private int damage;         // damage of the bullet
     private int type;           // type of the bullet
+    private int direction;      // Direction the player is facing
     private Rectangle hitBox; 
     /**
      * <code>Bullet</code> Constructor 
@@ -30,9 +31,11 @@ public class Bullet extends Item{
      * @param height height of the bullet
      * @param game Game instance
      */
-    public Bullet(int x, int y, int width, int height, Game game) {
+    public Bullet(int x, int y, int width, int height, int speed, int direction, Game game) {
         super(x, y, width, height);
         this.game = game;
+        this.speed = speed;
+        this.direction = direction;
     }
 
     
@@ -73,7 +76,26 @@ public class Bullet extends Item{
      */
     @Override
     public void tick() {
-        setY(getY() - 1);
+        /*
+        Player direction 
+        1 = up
+        2 = down
+        3 = right
+        4 = left
+        */
+        if(direction == 1){
+            setY(getY() - speed);
+        }
+        else if(direction == 2){
+            // tilt bulle
+            setY(getY() + speed);
+        }
+        else if(direction == 3){;
+            setX(getX() + speed);
+        }
+        else if(direction == 4){
+            setX(getX() - speed);
+        }
     }
     
     @Override
