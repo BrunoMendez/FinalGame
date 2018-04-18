@@ -23,6 +23,7 @@ public class Bullet extends Item{
     private int type;           // type of the bullet
     private int direction;      // Direction the player is facing
     private Rectangle hitBox; 
+    
     /**
      * <code>Bullet</code> Constructor 
      * @param x x coordinate
@@ -38,7 +39,6 @@ public class Bullet extends Item{
         this.speed = speed;
         this.direction = direction;
     }
-
     
     /**
      * <code>speed</code> Getter

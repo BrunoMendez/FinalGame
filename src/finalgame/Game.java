@@ -226,7 +226,8 @@ public class Game implements Runnable {
      */
     public void shootPlayer(){
         //  PISTOL
-        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1){
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
+            weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
             switch(player.getDirection()){
                 case 1: 
                     bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
@@ -245,10 +246,12 @@ public class Game implements Runnable {
                         20, 5, 10, player.getDirection(), 1, this));
                     break;
             }
+            System.out.println(weapon.getAmmoPISTOL());
             bulletTimer = System.currentTimeMillis();
         }
         //  SHOTGUN
-        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 2){
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 2 && weapon.getAmmoSHOTGUN() > 0){
+            weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()-1);
             switch(player.getDirection()){
                 case 1: 
                     bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
@@ -299,11 +302,24 @@ public class Game implements Runnable {
             Bullet bullet = (Bullet) itr.next();
             //  moving the enemy
             bullet.tick();
+            if(bullet.getY() >= height){
+               bullets.remove(bullet);
+               itr = bullets.iterator(); 
+            }
+            if(bullet.getX() >= width){
+               bullets.remove(bullet);
+               itr = bullets.iterator(); 
+            }
+            if(bullet.getX() <= 0){
+               bullets.remove(bullet);
+               itr = bullets.iterator(); 
+            }
             //  if bullet is out of the screen
             if (bullet.getY() <= 0){
                 //  re set y position
                 bullets.remove(bullet);
                 itr = bullets.iterator();
+                System.out.println(bullets.size());
             } else {
                 //  create a boolean to check removing bullet
                 boolean crashed = false;
@@ -349,14 +365,14 @@ public class Game implements Runnable {
                 Bullet bullet = (Bullet) itr.next();
                 bullet.render(g);
             }
-            /**
-            if(keyManager.uno){
+            if(weapon.getType() == 1){
                 g.drawString("PISTOL", player.getX()+player.width/3, player.getY());
+                g.drawString("" + weapon.getAmmoPISTOL(), 10, height);
             }
-            if(keyManager.dos){
+            if(weapon.getType() == 2){
                 g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
+                g.drawString("" + weapon.getAmmoSHOTGUN(), 10, height);
             }
-            **/
             bs.show();
             g.dispose();
         }

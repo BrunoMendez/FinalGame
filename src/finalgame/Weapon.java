@@ -16,6 +16,8 @@ public class Weapon {
     private String[] weaponString = new String[4];                      //  names of all the weapons
     public int[] allWeaponsNum = new int[4];                            //  number of consecutive kills needed for each weapon
     private int type;
+    private int ammoPISTOL;
+    private int ammoSHOTGUN;
     
     /**
      * <code>Weapon</code> Constructor
@@ -24,9 +26,29 @@ public class Weapon {
     public Weapon(Game game) {
        this.game = game; 
        type = 1;
+       ammoPISTOL = 30;
+       ammoSHOTGUN = 20;
        //addWeapon();
        //addWeaponNames();
     }
+    
+    public int getAmmoPISTOL() {
+        return ammoPISTOL;
+    }
+
+    public void setAmmoPISTOL(int ammoPISTOL) {
+        this.ammoPISTOL = ammoPISTOL;
+    }
+
+    public int getAmmoSHOTGUN() {
+        return ammoSHOTGUN;
+    }
+
+    public void setAmmoSHOTGUN(int ammoSHOTGUN) {
+        this.ammoSHOTGUN = ammoSHOTGUN;
+    }
+    
+    
 
     public int getType() {
         return type;
