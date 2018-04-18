@@ -210,8 +210,7 @@ public class Game implements Runnable {
         player.tick();
         shootPlayer();
         BulletTick();
-        
-        
+
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
         while(itr.hasNext()){
@@ -234,12 +233,22 @@ public class Game implements Runnable {
         }
     }
     
+    
     /**
      * Player over the box
      */
     public void PlayerOverBox(){
         if(getPlayer().intersects(getBox())){
             box.boxBroken();
+            int randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);
+            int randomAmmo = ThreadLocalRandom.current().nextInt(10, 20 + 1);
+            System.out.println("" + randomWeapon);
+            if(randomWeapon == 1){
+               weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()+randomAmmo);
+            }
+            if(randomWeapon == 2){
+               weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()+randomAmmo); 
+            }
         }
     } 
     
