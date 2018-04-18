@@ -31,8 +31,9 @@ public class Bullet extends Item{
      * @param height height of the bullet
      * @param game Game instance
      */
-    public Bullet(int x, int y, int width, int height, int speed, int direction, Game game) {
+    public Bullet(int x, int y, int width, int height, int speed, int direction, int type, Game game) {
         super(x, y, width, height);
+        this.type = type;
         this.game = game;
         this.speed = speed;
         this.direction = direction;
@@ -53,6 +54,10 @@ public class Bullet extends Item{
      */
     public Rectangle getHitBox() {
         return hitBox;
+    }
+
+    public int getType() {
+        return type;
     }
 
     /**
@@ -83,18 +88,61 @@ public class Bullet extends Item{
         3 = right
         4 = left
         */
-        if(direction == 1){
-            setY(getY() - speed);
+        //  PISTOL shot
+        if(type == 1){
+            if(direction == 1){
+                setY(getY() - speed);
+            }
+            else if(direction == 2){
+                // tilt bulle
+                setY(getY() + speed);
+            }
+            else if(direction == 3){;
+                setX(getX() + speed);
+            }
+            else if(direction == 4){
+                setX(getX() - speed);
+            }
         }
-        else if(direction == 2){
-            // tilt bulle
-            setY(getY() + speed);
+        //  SHOTGUN 1st shot
+        if(type == 2){
+            if(direction == 1){
+                setY(getY() - speed);
+                setX(getX() - speed/10);
+            }
+            else if(direction == 2){
+                // tilt bulle
+                setY(getY() + speed);
+                setX(getX() - speed/10);
+            }
+            else if(direction == 3){;
+                setX(getX() + speed);
+                setY(getY() - speed/10);
+            }
+            else if(direction == 4){
+                setX(getX() - speed);
+                setY(getY() + speed/10);
+            }
         }
-        else if(direction == 3){;
-            setX(getX() + speed);
-        }
-        else if(direction == 4){
-            setX(getX() - speed);
+        //  SHOTGUN 2nd shot
+        if(type == 22){
+            if(direction == 1){
+                setY(getY() - speed);
+                setX(getX() + speed/10);
+            }
+            else if(direction == 2){
+                // tilt bulle
+                setY(getY() + speed);
+                setX(getX() + speed/10);
+            }
+            else if(direction == 3){;
+                setX(getX() + speed);
+                setY(getY() + speed/10);
+            }
+            else if(direction == 4){
+                setX(getX() - speed);
+                setY(getY() - speed/10);
+            }
         }
     }
     
