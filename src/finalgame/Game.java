@@ -49,6 +49,7 @@ public class Game implements Runnable {
     private boolean startOfWave;
     private int waveCounter;
     private long lastTimeTick;      //timer for tick
+    private MouseManager mouseManager;
 
     /**
      * to create title, width and height and set the game is still not running
@@ -63,6 +64,7 @@ public class Game implements Runnable {
         this.height = height;
         running = false;
         keyManager = new KeyManager();
+        mouseManager = new MouseManager();
         gameOver = false;
         started = false;
         lastTime = System.currentTimeMillis();
@@ -113,6 +115,12 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         
+        //Mouse
+        display.getJframe().addMouseListener(mouseManager);
+        display.getJframe().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
+        
         //Boxes
         boxes = new ArrayList<Box>();
         for(int i = 0; i < 6; i++){
@@ -121,7 +129,7 @@ public class Game implements Runnable {
         }
         
         //Player
-        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 75, 75, 100,  this);
+        player = new Player((getWidth()/2)-47, (getHeight()/2)-40, 47, 40, 100,  this);
         
         //Weapon
         weapon = new Weapon(this);
@@ -204,6 +212,10 @@ public class Game implements Runnable {
         return keyManager;
     }
 
+    public MouseManager getMouseManager() {
+        return mouseManager;
+    }
+    
     public Player getPlayer() {
         return player;
     }
@@ -256,7 +268,9 @@ public class Game implements Runnable {
         enemySearchPlayer();
         wavesControl(); 
         PlayerCollisionRocks();
-
+        if(player.getHealth() <= 0){
+            gameOver = true;
+        }
     }
     
     /**
