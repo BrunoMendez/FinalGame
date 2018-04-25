@@ -59,7 +59,7 @@ public class Enemy extends Item {
      * To set the speed of the enemy
      * @param speed To set the speedX of the enemy
      */
-    public void setSpeed(int speedX) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
