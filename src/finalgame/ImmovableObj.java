@@ -21,14 +21,14 @@ public class ImmovableObj extends Item{
         this.game = game;
         rock = new Animation(Assets.rock, 2000);
     }
-
+   
     @Override
     public void tick() {
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(rock.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(rock.getCurrentFrame(), getX(), getY(), 50, 55, null);
     }
     
 }
