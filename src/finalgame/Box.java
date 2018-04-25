@@ -37,9 +37,7 @@ public class Box extends Item{
      */
     public Box(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
-        lastTimeTick = System.currentTimeMillis();
         this.game = game;
-        lastTimeTick = System.currentTimeMillis();
         box = new Animation(Assets.box, 2000);
     }
     
@@ -93,13 +91,6 @@ public class Box extends Item{
     
     @Override
     public void tick() { 
-        // Change the position of the box every "x" time to a new position
-        if(System.currentTimeMillis() - lastTimeTick > 100000){
-            lastTimeTick = System.currentTimeMillis();
-            randomXY();
-            setX(xBox);
-            setY(yBox);
-        }
         box.tick();
     }
 
