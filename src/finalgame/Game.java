@@ -52,7 +52,7 @@ public class Game implements Runnable {
     private long lastTimeTick;      //timer for tick
     public MenuItem quitButton;
     public MenuItem startButton;
-    private MouseManager mouseManager;
+    
     /**
      * to create title, width and height and set the game is still not running
      *
@@ -221,10 +221,6 @@ public class Game implements Runnable {
         return keyManager;
     }
     
-    public MouseManager getMouseManager() {
-        return mouseManager;
-    }
-
     public MouseManager getMouseManager() {
         return mouseManager;
     }
