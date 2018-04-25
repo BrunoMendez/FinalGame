@@ -15,6 +15,7 @@ public class Assets {
     public static BufferedImage menu1;          // to store the menu1 image
     public static BufferedImage menu2;          // to store the menu2 image
     public static BufferedImage box[];          // to store the box image
+    public static BufferedImage rock[];
     public static BufferedImage playerUp[];      //to store player up animation
     public static BufferedImage playerDown[];      //to store player down animation
     public static BufferedImage playerRight[];     //to store player right animation
@@ -30,6 +31,9 @@ public class Assets {
         //pause = ImageLoader.loadImage("/images/pause.jpg");
         //win = ImageLoader.loadImage("/images/win.jpg");
         //loose = ImageLoader.loadImage("/images/loose.jpg");
+        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
+        rock = new BufferedImage[1];
+        rock[0] = ssRock.crop(0, 0, 256, 256);
         
         //  To store the animation of the box
         SpriteSheet ss = new SpriteSheet(ImageLoader.loadImage("/images/box1.png"));

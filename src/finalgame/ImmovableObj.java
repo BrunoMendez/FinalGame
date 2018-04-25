@@ -5,10 +5,30 @@
  */
 package finalgame;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author bruno
  */
-public class ImmovableObj {
+public class ImmovableObj extends Item{
+
+    private Animation rock;
+    private Game game;
+    
+    public ImmovableObj(int x, int y, int width, int height) {
+        super(x, y, width, height);
+        this.game = game;
+        rock = new Animation(Assets.rock, 2000);
+    }
+
+    @Override
+    public void tick() {
+    }
+
+    @Override
+    public void render(Graphics g) {
+        g.drawImage(rock.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+    }
     
 }
