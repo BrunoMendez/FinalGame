@@ -59,6 +59,7 @@ public class Player extends Item{
     
     @Override
     public void tick() {
+        // move player
         if(game.getKeyManager().up){
             setY(getY()-3);
             this.animationUp.tick();
@@ -97,6 +98,7 @@ public class Player extends Item{
 
     @Override
     public void render(Graphics g) {
+        //render animation
       if (game.getKeyManager().up) {
             g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), 
                 getWidth(), getHeight(), null);
@@ -118,6 +120,7 @@ public class Player extends Item{
             lastAnimation = 4;
         }
         
+      //if idle render the last animation
         if(lastAnimation == 1){
             g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), 
                 getWidth(), getHeight(), null);
