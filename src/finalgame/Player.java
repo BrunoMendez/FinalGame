@@ -200,5 +200,7 @@ public class Player extends Item{
         g2.drawImage(a.getCurrentFrame(), 0, 0, null);
         g.drawImage(blankCanvas, getX(), getY(), 
                 getWidth(), getHeight(), null);
+
+
     }
 }
