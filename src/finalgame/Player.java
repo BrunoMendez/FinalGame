@@ -24,6 +24,8 @@ public class Player extends Item{
     private Animation animationRight;
     private int lastAnimation;
     private int direction;
+    private long hitTime;
+    private boolean isHit;
     
     public Player(int x, int y, int width, int height, int health, Game game) {
         super(x, y, width, height);
@@ -35,6 +37,7 @@ public class Player extends Item{
         this.animationLeft = new Animation(Assets.playerLeft, 100);
         this.animationRight = new Animation(Assets.playerRight, 100);
         lastAnimation = 1;
+        hitTime = System.currentTimeMillis();
     }
 
     public int getHealth() {
@@ -59,6 +62,13 @@ public class Player extends Item{
     
     @Override
     public void tick() {
+        if(System.currentTimeMillis() - hitTime > 5000 && health < 100){
+            health+=10;
+            hitTime = System.currentTimeMillis();
+        }
+        if(isHit){
+            hitTime = System.currentTimeMillis();
+        }
         // move player
         if(game.getKeyManager().up){
             setY(getY()-3);
