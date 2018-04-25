@@ -114,12 +114,12 @@ public class Game implements Runnable {
         //Boxes
         boxes = new ArrayList<Box>();
         for(int i = 0; i < 6; i++){
-            box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
+            box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 15, 15, this);
             boxes.add(box);
         }
         
         //Player
-        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3,  this);
+        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 75, 75, 3,  this);
         
         //Weapon
         weapon = new Weapon(this);
@@ -137,14 +137,14 @@ public class Game implements Runnable {
                     : 3 * -(int)(Math.random() * getWidth());
             int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
                     : 3 * -(int)(Math.random() * getHeight());
-            Enemy enemy = new Enemy(randX, randY, 112, 112, 3, 0, 100, 0, this);
+            Enemy enemy = new Enemy(randX, randY, 56, 56, 2, 0, 100, 0, this);
             enemies.add(enemy); 
         }
         int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
                 : 3 * -(int)(Math.random() * getWidth());
         int randY2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
                 : 3 * -(int)(Math.random() * getHeight());
-        Enemy2 enemy2 = new Enemy2(randX2, randY2, 150, 150, 0, 0, 100, this);
+        Enemy2 enemy2 = new Enemy2(randX2, randY2, 56, 56, 0, 0, 100, this);
         //creating enemies
         /*
         for (int i = 0; i < 10; i++) {
@@ -255,7 +255,7 @@ public class Game implements Runnable {
                         : 3 * -(int)(Math.random() * getWidth());
                 int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
                         : 3 * -(int)(Math.random() * getHeight());
-                Enemy enemy = new Enemy(randX, randY, 120, 120, 3, 0, 100, 0, this);
+                Enemy enemy = new Enemy(randX, randY, 56, 56, 2, 0, 100, 0, this);
                 enemies.add(enemy); 
             }
         }
@@ -298,7 +298,7 @@ public class Game implements Runnable {
     public void createNewBox(){
         if(System.currentTimeMillis() - lastTimeTickBox > 10000){
             lastTimeTickBox = System.currentTimeMillis();
-            boxes.add(new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this));
+            boxes.add(new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 15, 15, this));
         }
     }
     
