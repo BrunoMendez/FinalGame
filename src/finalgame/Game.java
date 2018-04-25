@@ -121,7 +121,7 @@ public class Game implements Runnable {
         }
         
         //Player
-        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 75, 75, 3,  this);
+        player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 75, 75, 100,  this);
         
         //Weapon
         weapon = new Weapon(this);
@@ -247,6 +247,7 @@ public class Game implements Runnable {
         box.tick();
         weapon.tick();
         player.tick();
+        System.out.println(player.getHealth());
         //shoot tick
         shootPlayer();
         BulletTick();
