@@ -34,7 +34,7 @@ public class Enemy extends Item {
         this.speedY = speedY;
         this.health = health;
         this.enemyType = enemyType;
-        this.animationRun = new Animation(Assets.zombieRun, 100);
+        this.animationRun = new Animation(Assets.zombieRun, 200);
     }
 
     /**
@@ -151,6 +151,8 @@ public class Enemy extends Item {
         g.drawImage(blankCanvas, getX(), getY(), 
                 getWidth(), getHeight(), null);
 
+        
+        g.drawString("Health: " + health, getX()+getWidth()/3, getY());
         //g.setColor(Color.black);
         //g.fillRect(getX(), getY(), getWidth(), getHeight());
         /*
@@ -161,13 +163,5 @@ public class Enemy extends Item {
         }
         */
         //g.drawImage(Assets.protester, getX(), getY(), getWidth(), getHeight(), null);
-    }
-    
-    public void rotateImage(double degrees){
-        ImageIcon icon = new ImageIcon(animationRun.getCurrentFrame());
-        BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = (Graphics2D)blankCanvas.getGraphics();
-        g2.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2, icon.getIconHeight() / 2);
-        g2.drawImage(animationRun.getCurrentFrame(), 0, 0, null);
     }
 }

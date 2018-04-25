@@ -434,8 +434,12 @@ public class Game implements Runnable {
                     //  get specific enemy 
                     Enemy enemy = (Enemy) itr2.next();
                     if (enemy.intersects(bullet)){
+                        enemy.setHealth(enemy.getHealth()-30);
                         // reset enemy
-                        enemy.setY(-(int)(Math.random()*2*getHeight()));
+                        if(enemy.getHealth() <= 0){
+                            enemy.setHealth(100);
+                            enemy.setY(-(int)(Math.random()*2*getHeight()));
+                        }
                         //  delete bullet
                         bullets.remove(bullet);
                         itr = bullets.iterator();
