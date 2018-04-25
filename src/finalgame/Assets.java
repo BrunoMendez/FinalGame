@@ -9,10 +9,9 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
     public static BufferedImage background;     // to strore background image
-    public static BufferedImage pause;          // to store the pause image
-    public static BufferedImage win;            // to store the win image
-    public static BufferedImage loose;          // to store the loose image
     public static BufferedImage menu1;          // to store the menu1 image
+    public static BufferedImage startButton[];     // to store start button images for Menu
+    public static BufferedImage quitButton[];     // to store quit button images for Menu
     public static BufferedImage menu2;          // to store the menu2 image
     public static BufferedImage box[];          // to store the box image
     public static BufferedImage rock[];
@@ -28,9 +27,15 @@ public class Assets {
      */
     public static void init(){
         background = ImageLoader.loadImage("/images/background-exam.jpg");
-        //pause = ImageLoader.loadImage("/images/pause.jpg");
-        //win = ImageLoader.loadImage("/images/win.jpg");
-        //loose = ImageLoader.loadImage("/images/loose.jpg");
+        menu1 = ImageLoader.loadImage("/images/MenuImages/MenuBackground.png");
+        startButton = new BufferedImage[2];
+        startButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonStartClear.png");
+        startButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonStartPressed.png");
+        
+        quitButton = new BufferedImage[2];
+        quitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitClear.png");
+        quitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitPressed.png");
+        
         SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
         rock = new BufferedImage[1];
         rock[0] = ssRock.crop(0, 0, 256, 256);
