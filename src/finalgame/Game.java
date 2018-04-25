@@ -11,13 +11,13 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
-
+import java.awt.BorderLayout;
 /**
  *
  * @author antoniomejorado
  */
 public class Game implements Runnable {
-
+    private boolean startGame;
     private BufferStrategy bs;      // to have several buffers when displaying
     private Graphics g;             // to paint objects
     private Display display;        // to display in the game
@@ -31,6 +31,7 @@ public class Game implements Runnable {
     private Box box;                // to create a box
     private ImmovableObj rock;
     private KeyManager keyManager;  // to manage the keyboard
+    private MouseManager mouseManager; // to manage the mouse actions
     private ArrayList<Enemy> enemies; // my enemies
     private ArrayList<Box>  boxes;      // loot boxes
     private ArrayList<Bullet> bullets;          // player bullets
@@ -49,8 +50,9 @@ public class Game implements Runnable {
     private boolean startOfWave;
     private int waveCounter;
     private long lastTimeTick;      //timer for tick
+    public MenuItem quitButton;
+    public MenuItem startButton;
     private MouseManager mouseManager;
-
     /**
      * to create title, width and height and set the game is still not running
      *
@@ -59,12 +61,15 @@ public class Game implements Runnable {
      * @param height to set the height of the window
      */
     public Game(String title, int width, int height) {
+        startGame = false;
         this.title = title;
         this.width = width;
         this.height = height;
         running = false;
         keyManager = new KeyManager();
-        mouseManager = new MouseManager();
+        mouseManager = new MouseManager(this);
+        quitButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7*2+40)), width/4,height/7-40,2, this);
+        startButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7+50)), width/4,height/7-40,1, this);
         gameOver = false;
         started = false;
         lastTime = System.currentTimeMillis();
@@ -140,6 +145,11 @@ public class Game implements Runnable {
         //keyManager
         display.getJframe().addKeyListener(keyManager);
         
+        //Mouse
+        display.getJframe().addMouseListener(mouseManager);
+        display.getJframe().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
         //rocks
         rocks = new ArrayList<ImmovableObj>();
         for(int i = 0; i < 6; i++){
@@ -197,7 +207,6 @@ public class Game implements Runnable {
             delta += (now - lastTime) / timeTick;
             // updating the last time
             lastTime = now;
-
             // if delta is positive we tick the game
             if (delta >= 1) {
                 tick();
@@ -210,6 +219,10 @@ public class Game implements Runnable {
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+    
+    public MouseManager getMouseManager() {
+        return mouseManager;
     }
 
     public MouseManager getMouseManager() {
@@ -243,7 +256,7 @@ public class Game implements Runnable {
     public int getScore() {
         return score;
     }
-
+    
     public void setScore(int score) {
         this.score = score;
     }
@@ -252,10 +265,26 @@ public class Game implements Runnable {
     public Weapon getWeapon() {
         return weapon;
     }
+    
+    public boolean getStartGame() {
+        return startGame;
+    }
+    public void setStartGame(boolean s) {
+        startGame = s;
+    }
         
     private void tick() {
         keyManager.tick();
         //check if player is over the box
+        if(startGame) {
+                tickGame();
+            }
+            else {
+                tickMainMenu();
+            }
+    }
+    
+    private void tickGame() {
         PlayerOverBox();
         box.tick();
         weapon.tick();
@@ -275,6 +304,10 @@ public class Game implements Runnable {
         EnemyCollisonRocks();
     }
     
+    private void tickMainMenu() {
+        quitButton.tick();
+        startButton.tick();
+    }
     /**
      *  Player collision with rocks
      */
@@ -592,6 +625,27 @@ public class Game implements Runnable {
         } else {
             //Get graphics
             g = bs.getDrawGraphics();
+            
+            if(startGame) {
+                renderGame(g);
+            }
+            else {
+                renderMenuScreen(g);
+            }
+        }
+
+    }
+
+    private void renderMenuScreen(Graphics g) {
+        //render Background
+         g.drawImage(Assets.menu1, 0, 0, width, height, null);
+         startButton.render(g);
+         quitButton.render(g);
+         bs.show();
+         g.dispose();
+    }
+     private void renderGame(Graphics g) {
+         // get the buffer strategy from the display
             //draw background
             g.drawImage(Assets.background, 0, 0, width, height, null);
             //render rocks
@@ -633,12 +687,9 @@ public class Game implements Runnable {
             g.drawString("Enemies: " + enemies.size(), 10, height - 15);
             bs.show();
             g.dispose();
-        }
-
     }
-
     /**
-     * setting the thead for the game
+     * setting the thread for the game
      */
     public synchronized void start() {
         if (!running) {
