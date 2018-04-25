@@ -112,7 +112,7 @@ public class Game implements Runnable {
                 : 3 * -(int)(Math.random() * getWidth());
         int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
                 : 3 * -(int)(Math.random() * getHeight());
-        Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
+        Enemy enemy = new Enemy(randX, randY, 112, 112, 0, 0, 100, 0, this);
         enemies.add(enemy);
         lastTimeTick = System.currentTimeMillis();
         enemies2 = new ArrayList<Enemy2>();

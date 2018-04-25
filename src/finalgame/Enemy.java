@@ -119,16 +119,16 @@ public class Enemy extends Item {
 
     @Override
     public void tick() {
-        if(game.getPlayer().getX() + game.getPlayer().getWidth()/2 > getX()){
+        if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){
             setX(getX() +  1);
         }
-        else if(game.getPlayer().getX() + game.getPlayer().getWidth()/2 < getX()){
+        else if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) < getX() + (getWidth()/2)){
             setX(getX() - 1);
         }
-        if(game.getPlayer().getY() + game.getPlayer().getHeight()/2 > getY()){
+        if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2) > getY() + (getHeight()/2)){
             setY(getY() + 1);
         }
-        else if(game.getPlayer().getY() - game.getPlayer().getHeight()/2 < getY()){
+        else if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2) < getY()  + (getHeight()/2)){
             setY(getY() - 1);
         }
         this.animationRun.tick();
@@ -136,11 +136,11 @@ public class Enemy extends Item {
 
     @Override
     public void render(Graphics g) {
-        int distY = game.getPlayer().getY() + game.getPlayer().getHeight()/2 - getY();
-        int distX = game.getPlayer().getX() + game.getPlayer().getWidth()/2 - getX();
+        int distY = game.getPlayer().getY() + (game.getPlayer().getHeight()/2) - getY() - (getHeight()/2);
+        int distX = game.getPlayer().getX() + (game.getPlayer().getWidth()/2) - getX() - (getWidth()/2);
         //degrees between player and enemy
         double radians;
-        radians = Math.atan2(game.getPlayer().getY() - getY(), game.getPlayer().getX() - getX());
+        radians = Math.atan2(distY, distX);
         System.out.println(radians);
            
         ImageIcon icon = new ImageIcon(animationRun.getCurrentFrame());
