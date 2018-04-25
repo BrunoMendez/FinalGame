@@ -71,22 +71,22 @@ public class Player extends Item{
         }
         // move player
         if(game.getKeyManager().up){
-            setY(getY()-3);
+            setY(getY()-2);
             this.animationUp.tick();
             direction = 1;
         }
         else if(game.getKeyManager().down){
-            setY(getY()+3);
+            setY(getY()+2);
             this.animationDown.tick();
             direction = 2;
         }
         else if(game.getKeyManager().right){
-            setX(getX()+3);
+            setX(getX()+2);
             this.animationRight.tick();
             direction = 3;
         }
         else if(game.getKeyManager().left){
-            setX(getX()-3);
+            setX(getX()-2);
             this.animationLeft.tick();
             direction = 4;
         }
@@ -111,42 +111,42 @@ public class Player extends Item{
         //render animation
         int whiteSpace = 20;
       if (game.getKeyManager().up) {
-            g.drawImage(animationUp.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
             lastAnimation = 1;
         }
         else if(game.getKeyManager().down) {
-            g.drawImage(animationDown.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
             lastAnimation = 2;
         }
         else if (game.getKeyManager().right){
-            g.drawImage(animationRight.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
             lastAnimation = 3;
         }
         else if (game.getKeyManager().left){
-            g.drawImage(animationLeft.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
             lastAnimation = 4;
         }
         
       //if idle render the last animation
         if(lastAnimation == 1){
-            g.drawImage(animationUp.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
         }
         else if (lastAnimation == 2) {
-            g.drawImage(animationDown.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
         }
         else if (lastAnimation == 3) {
-            g.drawImage(animationRight.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
         }
         else {
-            g.drawImage(animationLeft.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
-                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
+            g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), 
+                75, 75, null);
         }
     }
 }

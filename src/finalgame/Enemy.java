@@ -143,15 +143,19 @@ public class Enemy extends Item {
             crashed = false;
             if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){
                 setX(getX() +  speed);
+                direction = 3;
             }
             else if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2)<= getX() + (getWidth()/2)){
                 setX(getX() - speed);
+                direction = 4;
             }
             if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2)> getY() + (getHeight()/2)){
                 setY(getY() + speed);
+                direction = 2;
             }
             else if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2)<= getY()  + (getHeight()/2)){
                 setY(getY() - speed);
+                direction = 1;
             }
         }
         else{
@@ -167,8 +171,8 @@ public class Enemy extends Item {
     @Override
     public void render(Graphics g) {
         // Getting degrees between player and enemy
-        int distY = game.getPlayer().getY() + (game.getPlayer().getHeight()/2) - getY() - (getHeight()/2);
-        int distX = game.getPlayer().getX() + (game.getPlayer().getWidth()/2) - getX() - (getWidth()/2);
+        int distY = game.getPlayer().getY() + (28) - getY() - (28);
+        int distX = game.getPlayer().getX() + (28) - getX() - (28);
         double radians;
         radians = Math.atan2(distY, distX);
         
@@ -179,9 +183,9 @@ public class Enemy extends Item {
         g2.rotate(radians, icon.getIconWidth() / 2, icon.getIconHeight() / 2);
         g2.drawImage(currentAnimation.getCurrentFrame(), 0, 0, null);
         g.drawImage(blankCanvas, getX(), getY(), 
-                getWidth(), getHeight(), null);
+                56, 56, null);
 
         //drawing health over enemy
-        g.drawString("Health: " + health, getX()+getWidth()/3, getY());
+        g.drawString("Health: " + health, getX()+58/3, getY());
     }
 }
