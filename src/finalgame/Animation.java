@@ -17,10 +17,11 @@ public class Animation {
     private long lastTime;          // last registered time
     private long timer;             // time passed
     private BufferedImage[] frames; // to store every image
+    private boolean loopCompleted;
     
     /**
      * <b>Animation</b> constructor with specified frames and speed
-     * @param frames is the array of spriyes
+     * @param frames is the array of sprites
      * @param speed is the speed the animation will run as
      */
     public Animation(BufferedImage[] frames, int speed) {
@@ -29,6 +30,7 @@ public class Animation {
         index = 0;
         timer = 0;
         lastTime = System.currentTimeMillis(); // getting initial time
+        this.loopCompleted = false;
     }
     
     /**
@@ -54,6 +56,10 @@ public class Animation {
     public BufferedImage getCurrentFrame() {
         return frames[index];
     }
+
+    public boolean isLoopCompleted() {
+        return loopCompleted;
+    }
     
     /**
      * Tick update
@@ -61,12 +67,14 @@ public class Animation {
     public void tick() {
         timer += System.currentTimeMillis() - lastTime;
         lastTime = System.currentTimeMillis();
+        loopCompleted = false;
         
         if (timer > speed) {
             index++;
             timer = 0;
             if (index >= frames.length) {
                 index = 0;
+                loopCompleted = true;
             }
         }
     }
