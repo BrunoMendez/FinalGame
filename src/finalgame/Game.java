@@ -32,6 +32,7 @@ public class Game implements Runnable {
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my enemies
     private ArrayList<Enemy2> enemies2;
+    private ArrayList<Box>  boxes;
     private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
     private boolean gameOver;            // To stop the game
@@ -40,6 +41,7 @@ public class Game implements Runnable {
     private int score;                 	 //score
     private boolean win;
     private long bulletTimer;
+    private long lastTimeTick;
 
     /**
      * to create title, width and height and set the game is still not running
@@ -96,7 +98,11 @@ public class Game implements Runnable {
     private void init() {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
-        box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
+        boxes = new ArrayList<Box>();
+        for(int i = 0; i < 6; i++){
+            box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this);
+            boxes.add(box);
+        }
         player = new Player((getWidth()/2)-75, (getHeight()/2)-75, 150, 150, 3,  this);
         weapon = new Weapon(this);
         bullets = new ArrayList<Bullet>();
@@ -108,6 +114,7 @@ public class Game implements Runnable {
                 : 3 * -(int)(Math.random() * getHeight());
         Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
         enemies.add(enemy);
+        lastTimeTick = System.currentTimeMillis();
         enemies2 = new ArrayList<Enemy2>();
         int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
                 : 3 * -(int)(Math.random() * getWidth());
@@ -210,6 +217,7 @@ public class Game implements Runnable {
         player.tick();
         shootPlayer();
         BulletTick();
+        createNewBox();
 
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
@@ -238,19 +246,32 @@ public class Game implements Runnable {
      * Player over the box
      */
     public void PlayerOverBox(){
-        if(getPlayer().intersects(getBox())){
-            box.boxBroken();
-            int randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-            int randomAmmo = ThreadLocalRandom.current().nextInt(10, 20 + 1);
-            System.out.println("" + randomWeapon);
-            if(randomWeapon == 1){
-               weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()+randomAmmo);
-            }
-            if(randomWeapon == 2){
-               weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()+randomAmmo); 
+        Iterator itr = boxes.iterator();
+        while(itr.hasNext()){
+            Box box = (Box) itr.next();
+            box.tick();
+            if(getPlayer().intersects(box)){
+                boxes.remove(box);
+                itr = boxes.iterator();
+                int randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);
+                int randomAmmo = ThreadLocalRandom.current().nextInt(10, 20 + 1);
+                System.out.println("" + randomWeapon);
+                if(randomWeapon == 1){
+                weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()+randomAmmo);
+                }
+                if(randomWeapon == 2){
+                weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()+randomAmmo);
+                }
             }
         }
     } 
+    
+    public void createNewBox(){
+        if(System.currentTimeMillis() - lastTimeTick > 10000){
+            lastTimeTick = System.currentTimeMillis();
+            boxes.add(new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this));
+        }
+    }
     
     public void shootEnemy() {
         Iterator itr = enemies2.iterator();
@@ -442,7 +463,11 @@ public class Game implements Runnable {
         } else {
             g = bs.getDrawGraphics();
             g.drawImage(Assets.background, 0, 0, width, height, null);
-            box.render(g);
+            Iterator itrB = boxes.iterator();
+            while(itrB.hasNext()){
+                Box box = (Box) itrB.next();
+                box.render(g);
+            }
             for (Enemy enemy : enemies) {
                 enemy.render(g);
             }
