@@ -23,7 +23,9 @@ public class Assets {
     public static BufferedImage playerUp[];      
     public static BufferedImage playerDown[];      
     public static BufferedImage playerRight[];     
-    public static BufferedImage playerLeft[];      
+    public static BufferedImage playerLeft[];     
+    public static BufferedImage zombieRun[];
+    public static BufferedImage zombieAttack[];
     
     /**
      * To initialize assets
@@ -60,6 +62,16 @@ public class Assets {
             playerDown[i] = playerSS.crop(i*64, 128, 64, 64);
             playerRight[i] = playerSS.crop(i*64, 192, 64, 64);
         }
-        
+        zombieRun = new BufferedImage[32];
+        for(int i = 0; i<32; i++){
+            if(i>=10){
+                zombieRun[i] = ImageLoader.loadImage("/images/zombie_01/run/run00"+ i + ".png");
+                zombieRun[i] = zombieRun[i].getSubimage(80, 80, 112, 112);
+            }
+            else{
+                zombieRun[i] = ImageLoader.loadImage("/images/zombie_01/run/run000"+ i + ".png");
+                zombieRun[i] = zombieRun[i].getSubimage(80, 80, 112, 112);
+            }
+        }
     }
 }

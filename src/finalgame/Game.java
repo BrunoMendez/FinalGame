@@ -222,10 +222,7 @@ public class Game implements Runnable {
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
         while(itr.hasNext()){
-            // getting specific enemy
             Enemy enemy = (Enemy) itr.next();
-            enemy.setSpeedX((enemy.getX() > player.getX()) ? -2 : 2);
-            enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
             //  moving the enemy
             enemy.tick();
         }

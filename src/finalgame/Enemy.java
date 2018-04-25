@@ -1,3 +1,4 @@
+//Enemy
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,7 +8,10 @@ package finalgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -21,6 +25,7 @@ public class Enemy extends Item {
     private int points;     //points the enemy grants
     private int enemyType;  //0 - normal, 1 - shooter
     private int health;     //enemy health
+    private Animation animationRun;
 
     public Enemy(int x, int y, int width, int height, int speedX, int speedY, int health, int enemyType, Game game) {
         super(x, y, width, height);
@@ -29,6 +34,7 @@ public class Enemy extends Item {
         this.speedY = speedY;
         this.health = health;
         this.enemyType = enemyType;
+        this.animationRun = new Animation(Assets.zombieRun, 100);
     }
 
     /**
@@ -113,14 +119,40 @@ public class Enemy extends Item {
 
     @Override
     public void tick() {
-        setX(getX() + speedX);
-        setY(getY() + speedY);
+        if(game.getPlayer().getX() + game.getPlayer().getWidth()/2 > getX()){
+            setX(getX() +  1);
+        }
+        else if(game.getPlayer().getX() + game.getPlayer().getWidth()/2 < getX()){
+            setX(getX() - 1);
+        }
+        if(game.getPlayer().getY() + game.getPlayer().getHeight()/2 > getY()){
+            setY(getY() + 1);
+        }
+        else if(game.getPlayer().getY() - game.getPlayer().getHeight()/2 < getY()){
+            setY(getY() - 1);
+        }
+        this.animationRun.tick();
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
+        int distY = game.getPlayer().getY() + game.getPlayer().getHeight()/2 - getY();
+        int distX = game.getPlayer().getX() + game.getPlayer().getWidth()/2 - getX();
+        //degrees between player and enemy
+        double radians;
+        radians = Math.atan2(game.getPlayer().getY() - getY(), game.getPlayer().getX() - getX());
+        System.out.println(radians);
+           
+        ImageIcon icon = new ImageIcon(animationRun.getCurrentFrame());
+        BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = (Graphics2D)blankCanvas.getGraphics();
+        g2.rotate(radians, icon.getIconWidth() / 2, icon.getIconHeight() / 2);
+        g2.drawImage(animationRun.getCurrentFrame(), 0, 0, null);
+        g.drawImage(blankCanvas, getX(), getY(), 
+                getWidth(), getHeight(), null);
+
+        //g.setColor(Color.black);
+        //g.fillRect(getX(), getY(), getWidth(), getHeight());
         /*
         if (enemyType == 0) {
             g.drawImage(img, x, y, observer);
@@ -129,5 +161,13 @@ public class Enemy extends Item {
         }
         */
         //g.drawImage(Assets.protester, getX(), getY(), getWidth(), getHeight(), null);
+    }
+    
+    public void rotateImage(double degrees){
+        ImageIcon icon = new ImageIcon(animationRun.getCurrentFrame());
+        BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = (Graphics2D)blankCanvas.getGraphics();
+        g2.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2, icon.getIconHeight() / 2);
+        g2.drawImage(animationRun.getCurrentFrame(), 0, 0, null);
     }
 }
