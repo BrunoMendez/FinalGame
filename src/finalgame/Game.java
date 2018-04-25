@@ -29,11 +29,13 @@ public class Game implements Runnable {
     private Player player;          // to use a player
     private Weapon weapon;          //type of weapon
     private Box box;                // to create a box
+    private ImmovableObj rock;
     private KeyManager keyManager;  // to manage the keyboard
     private ArrayList<Enemy> enemies; // my enemies
     private ArrayList<Box>  boxes;      // loot boxes
     private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
+    private ArrayList<ImmovableObj> rocks;
     private boolean gameOver;            // To stop the game
     private boolean started;             // to start the game
     private long lastTime;      //to keep track of time
@@ -129,6 +131,15 @@ public class Game implements Runnable {
         
         //keyManager
         display.getJframe().addKeyListener(keyManager);
+        
+        //rocks
+        rocks = new ArrayList<ImmovableObj>();
+        for(int i = 0; i < 6; i++){
+            int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
+            int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
+            ImmovableObj rock = new ImmovableObj(randX, randY, 50, 50);
+            rocks.add(rock); 
+        }
         
         //enemies
         enemies = new ArrayList<Enemy>();
@@ -499,6 +510,12 @@ public class Game implements Runnable {
             g = bs.getDrawGraphics();
             //draw background
             g.drawImage(Assets.background, 0, 0, width, height, null);
+            //render rocks
+            Iterator itrRock = rocks.iterator();
+            while(itrRock.hasNext()){
+                ImmovableObj rock = (ImmovableObj) itrRock.next();
+                rock.render(g);
+            }
             //render boxes
             Iterator itrB = boxes.iterator();
             while(itrB.hasNext()){
