@@ -41,7 +41,13 @@ public class Game implements Runnable {
     private int score;                 	 //score
     private boolean win;
     private long bulletTimer;
-    private long lastTimeTick;
+    private long lastTimeTickBox;
+    private long lastTimeTickEnemy;
+    private long waveTextTimer;
+    private int MAX_ENEMIES;
+    private boolean startOfWave;
+    private int waveCounter;
+    
 
     /**
      * to create title, width and height and set the game is still not running
@@ -59,11 +65,17 @@ public class Game implements Runnable {
         gameOver = false;
         started = false;
         lastTime = System.currentTimeMillis();
+        MAX_ENEMIES = 7;
+        startOfWave = false;
         score = 0;
         //tweet = new SoundClip("/sounds/twitter_ios.wav", 0, false);
         //hit = new SoundClip("/sounds/hit.wav", 0, false);
         win = false;
+        waveCounter = 0;
         bulletTimer = System.currentTimeMillis();
+        lastTimeTickBox = System.currentTimeMillis();
+        lastTimeTickEnemy = System.currentTimeMillis();
+        waveTextTimer = System.currentTimeMillis();
     }
 
     /**
@@ -108,13 +120,14 @@ public class Game implements Runnable {
         bullets = new ArrayList<Bullet>();
         display.getJframe().addKeyListener(keyManager);
         enemies = new ArrayList<Enemy>();
-        int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
-                : 3 * -(int)(Math.random() * getWidth());
-        int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
-                : 3 * -(int)(Math.random() * getHeight());
-        Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
-        enemies.add(enemy);
-        lastTimeTick = System.currentTimeMillis();
+        for(int i = 0; i < 5; i++){
+            int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
+                    : 3 * -(int)(Math.random() * getWidth());
+            int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
+                    : 3 * -(int)(Math.random() * getHeight());
+            Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
+            enemies.add(enemy); 
+        }
         enemies2 = new ArrayList<Enemy2>();
         int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
                 : 3 * -(int)(Math.random() * getWidth());
@@ -218,14 +231,34 @@ public class Game implements Runnable {
         shootPlayer();
         BulletTick();
         createNewBox();
-
+        enemySearchPlayer();
+        wavesControl();    
+    }
+    
+    
+    public void wavesControl(){
+        if(enemies.size() <= 0){
+            waveCounter++;
+            MAX_ENEMIES = MAX_ENEMIES + 3;
+            for(int i = 0; i < MAX_ENEMIES; i++){
+                int randX = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
+                        : 3 * -(int)(Math.random() * getWidth());
+                int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
+                        : 3 * -(int)(Math.random() * getHeight());
+                Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
+                enemies.add(enemy); 
+            }
+        }
+    }
+    
+    public void enemySearchPlayer(){
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
         while(itr.hasNext()){
             // getting specific enemy
             Enemy enemy = (Enemy) itr.next();
-            enemy.setSpeedX((enemy.getX() > player.getX()) ? -2 : 2);
-            enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
+            enemy.setSpeedX((enemy.getX() > player.getX()) ? -5 : 5);
+            enemy.setSpeedY((enemy.getY() > player.getY()) ? -5 : 5);
             //  moving the enemy
             enemy.tick();
         }
@@ -240,7 +273,6 @@ public class Game implements Runnable {
             enemy2.tick();
         }
     }
-    
     
     /**
      * Player over the box
@@ -267,8 +299,8 @@ public class Game implements Runnable {
     } 
     
     public void createNewBox(){
-        if(System.currentTimeMillis() - lastTimeTick > 10000){
-            lastTimeTick = System.currentTimeMillis();
+        if(System.currentTimeMillis() - lastTimeTickBox > 10000){
+            lastTimeTickBox = System.currentTimeMillis();
             boxes.add(new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 30, 30, this));
         }
     }
@@ -438,7 +470,8 @@ public class Game implements Runnable {
                     Enemy enemy = (Enemy) itr2.next();
                     if (enemy.intersects(bullet)){
                         // reset enemy
-                        enemy.setY(-(int)(Math.random()*2*getHeight()));
+                        enemies.remove(enemy);
+                        itr2 = enemies.iterator();
                         //  delete bullet
                         bullets.remove(bullet);
                         itr = bullets.iterator();
@@ -479,12 +512,13 @@ public class Game implements Runnable {
             }
             if(weapon.getType() == 1){
                 g.drawString("PISTOL", player.getX()+player.width/3, player.getY());
-                g.drawString("" + weapon.getAmmoPISTOL(), 10, height);
+                g.drawString("Ammo: " + weapon.getAmmoPISTOL(), 10, height);
             }
             if(weapon.getType() == 2){
                 g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
-                g.drawString("" + weapon.getAmmoSHOTGUN(), 10, height);
+                g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height);
             }
+            g.drawString("Enemies: " + enemies.size(), 10, height - 20);
             bs.show();
             g.dispose();
         }
