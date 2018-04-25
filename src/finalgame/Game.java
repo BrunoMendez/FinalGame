@@ -253,10 +253,39 @@ public class Game implements Runnable {
         //randomly create new boxes
         createNewBox();
         enemySearchPlayer();
-        wavesControl();    
+        wavesControl(); 
+        PlayerCollisionRocks();
+
     }
     
+    /**
+     *  Player collision with rocks
+     */
+    public void PlayerCollisionRocks(){
+        Iterator itr = rocks.iterator();
+        while(itr.hasNext()){
+            ImmovableObj rock = (ImmovableObj) itr.next();
+            rock.tick();
+            if(player.intersects(rock)){
+                if(player.getX() <= rock.getX() + rock.width && player.getDirection() == 4){
+                    player.setX(player.getX()+3);
+                }
+                if(player.getX() + player.width >= rock.getX() && player.getDirection() == 3){
+                    player.setX(player.getX()-3);
+                }
+                if(player.getY() <= rock.getY() + rock.height && player.getDirection() == 1){
+                    player.setY(player.getY()+3);
+                }
+                if(player.getY() + player.height >= rock.getY() && player.getDirection() == 2){
+                    player.setY(player.getY()-3);
+                }
+            }
+        }
+    }
     
+    /**
+     *  Waves control, start a new wave
+     */
     public void wavesControl(){
         if(enemies.size() <= 0){
             waveCounter++;
