@@ -25,7 +25,7 @@ public class Box extends Item{
     private int counter;                                 // time that takes the box to appear
     private String[] names = new String[ItemCount];      // names of all the weapons in the box
     public int[] items = new int[ItemCount];             // the number of the item in the box
-    private long lastTimeTick;
+    private long lastTimeTick;                           // to keep track of time
     
     /**
      * <code>Box</code> Constructor
@@ -91,7 +91,7 @@ public class Box extends Item{
     
     @Override
     public void tick() { 
-        box.tick();
+        //box.tick();
     }
 
     @Override

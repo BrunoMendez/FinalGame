@@ -1,3 +1,4 @@
+//Enemy
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,7 +8,10 @@ package finalgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -16,51 +20,63 @@ import java.awt.Rectangle;
 public class Enemy extends Item {
 
     private Game game;
-    private int speedX;      //enemy speedX
-    private int speedY;     //enemy speedY
+    private int speed;      //enemy speedX
+    private int direction;     //enemy speedY
     private int points;     //points the enemy grants
     private int enemyType;  //0 - normal, 1 - shooter
     private int health;     //enemy health
+    private Animation animationRun;     //run animation
+    private long lastTime;
 
-    public Enemy(int x, int y, int width, int height, int speedX, int speedY, int health, int enemyType, Game game) {
+    public Enemy(int x, int y, int width, int height, int speed, int direction, int health, int enemyType, Game game) {
         super(x, y, width, height);
         this.game = game;
-        this.speedX = speedX;
-        this.speedY = speedY;
+        this.speed = speed;
+        this.direction = direction;
         this.health = health;
         this.enemyType = enemyType;
+        this.lastTime = System.currentTimeMillis();
+        this.animationRun = new Animation(Assets.zombieRun, 200);
     }
 
+    public void setLastTime(long lastTime) {
+        this.lastTime = lastTime;
+    }
+
+    public long getLastTime() {
+        return lastTime;
+    }
+    
     /**
      * To get the speedX of the enemy
      * @return an <code>int</code> of the speedX of the enemy
      */
-    public int getSpeedX() {
-        return speedX;
+    public int getSpeed() {
+        return speed;
     }
 
     /**
      * To set the speed of the enemy
      * @param speed To set the speedX of the enemy
      */
-    public void setSpeedX(int speedX) {
-        this.speedX = speedX;
+    public void setSpeed(int speedX) {
+        this.speed = speed;
     }
 
     /**
      * To get the speedY of the enemy
      * @return an <code>int</code> of the speedY of the enemy
      */
-    public int getSpeedY() {
-        return speedY;
+    public int getDirection() {
+        return direction;
     }
 
     /**
      * To set the speedY of the enemy
      * @param speedY to get the speedY of the enemy
      */
-    public void setSpeedY(int speedY) {
-        this.speedY = speedY;
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
     
     /**
@@ -113,21 +129,41 @@ public class Enemy extends Item {
 
     @Override
     public void tick() {
-        setX(getX() + speedX);
-        setY(getY() + speedY);
+        //Moving enemy towards player
+        if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){
+            setX(getX() +  speed);
+        }
+        else if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) < getX() + (getWidth()/2)){
+            setX(getX() - speed);
+        }
+        if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2) > getY() + (getHeight()/2)){
+            setY(getY() + speed);
+        }
+        else if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2) < getY()  + (getHeight()/2)){
+            setY(getY() - speed);
+        }
+        //running animation
+        this.animationRun.tick();
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
-        /*
-        if (enemyType == 0) {
-            g.drawImage(img, x, y, observer);
-        } else {
-            g.drawImage(img, x, y, observer);
-        }
-        */
-        //g.drawImage(Assets.protester, getX(), getY(), getWidth(), getHeight(), null);
+        // Getting degrees between player and enemy
+        int distY = game.getPlayer().getY() + (game.getPlayer().getHeight()/2) - getY() - (getHeight()/2);
+        int distX = game.getPlayer().getX() + (game.getPlayer().getWidth()/2) - getX() - (getWidth()/2);
+        double radians;
+        radians = Math.atan2(distY, distX);
+        
+        //drawing rotated image towards enemy
+        ImageIcon icon = new ImageIcon(animationRun.getCurrentFrame());
+        BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = (Graphics2D)blankCanvas.getGraphics();
+        g2.rotate(radians, icon.getIconWidth() / 2, icon.getIconHeight() / 2);
+        g2.drawImage(animationRun.getCurrentFrame(), 0, 0, null);
+        g.drawImage(blankCanvas, getX(), getY(), 
+                getWidth(), getHeight(), null);
+
+        //drawing health over enemy
+        g.drawString("Health: " + health, getX()+getWidth()/3, getY());
     }
 }
