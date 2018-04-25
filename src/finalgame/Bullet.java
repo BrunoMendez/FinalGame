@@ -22,7 +22,7 @@ public class Bullet extends Item{
     private int damage;         // damage of the bullet
     private int type;           // type of the bullet
     private int direction;      // Direction the player is facing
-    private Rectangle hitBox; 
+    private Rectangle hitBox;   //hit box
     
     /**
      * <code>Bullet</code> Constructor 
