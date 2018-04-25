@@ -46,8 +46,6 @@ public class Game implements Runnable {
     private int MAX_ENEMIES;
     private boolean startOfWave;
     private int waveCounter;
-    private boolean win;            //to check if game is won
-    private long bulletTimer;       //timer for bullets
     private long lastTimeTick;      //timer for tick
 
     /**
@@ -139,10 +137,9 @@ public class Game implements Runnable {
                     : 3 * -(int)(Math.random() * getWidth());
             int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
                     : 3 * -(int)(Math.random() * getHeight());
-            Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
+            Enemy enemy = new Enemy(randX, randY, 112, 112, 3, 0, 100, 0, this);
             enemies.add(enemy); 
         }
-        enemies2 = new ArrayList<Enemy2>();
         int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
                 : 3 * -(int)(Math.random() * getWidth());
         int randY2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
@@ -258,7 +255,7 @@ public class Game implements Runnable {
                         : 3 * -(int)(Math.random() * getWidth());
                 int randY = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
                         : 3 * -(int)(Math.random() * getHeight());
-                Enemy enemy = new Enemy(randX, randY, 150, 150, 0, 0, 100, 0, this);
+                Enemy enemy = new Enemy(randX, randY, 120, 120, 3, 0, 100, 0, this);
                 enemies.add(enemy); 
             }
         }
@@ -269,8 +266,6 @@ public class Game implements Runnable {
         Iterator itr = enemies.iterator();
         while(itr.hasNext()){
             Enemy enemy = (Enemy) itr.next();
-            enemy.setSpeedX((enemy.getX() > player.getX()) ? -2 : 2);
-            enemy.setSpeedY((enemy.getY() > player.getY()) ? -2 : 2);
             //  moving the enemy
             enemy.tick();
         }
@@ -472,12 +467,11 @@ public class Game implements Runnable {
                     Enemy enemy = (Enemy) itr2.next();
                     if (enemy.intersects(bullet)){
                         enemy.setHealth(enemy.getHealth()-30);
-                        // reset enemy
-                        enemies.remove(enemy);
+                        // remove enemy
                         itr2 = enemies.iterator();
                         if(enemy.getHealth() <= 0){
                             enemy.setHealth(100);
-                            enemy.setY(-(int)(Math.random()*2*getHeight()));
+                            enemies.remove(enemy);
                         }
                         //  delete bullet
                         bullets.remove(bullet);

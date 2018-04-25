@@ -36,7 +36,7 @@ public class Enemy extends Item {
         this.health = health;
         this.enemyType = enemyType;
         this.lastTime = System.currentTimeMillis();
-        this.animationRun = new Animation(Assets.zombieRun, 200);
+        this.animationRun = new Animation(Assets.zombieRun, 25);
     }
 
     public void setLastTime(long lastTime) {
