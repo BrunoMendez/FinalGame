@@ -22,6 +22,11 @@ public class Assets {
     public static BufferedImage playerLeft[];     //to store player left animation
     public static BufferedImage zombieRun[];    //zombie run animation
     public static BufferedImage zombieAttack[]; //zombie attack animation
+    public static BufferedImage playerFeet[];
+    public static BufferedImage playerPistol[];
+    public static BufferedImage playerShotgun[];
+    public static BufferedImage pistolShoot[];
+    public static BufferedImage shotgunShoot[];
     
     /**
      * To initialize assets
@@ -77,5 +82,33 @@ public class Assets {
                 zombieAttack[i] = zombieAttack[i].getSubimage(80, 80, 112, 112);
             }
         }
+        //Players feet
+        playerFeet = new BufferedImage[20];
+        for(int i = 0; i<20; i++){
+            playerFeet[i] = ImageLoader.loadImage("/images/player/feet/run/survivor-run_"+ i + ".png");
+        }
+        
+        //Player with pistol
+        playerPistol = new BufferedImage[20];
+        for(int i = 0; i<20; i++){
+            playerPistol[i] = ImageLoader.loadImage("/images/player/handgun/move/survivor-move_handgun_"+ i + ".png");
+        }
+        
+        //Player with shotgun
+        playerShotgun = new BufferedImage[20];
+        for(int i = 0; i<20; i++){
+            playerShotgun[i] = ImageLoader.loadImage("/images/player/shotgun/move/survivor-move_shotgun_"+ i + ".png");
+        }
+        //shoot with pistol
+        pistolShoot = new BufferedImage[3];
+        for(int i = 0; i<3; i++){
+            pistolShoot[i] = ImageLoader.loadImage("/images/player/handgun/shoot/survivor-shoot_handgun_"+ i + ".png");
+        }
+        //shoot with shotgun
+        shotgunShoot = new BufferedImage[3];
+        for(int i = 0; i<3; i++){
+            shotgunShoot[i] = ImageLoader.loadImage("/images/player/shotgun/shoot/survivor-shoot_shotgun_"+ i + ".png");
+        }
+        
     }
 }
