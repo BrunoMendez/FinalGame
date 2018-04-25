@@ -26,7 +26,11 @@ public class Enemy extends Item {
     private int enemyType;  //0 - normal, 1 - shooter
     private int health;     //enemy health
     private Animation animationRun;     //run animation
+    private Animation animationAttack;  //attack animation
+    private Animation currentAnimation;  //Current animation state;
     private long lastTime;
+    private boolean crashed;
+    private int damage;
 
     public Enemy(int x, int y, int width, int height, int speed, int direction, int health, int enemyType, Game game) {
         super(x, y, width, height);
@@ -37,6 +41,10 @@ public class Enemy extends Item {
         this.enemyType = enemyType;
         this.lastTime = System.currentTimeMillis();
         this.animationRun = new Animation(Assets.zombieRun, 25);
+        this.animationAttack = new Animation(Assets.zombieAttack, 40);
+        this.crashed = false;
+        this.currentAnimation = animationRun;
+        this.damage = 10;
     }
 
     public void setLastTime(long lastTime) {
@@ -130,20 +138,30 @@ public class Enemy extends Item {
     @Override
     public void tick() {
         //Moving enemy towards player
-        if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){
-            setX(getX() +  speed);
+        if(!game.getPlayer().intersects(this)){
+            currentAnimation = animationRun;
+            crashed = false;
+            if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){
+                setX(getX() +  speed);
+            }
+            else if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2)<= getX() + (getWidth()/2)){
+                setX(getX() - speed);
+            }
+            if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2)> getY() + (getHeight()/2)){
+                setY(getY() + speed);
+            }
+            else if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2)<= getY()  + (getHeight()/2)){
+                setY(getY() - speed);
+            }
         }
-        else if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) < getX() + (getWidth()/2)){
-            setX(getX() - speed);
+        else{
+            crashed = true;
+            currentAnimation = animationAttack;
+            if(currentAnimation.isLoopCompleted()){
+                game.getPlayer().setHealth(game.getPlayer().getHealth()-damage);
+            }
         }
-        if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2) > getY() + (getHeight()/2)){
-            setY(getY() + speed);
-        }
-        else if(game.getPlayer().getY() + (game.getPlayer().getHeight()/2) < getY()  + (getHeight()/2)){
-            setY(getY() - speed);
-        }
-        //running animation
-        this.animationRun.tick();
+        this.currentAnimation.tick();
     }
 
     @Override
@@ -155,11 +173,11 @@ public class Enemy extends Item {
         radians = Math.atan2(distY, distX);
         
         //drawing rotated image towards enemy
-        ImageIcon icon = new ImageIcon(animationRun.getCurrentFrame());
+        ImageIcon icon = new ImageIcon(currentAnimation.getCurrentFrame());
         BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = (Graphics2D)blankCanvas.getGraphics();
         g2.rotate(radians, icon.getIconWidth() / 2, icon.getIconHeight() / 2);
-        g2.drawImage(animationRun.getCurrentFrame(), 0, 0, null);
+        g2.drawImage(currentAnimation.getCurrentFrame(), 0, 0, null);
         g.drawImage(blankCanvas, getX(), getY(), 
                 getWidth(), getHeight(), null);
 

@@ -62,5 +62,16 @@ public class Assets {
                 zombieRun[i] = zombieRun[i].getSubimage(80, 80, 112, 112);
             }
         }
+        zombieAttack = new BufferedImage[19];
+        for(int i = 0; i<19; i++){
+            if(i>=10){
+                zombieAttack[i] = ImageLoader.loadImage("/images/zombie_01/attack03/attack03_00"+ i + ".png");
+                zombieAttack[i] = zombieAttack[i].getSubimage(80, 80, 112, 112);
+            }
+            else{
+                zombieAttack[i] = ImageLoader.loadImage("/images/zombie_01/attack03/attack03_000"+ i + ".png");
+                zombieAttack[i] = zombieAttack[i].getSubimage(80, 80, 112, 112);
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class Player extends Item{
 
-    private int lives;
+    private int health;
     private Game game;
     private Animation animationUp;
     private Animation animationDown;
@@ -25,10 +25,10 @@ public class Player extends Item{
     private int lastAnimation;
     private int direction;
     
-    public Player(int x, int y, int width, int height, int lives, Game game) {
+    public Player(int x, int y, int width, int height, int health, Game game) {
         super(x, y, width, height);
         this.game = game;
-        this.lives = lives;
+        this.health = health;
         direction = 1;
         this.animationUp = new Animation(Assets.playerUp, 100);
         this.animationDown = new Animation(Assets.playerDown, 100);
@@ -37,12 +37,12 @@ public class Player extends Item{
         lastAnimation = 1;
     }
 
-    public int getLives() {
-        return lives;
+    public int getHealth() {
+        return health;
     }
 
-    public void setLives(int lives) {
-        this.lives = lives;
+    public void setHealth(int health) {
+        this.health = health;
     }
     
     /*
@@ -99,43 +99,44 @@ public class Player extends Item{
     @Override
     public void render(Graphics g) {
         //render animation
+        int whiteSpace = 20;
       if (game.getKeyManager().up) {
-            g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationUp.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
             lastAnimation = 1;
         }
         else if(game.getKeyManager().down) {
-            g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationDown.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
             lastAnimation = 2;
         }
         else if (game.getKeyManager().right){
-            g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationRight.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
             lastAnimation = 3;
         }
         else if (game.getKeyManager().left){
-            g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationLeft.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
             lastAnimation = 4;
         }
         
       //if idle render the last animation
         if(lastAnimation == 1){
-            g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationUp.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
         }
         else if (lastAnimation == 2) {
-            g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationDown.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
         }
         else if (lastAnimation == 3) {
-            g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationRight.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
         }
         else {
-            g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), 
-                getWidth(), getHeight(), null);
+            g.drawImage(animationLeft.getCurrentFrame(), getX() - whiteSpace, getY() - whiteSpace, 
+                getWidth() + whiteSpace, getHeight() + whiteSpace, null);
         }
     }
 }
