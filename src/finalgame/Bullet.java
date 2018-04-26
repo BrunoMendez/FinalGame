@@ -11,7 +11,13 @@ package finalgame;
  */
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 public class Bullet extends Item{
 
@@ -23,6 +29,7 @@ public class Bullet extends Item{
     private int type;           // type of the bullet
     private int direction;      // Direction the player is facing
     private Rectangle hitBox;   //hit box
+    private int degrees;
     
     /**
      * <code>Bullet</code> Constructor 
@@ -38,6 +45,7 @@ public class Bullet extends Item{
         this.game = game;
         this.speed = speed;
         this.direction = direction;
+        degrees = 0;
     }
     
     /**
@@ -87,61 +95,148 @@ public class Bullet extends Item{
         2 = down
         3 = right
         4 = left
+        5 = up-right
+        6 = up-left
+        7 = down-right
+        8 = down-left
         */
         //  PISTOL shot
         if(type == 1){
-            if(direction == 1){
-                setY(getY() - speed);
-            }
-            else if(direction == 2){
-                // tilt bulle
-                setY(getY() + speed);
-            }
-            else if(direction == 3){;
-                setX(getX() + speed);
-            }
-            else if(direction == 4){
-                setX(getX() - speed);
+            switch(direction){
+                case 1:
+                    setY(getY() - speed);
+                    degrees = 0;
+                    break;
+                case 2:
+                    setY(getY() + speed);
+                    degrees = 0;
+                    break;
+                case 3:
+                    setX(getX() + speed);
+                    degrees = 90;
+                    break;
+                case 4:
+                    setX(getX() - speed);
+                    degrees = 90;
+                    break;
+                case 5:
+                    setY(getY() - speed);
+                    setX(getX() + speed);
+                    degrees = 45;
+                    break;
+                case 6:
+                    setY(getY() - speed);
+                    setX(getX() - speed);
+                    degrees = 135;
+                    break;
+                case 7:
+                    setY(getY() + speed);
+                    setX(getX() + speed);
+                    degrees = 135;
+                    break;
+                case 8:
+                    setY(getY() + speed);
+                    setX(getX() - speed);
+                    degrees = 45;
+                    break;              
             }
         }
         //  SHOTGUN 1st shot
         if(type == 2){
-            if(direction == 1){
-                setY(getY() - speed);
-                setX(getX() - speed/10);
-            }
-            else if(direction == 2){
-                // tilt bulle
-                setY(getY() + speed);
-                setX(getX() - speed/10);
-            }
-            else if(direction == 3){;
-                setX(getX() + speed);
-                setY(getY() - speed/10);
-            }
-            else if(direction == 4){
-                setX(getX() - speed);
-                setY(getY() + speed/10);
+            switch(direction){
+                case 1:
+                    setY(getY() - speed);
+                    setX(getX() - speed/10);
+                    degrees = 0;
+                    break;
+                case 2:
+                    setY(getY() + speed);
+                    setX(getX() - speed/10);
+                    degrees = 0;
+                    break;
+                case 3:
+                    setX(getX() + speed);
+                    setY(getY() - speed/10);
+                    degrees = 90;
+                    break;
+                case 4:
+                    setX(getX() - speed);
+                    setY(getY() - speed/10);
+                    degrees = 90;
+                    break;
+                case 5:
+                    setY(getY() - speed);
+                    setX(getX() + speed);
+                    setX(getX() - speed/10);
+                    degrees = 45;
+                    break;
+                case 6:
+                    setY(getY() - speed);
+                    setX(getX() - speed);
+                    setX(getX() - speed/10);
+                    degrees = 135;
+                    break;
+                case 7:
+                    setY(getY() + speed);
+                    setX(getX() + speed);
+                    setY(getY() - speed/10);
+                    degrees = 134;
+                    break;
+                case 8:
+                    setY(getY() + speed);
+                    setX(getX() - speed);
+                    setY(getY() - speed/10);
+                    degrees = 45;
+                    break;              
             }
         }
         //  SHOTGUN 2nd shot
         if(type == 22){
-            if(direction == 1){
-                setY(getY() - speed);
-                setX(getX() + speed/10);
-            }
-            else if(direction == 2){
-                // tilt bulle
-                setY(getY() + speed);
-                setX(getX() + speed/10);
-            }
-            else if(direction == 3){;
-                setX(getX() + speed);
-                setY(getY() + speed/10);
-            }
-            else if(direction == 4){
-                setX(getX() - speed);
-                setY(getY() - speed/10);
+             switch(direction){
+                case 1:
+                    setY(getY() - speed);
+                    setX(getX() + speed/10);
+                    degrees = 0;
+                    break;
+                case 2:
+                    setY(getY() + speed);
+                    setX(getX() + speed/10);
+                    degrees = 0;
+                    break;
+                case 3:
+                    setX(getX() + speed);
+                    setY(getY() + speed/10);
+                    degrees = 90;
+                    break;
+                case 4:
+                    setX(getX() - speed);
+                    setY(getY() + speed/10);
+                    degrees = 90;
+                    break;
+                case 5:
+                    setY(getY() - speed);
+                    setX(getX() + speed);
+                    setX(getX() + speed/10);
+                    degrees = 45;
+                    break;
+                case 6:
+                    setY(getY() - speed);
+                    setX(getX() - speed);
+                    setX(getX() + speed/10);
+                    degrees = 135;
+                    break;
+                case 7:
+                    setY(getY() + speed);
+                    setX(getX() + speed);
+                    setY(getY() + speed/10);
+                    degrees = 135;
+                    break;
+                case 8:
+                    setY(getY() + speed);
+                    setX(getX() - speed);
+                    setY(getY() + speed/10);
+                    degrees = 45;
+                    break;              
             }
         }
     }
@@ -149,6 +244,17 @@ public class Bullet extends Item{
     @Override
     public void render(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
+        //g.fillRect(getX(), getY(), getWidth(), getHeight());
+        //paintBullet();
+        Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(degrees),rectangle.getX() + rectangle.width/2, rectangle.getY() + rectangle.height/2);
+        Shape transformed = transform.createTransformedShape(rectangle);
+        Graphics2D g2 = (Graphics2D)g;
+        g2.fill(transformed);
+    }
+    
+    public void paintBullet(Graphics g, int direction){
+        
     }
 }
