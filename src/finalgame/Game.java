@@ -344,17 +344,33 @@ public class Game implements Runnable {
             ImmovableObj rock = (ImmovableObj) itr.next();
             rock.tick();
             if(player.intersects(rock)){
-                if(player.getX() <= rock.getX() + rock.width && player.getDirection() == 4){
-                    player.setX(player.getX()+3);
+                if(player.getDirection() == 4){
+                    player.setX(player.getX()+4);
                 }
-                if(player.getX() + player.width >= rock.getX() && player.getDirection() == 3){
+                else if(player.getDirection() == 3){
+                    player.setX(player.getX()-4);
+                }
+                else if(player.getDirection() == 1){
+                    player.setY(player.getY()+4);
+                }
+                else if(player.getDirection() == 2){
+                    player.setY(player.getY()-4);
+                }
+                if(player.getDirection() == 5){
+                    player.setY(player.getY()+3);
                     player.setX(player.getX()-3);
                 }
-                if(player.getY() <= rock.getY() + rock.height && player.getDirection() == 1){
+                else if(player.getDirection() == 6){
                     player.setY(player.getY()+3);
+                    player.setX(player.getX()+3);
                 }
-                if(player.getY() + player.height >= rock.getY() && player.getDirection() == 2){
+                else if(player.getDirection() == 7){
                     player.setY(player.getY()-3);
+                    player.setX(player.getX()-3);
+                }
+                else if(player.getDirection() == 8){
+                    player.setY(player.getY()-3);
+                    player.setX(player.getX()+3);
                 }
             }
         }
