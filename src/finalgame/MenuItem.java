@@ -7,6 +7,7 @@ package finalgame;
 
 import java.awt.Graphics;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 /**
  *
@@ -50,7 +51,12 @@ public class MenuItem extends Item{
             case 2:  
                 g.drawImage(Assets.quitButton[0], getX(), getY(), getWidth(), getHeight(), null);
                 break;
-            
+            case 3:  
+                g.drawImage(Assets.resumeButton[0], getX(), getY(), getWidth(), getHeight(), null);
+                break;
+            case 4:  
+                g.drawImage(Assets.exitButton[0], getX(), getY(), getWidth(), getHeight(), null);
+                break;
             default: g.drawImage(Assets.startButton[0], getX(), getY(), getWidth(), getHeight(), null);
                      break;
         }
@@ -64,6 +70,16 @@ public class MenuItem extends Item{
         }
         else if(itemType == 2) {
             System.exit(0);
+        }
+        else if (itemType == 3) {
+            game.setPaused(false);
+            game.getKeyManager().setP(false);
+        }
+        else if(itemType == 4) {
+             game.setPaused(false);
+             game.getKeyManager().setP(false);
+             game.setStartGame(false);
+             game.init();
         }
     }
     

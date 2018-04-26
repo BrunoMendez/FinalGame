@@ -9,10 +9,12 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
     public static BufferedImage background;     // to strore background image
-    public static BufferedImage menu1;          // to store the menu1 image
+    public static BufferedImage menu1;          // to store the main menu image
+    public static BufferedImage menu2;          // to store the pause menu image
     public static BufferedImage startButton[];     // to store start button images for Menu
     public static BufferedImage quitButton[];     // to store quit button images for Menu
-    public static BufferedImage menu2;          // to store the menu2 image
+    public static BufferedImage resumeButton[];     // to store quit button images for Menu
+    public static BufferedImage exitButton[];     // to store quit button images for Menu
     public static BufferedImage box[];          // to store the box image
     public static BufferedImage rock[];
     public static BufferedImage playerUp[];      //to store player up animation
@@ -33,6 +35,7 @@ public class Assets {
     public static void init(){
         background = ImageLoader.loadImage("/images/background-exam.jpg");
         menu1 = ImageLoader.loadImage("/images/MenuImages/MenuBackground.png");
+        menu2 = ImageLoader.loadImage("/images/MenuImages/PauseBackground.png");
         startButton = new BufferedImage[2];
         startButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonStartClear.png");
         startButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonStartPressed.png");
@@ -41,6 +44,13 @@ public class Assets {
         quitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitClear.png");
         quitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitPressed.png");
         
+        resumeButton = new BufferedImage[2];
+        resumeButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonResumeClear.png");
+        resumeButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonResumePressed.png");
+        
+        exitButton = new BufferedImage[2];
+        exitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClear.png");
+        exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitPressed.png");
         SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
         rock = new BufferedImage[1];
         rock[0] = ssRock.crop(0, 0, 256, 256);

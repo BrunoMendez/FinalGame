@@ -51,6 +51,8 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
        game.startButton.setClicked(true);
        game.quitButton.setClicked(true);
+       game.resumeButton.setClicked(true);
+       game.exitButton.setClicked(true);
     }
 
     @Override
