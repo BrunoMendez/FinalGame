@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -90,7 +91,6 @@ public class Player extends Item{
         if(isHit){
             hitTime = System.currentTimeMillis();
         }
-        
         // move player
         if(game.getKeyManager().up && game.getKeyManager().right){
             setY(getY()-3);
@@ -148,7 +148,6 @@ public class Player extends Item{
             isIdle = true;
         }
         
-        
         if(weaponType == PISTOL){
             currentAnimation = animationPistol;
         }
@@ -200,7 +199,5 @@ public class Player extends Item{
         g2.drawImage(a.getCurrentFrame(), 0, 0, null);
         g.drawImage(blankCanvas, getX(), getY(), 
                 getWidth(), getHeight(), null);
-
-
     }
 }
