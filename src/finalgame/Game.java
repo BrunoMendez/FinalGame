@@ -108,11 +108,16 @@ public class Game implements Runnable {
     public int getHeight() {
         return height;
     }
-
+    /**
+     * To check if the game has started
+     * @return 
+     */
     public boolean isStarted() {
         return started;
     }
-
+    /**
+     * check started status
+    */
     public void setStarted(boolean started) {
         this.started = started;
     }
@@ -174,21 +179,6 @@ public class Game implements Runnable {
             Enemy enemy = new Enemy(randX, randY, 30, 30, 2, 0, 100, 0, this);
             enemies.add(enemy); 
         }
-        int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
-                : 3 * -(int)(Math.random() * getWidth());
-        int randY2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
-                : 3 * -(int)(Math.random() * getHeight());
-        Enemy2 enemy2 = new Enemy2(randX2, randY2, 56, 56, 0, 0, 100, this);
-        //creating enemies
-        /*
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 5; j++) {
-                int width_brick = getWidth() / 10;
-                Brick brick = new Brick(i * width_brick + 2, 30 * j + 10, width_brick - 10, 25, 5 - j, this);
-                bricks.add(brick);
-            }
-        }
-        */
         display.getJframe().addKeyListener(keyManager);
     }
 
@@ -222,15 +212,25 @@ public class Game implements Runnable {
         }
         stop();
     }
-
+    /**
+     * 
+     * @return keyManager
+     */
     public KeyManager getKeyManager() {
         return keyManager;
     }
-    
+    /**
+     * 
+     * @return mouseManager
+     */
     public MouseManager getMouseManager() {
         return mouseManager;
     }
     
+    /**
+     * 
+     * @return player
+     */
     public Player getPlayer() {
         return player;
     }
@@ -242,7 +242,10 @@ public class Game implements Runnable {
     public Box getBox() {
         return box;
     }
-
+    /**
+     * 
+     * @return enemies
+     */
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
@@ -280,21 +283,31 @@ public class Game implements Runnable {
     public void setPaused(boolean p) {
         paused = p;
     }
-        
+    /**
+     * main tick function
+     */
     private void tick() {
         keyManager.tick();
-        //check if player is over the box
-        paused = keyManager.getP();
-        
+        //check if game is started
+        if(startGame){
+            paused = keyManager.getP();
+        }
+        else{
+            paused = false;
+        }
+        // checks if game over
         if(player.getHealth() <= 0){
             gameOver = true;
         }
-        if (!startGame && !paused && !gameOver) {
+        //checks if we are in the main menu
+        if (!startGame && ! paused && !gameOver) {
             tickMainMenu();
         }
+        //checks if game is startes and unpaused
         if (startGame && !paused && !gameOver) {
             tickGame();
         }
+        //checks if game is paused
         if (paused && !gameOver) {
             tickPauseMenu();
         }
@@ -304,12 +317,14 @@ public class Game implements Runnable {
     }
     
     private void tickGame() {
-        
+        //checks if player is over box
         PlayerOverBox();
+        //spawns random boxes
         box.tick();
+        //weapon type
         weapon.tick();
+        //player movement
         player.tick();
-        //System.out.println(player.getHealth());
         //shoot tick
         shootPlayer();
         BulletTick();
