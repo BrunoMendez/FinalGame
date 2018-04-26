@@ -44,7 +44,7 @@ public class Enemy extends Item {
         this.animationAttack = new Animation(Assets.zombieAttack, 40);
         this.crashed = false;
         this.currentAnimation = animationRun;
-        this.damage = 10;
+        this.damage = 50;
     }
 
     public void setLastTime(long lastTime) {
@@ -163,6 +163,7 @@ public class Enemy extends Item {
             currentAnimation = animationAttack;
             if(currentAnimation.isLoopCompleted()){
                 game.getPlayer().setHealth(game.getPlayer().getHealth()-damage);
+                
             }
         }
         this.currentAnimation.tick();

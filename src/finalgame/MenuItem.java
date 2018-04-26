@@ -54,8 +54,13 @@ public class MenuItem extends Item{
             case 3:  
                 g.drawImage(Assets.resumeButton[0], getX(), getY(), getWidth(), getHeight(), null);
                 break;
-            case 4:  
-                g.drawImage(Assets.exitButton[0], getX(), getY(), getWidth(), getHeight(), null);
+            case 4: 
+                if (!game.getGameOver()){
+                    g.drawImage(Assets.exitButton[0], getX(), getY(), getWidth(), getHeight(), null);
+                }
+                else {
+                    g.drawImage(Assets.exitButton[2], getX(), getY(), getWidth(), getHeight(), null);
+                }
                 break;
             default: g.drawImage(Assets.startButton[0], getX(), getY(), getWidth(), getHeight(), null);
                      break;
@@ -79,6 +84,7 @@ public class MenuItem extends Item{
              game.setPaused(false);
              game.getKeyManager().setP(false);
              game.setStartGame(false);
+             game.setGameOver(false);
              game.init();
         }
     }
