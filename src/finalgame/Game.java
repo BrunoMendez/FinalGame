@@ -39,6 +39,7 @@ public class Game implements Runnable {
     private ArrayList<ImmovableObj> rocks;
     private boolean gameOver;            // To stop the game
     private boolean started;             // to start the game
+    private boolean paused;                 // to pause the game
     private long lastTime;      //to keep track of time
     private int score;                 	 //score
     private boolean win;
@@ -50,9 +51,10 @@ public class Game implements Runnable {
     private boolean startOfWave;
     private int waveCounter;
     private long lastTimeTick;      //timer for tick
-    public MenuItem quitButton;
-    public MenuItem startButton;
-    
+    public MenuItem quitButton;     //Quit Menu Button
+    public MenuItem startButton;    //Start menu Button
+    public MenuItem resumeButton;    // Resume pause menu button
+    public MenuItem exitButton;   //Exit pause menu button
     /**
      * to create title, width and height and set the game is still not running
      *
@@ -70,6 +72,9 @@ public class Game implements Runnable {
         mouseManager = new MouseManager(this);
         quitButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7*2+40)), width/4,height/7-40,2, this);
         startButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7+50)), width/4,height/7-40,1, this);
+        resumeButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7+100)), width/4,height/7-40,3, this);
+        exitButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7*2+90)), width/4,height/7-40,4, this);
+
         gameOver = false;
         started = false;
         lastTime = System.currentTimeMillis();
@@ -115,7 +120,7 @@ public class Game implements Runnable {
     /**
      * initializing the display window of the game
      */
-    private void init() {
+    public void init() {
         //Display
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
@@ -189,6 +194,7 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
+        
         init();
         // frames per second
         int fps = 50;
@@ -268,19 +274,30 @@ public class Game implements Runnable {
     public void setStartGame(boolean s) {
         startGame = s;
     }
+    public boolean getPaused() {
+        return paused;
+    }
+    public void setPaused(boolean p) {
+        paused = p;
+    }
         
     private void tick() {
         keyManager.tick();
         //check if player is over the box
-        if(startGame) {
-                tickGame();
-            }
-            else {
-                tickMainMenu();
-            }
+        paused = keyManager.getP();
+        if(!startGame && !paused){
+            tickMainMenu();
+        }
+        if(startGame && !paused) {
+            tickGame();
+        }
+        if(paused) {
+            tickPauseMenu();
+        }
     }
     
     private void tickGame() {
+        
         PlayerOverBox();
         box.tick();
         weapon.tick();
@@ -303,6 +320,11 @@ public class Game implements Runnable {
     private void tickMainMenu() {
         quitButton.tick();
         startButton.tick();
+    }
+    
+    private void tickPauseMenu() {
+        resumeButton.tick();
+        exitButton.tick();
     }
     /**
      *  Player collision with rocks
@@ -622,12 +644,17 @@ public class Game implements Runnable {
             //Get graphics
             g = bs.getDrawGraphics();
             
-            if(startGame) {
-                renderGame(g);
-            }
-            else {
+            if(!startGame && !paused){
                 renderMenuScreen(g);
             }
+            if(startGame && !paused) {
+                renderGame(g);
+            }
+            if(paused) {
+                renderPauseMenu(g);
+                
+            }
+            
         }
 
     }
@@ -640,7 +667,7 @@ public class Game implements Runnable {
          bs.show();
          g.dispose();
     }
-     private void renderGame(Graphics g) {
+    private void renderGame(Graphics g) {
          // get the buffer strategy from the display
             //draw background
             g.drawImage(Assets.background, 0, 0, width, height, null);
@@ -684,6 +711,14 @@ public class Game implements Runnable {
             bs.show();
             g.dispose();
     }
+    
+    private void renderPauseMenu(Graphics g) {
+         g.drawImage(Assets.menu2, width/2 - 250, height/2 - 250, 500, 500, null);
+         resumeButton.render(g);
+         exitButton.render(g);
+         bs.show();
+         g.dispose();
+    }
     /**
      * setting the thread for the game
      */
@@ -703,6 +738,7 @@ public class Game implements Runnable {
             running = false;
             try {
                 thread.join();
+                
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
             }

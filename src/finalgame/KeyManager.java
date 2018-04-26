@@ -49,13 +49,11 @@ public class KeyManager implements KeyListener {
      
      @Override
      public void keyReleased(KeyEvent e) {
+         if (keys[KeyEvent.VK_P]){
+             
+         }
+         else {
          keys[e.getKeyCode()] = false;
-          if(e.getKeyCode() == KeyEvent.VK_P){
-             if (p) {
-                 p = false;
-             } else {
-                 p = true;
-             }
          }
      }
      
@@ -72,5 +70,11 @@ public class KeyManager implements KeyListener {
          dos = keys[KeyEvent.VK_2];
          p = keys[KeyEvent.VK_P];
          s = keys[KeyEvent.VK_S];
+     }
+     public boolean getP(){
+         return p;
+     }
+     public void setP(boolean pause){
+         keys[KeyEvent.VK_P] = pause;
      }
 }
