@@ -252,6 +252,7 @@ public class Bullet extends Item{
         Shape transformed = transform.createTransformedShape(rectangle);
         Graphics2D g2 = (Graphics2D)g;
         g2.fill(transformed);
+        g.setColor(Color.black);
     }
     
     public void paintBullet(Graphics g, int direction){

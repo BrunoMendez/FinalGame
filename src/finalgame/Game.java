@@ -489,12 +489,10 @@ public class Game implements Runnable {
     
     public void shootPlayer(){
         //  PISTOL
-        System.out.println(player.getDirection() + " " + this.keyManager.space);
         if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
             weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
             bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
-            System.out.println(weapon.getAmmoPISTOL());
             bulletTimer = System.currentTimeMillis();
         }
         //  SHOTGUN
