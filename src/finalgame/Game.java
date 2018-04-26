@@ -285,14 +285,21 @@ public class Game implements Runnable {
         keyManager.tick();
         //check if player is over the box
         paused = keyManager.getP();
-        if(!startGame && !paused){
+        
+        if(player.getHealth() <= 0){
+            gameOver = true;
+        }
+        if (!startGame && !paused && !gameOver) {
             tickMainMenu();
         }
-        if(startGame && !paused) {
+        if (startGame && !paused && !gameOver) {
             tickGame();
         }
-        if(paused) {
+        if (paused && !gameOver) {
             tickPauseMenu();
+        }
+        if (gameOver) {
+            tickGameOverMenu();
         }
     }
     
@@ -311,10 +318,8 @@ public class Game implements Runnable {
         enemySearchPlayer();
         wavesControl(); 
         PlayerCollisionRocks();
-        if(player.getHealth() <= 0){
-            gameOver = true;
-        }
         EnemyCollisonRocks();
+        
     }
     
     private void tickMainMenu() {
@@ -324,6 +329,10 @@ public class Game implements Runnable {
     
     private void tickPauseMenu() {
         resumeButton.tick();
+        exitButton.tick();
+    }
+    
+    private void tickGameOverMenu() {
         exitButton.tick();
     }
     /**
@@ -629,6 +638,10 @@ public class Game implements Runnable {
             }
         }
     }
+    
+    /**
+     * Decide which Block of assets to render: Main, Game, Pause, or GameOver
+     */
     private void render() {
         // get the buffer strategy from the display
         bs = display.getCanvas().getBufferStrategy();
@@ -644,21 +657,27 @@ public class Game implements Runnable {
             //Get graphics
             g = bs.getDrawGraphics();
             
-            if(!startGame && !paused){
+            if (!startGame && !paused && !gameOver){
                 renderMenuScreen(g);
             }
-            if(startGame && !paused) {
+            if (startGame && !paused && !gameOver) {
                 renderGame(g);
             }
-            if(paused) {
+            if (paused && !gameOver) {
                 renderPauseMenu(g);
                 
+            }
+            if (gameOver) {
+                renderGameOverMenu(g);
             }
             
         }
 
     }
-
+    /**
+     * Render Main Menu screen
+     * @param g 
+     */
     private void renderMenuScreen(Graphics g) {
         //render Background
          g.drawImage(Assets.menu1, 0, 0, width, height, null);
@@ -667,6 +686,10 @@ public class Game implements Runnable {
          bs.show();
          g.dispose();
     }
+    /**
+     * Render Game
+     * @param g 
+     */
     private void renderGame(Graphics g) {
          // get the buffer strategy from the display
             //draw background
@@ -711,13 +734,28 @@ public class Game implements Runnable {
             bs.show();
             g.dispose();
     }
-    
+    /**
+     * Render game Paused Menu with two buttons
+     * Press Resume to continue
+     * Press Exit to restart and go back to Main Menu
+     * @param g 
+     */
     private void renderPauseMenu(Graphics g) {
          g.drawImage(Assets.menu2, width/2 - 250, height/2 - 250, 500, 500, null);
          resumeButton.render(g);
          exitButton.render(g);
          bs.show();
          g.dispose();
+    }
+    
+    /**
+     * render game over menu 
+     */
+    private void renderGameOverMenu(Graphics g) {
+        g.drawImage(Assets.menu3, width/2 - 300, height/2 - 300, 600, 600, null);
+        exitButton.render(g);
+        bs.show();
+        g.dispose();
     }
     /**
      * setting the thread for the game
@@ -743,5 +781,13 @@ public class Game implements Runnable {
                 ie.printStackTrace();
             }
         }
+    }
+
+    void setGameOver(boolean b) {
+       gameOver = b;
+    }
+    
+    public boolean getGameOver(){
+        return gameOver;
     }
 }
