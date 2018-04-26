@@ -478,75 +478,29 @@ public class Game implements Runnable {
         }
     }
     
-    /**
-     * Bullet keyManager, shoot when space
-     */
     public void shootPlayer(){
         //  PISTOL
+        System.out.println(player.getDirection() + " " + this.keyManager.space);
         if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
             weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
-            switch(player.getDirection()){
-                case 1: 
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
-                    break;
-                case 2: 
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
-                        5, 20, 10, player.getDirection(), 1, this));
-                    break;
-                case 3:
-                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
-                        20, 5, 10, player.getDirection(), 1, this));
-                    break;
-                case 4:
-                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
-                        20, 5, 10, player.getDirection(), 1, this));
-                    break;
-            }
             System.out.println(weapon.getAmmoPISTOL());
             bulletTimer = System.currentTimeMillis();
         }
         //  SHOTGUN
         if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 2 && weapon.getAmmoSHOTGUN() > 0){
             weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()-1);
-            switch(player.getDirection()){
-                case 1: 
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 2, this));
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 22, this));
-                    break;
-                case 2: 
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
-                        5, 20, 10, player.getDirection(), 1, this));
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
-                        5, 20, 10, player.getDirection(), 2, this));
-                    bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight(),
-                        5, 20, 10, player.getDirection(), 22, this));
-                    break;
-                // Right
-                case 3:
-                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
-                        20, 5, 10, player.getDirection(), 1, this));
-                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
-                        20, 5, 10, player.getDirection(), 2, this));
-                    bullets.add(new Bullet(player.getX() + player.getWidth(), player.getY() + player.getHeight()/2 + 10,
-                        20, 5, 10, player.getDirection(), 22, this));
-                    break;
-                case 4:
-                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
-                        20, 5, 10, player.getDirection(), 1, this));
-                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
-                        20, 5, 10, player.getDirection(), 2, this));
-                    bullets.add(new Bullet(player.getX(), player.getY() + player.getHeight()/2,
-                        20, 5, 10, player.getDirection(), 22, this));
-                    break;
-            }
             bulletTimer = System.currentTimeMillis();
         }
     }
+    
     
     /**
      * Shoot of the enemy (Not implemented yet)
