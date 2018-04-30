@@ -55,9 +55,9 @@ public class Assets {
         exitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClear.png");
         exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitPressed.png");
         exitButton[2] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClearGO.png");
-        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
+        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock2.png"));
         rock = new BufferedImage[1];
-        rock[0] = ssRock.crop(0, 0, 256, 256);
+        rock[0] = ssRock.crop(0, 0, 160, 150);
         
         //  To store the animation of the box
         SpriteSheet ss = new SpriteSheet(ImageLoader.loadImage("/images/box1.png"));

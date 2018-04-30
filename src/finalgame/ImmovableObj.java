@@ -28,7 +28,7 @@ public class ImmovableObj extends Item{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(rock.getCurrentFrame(), getX(), getY(), 50, 55, null);
+        g.drawImage(rock.getCurrentFrame(), getX(), getY(), 50, 50, null);
     }
     
 }
