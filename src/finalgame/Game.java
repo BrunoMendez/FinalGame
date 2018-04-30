@@ -165,7 +165,7 @@ public class Game implements Runnable {
         for(int i = 0; i < 6; i++){
             int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
             int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
-            ImmovableObj rock = new ImmovableObj(randX, randY, 20, 20);
+            ImmovableObj rock = new ImmovableObj(randX, randY, 50, 50);
             rocks.add(rock); 
         }
         
@@ -372,19 +372,19 @@ public class Game implements Runnable {
                     player.setY(player.getY()-4);
                 }
                 if(player.getDirection() == 5){
-                    player.setY(player.getY()+3);
+                    player.setY(player.getY()+2);
                     player.setX(player.getX()-3);
                 }
                 else if(player.getDirection() == 6){
-                    player.setY(player.getY()+3);
+                    player.setY(player.getY()+2);
                     player.setX(player.getX()+3);
                 }
                 else if(player.getDirection() == 7){
-                    player.setY(player.getY()-3);
+                    player.setY(player.getY()-2);
                     player.setX(player.getX()-3);
                 }
                 else if(player.getDirection() == 8){
-                    player.setY(player.getY()-3);
+                    player.setY(player.getY()-2);
                     player.setX(player.getX()+3);
                 }
             }
