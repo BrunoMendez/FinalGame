@@ -136,6 +136,10 @@ public class Enemy extends Item {
     @Override
     public void tick() {
         //Moving enemy towards player
+        // 1 up
+        // 2 down
+        // 3 right
+        // 4 left
         if(!game.getPlayer().intersects(this)){
             currentAnimation = animationRun;
             if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){

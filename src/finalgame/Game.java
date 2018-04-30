@@ -138,7 +138,7 @@ public class Game implements Runnable {
         
         //Boxes
         boxes = new ArrayList<Box>();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 8; i++){
             box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 15, 15, this);
             boxes.add(box);
         }
@@ -162,7 +162,7 @@ public class Game implements Runnable {
         display.getCanvas().addMouseMotionListener(mouseManager);
         //rocks
         rocks = new ArrayList<ImmovableObj>();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 10; i++){
             int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
             int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
             ImmovableObj rock = new ImmovableObj(randX, randY, 50, 50);
@@ -403,20 +403,20 @@ public class Game implements Runnable {
                 Enemy enemy = (Enemy) itr2.next();
                 if(enemy.intersects(rock)){
                     itr2 = enemies.iterator();
-                    if(enemy.getX() <= rock.getX() + rock.width && enemy.getDirection() == 1){
+                    if(enemy.getX() <= rock.getX() + rock.width && enemy.getDirection() == 4){
                         enemy.setX(enemy.getX()+2);
-                        enemy.setY(enemy.getY()+2);
+                        enemy.setY(enemy.getY()+5);
                     }
                     if(enemy.getX() + enemy.width >= rock.getX() && enemy.getDirection() == 2){
                         enemy.setX(enemy.getX()-2);
-                        enemy.setY(enemy.getY()-2);
+                        enemy.setY(enemy.getY()-5);
                     }
                     if(enemy.getY() <= rock.getY() + rock.height && enemy.getDirection() == 1){
-                        enemy.setY(enemy.getY()+2);
+                        enemy.setY(enemy.getY()+5);
                         enemy.setX(enemy.getX()-2);
                     }
                     if(enemy.getY() + enemy.height >= rock.getY() && enemy.getDirection() == 2){
-                        enemy.setY(enemy.getY()-2);
+                        enemy.setY(enemy.getY()-5);
                         enemy.setX(enemy.getX()+2);
                     }
                 }
@@ -537,6 +537,12 @@ public class Game implements Runnable {
                         5, 20, 10, player.getDirection(), 22, this));
             bulletTimer = System.currentTimeMillis();
         }
+        //  LASER
+        if(this.getKeyManager().space && weapon.getType() == 3 && weapon.getAmmoLASER() > 0){
+            weapon.setAmmoLASER(weapon.getAmmoLASER()-1);
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
+                        5, 20, 10, player.getDirection(), 1, this));   
+        }
     }
     
     
@@ -618,6 +624,14 @@ public class Game implements Runnable {
                         crashed = true;
                     }
                 } 
+                Iterator itr3 = rocks.iterator();
+                while(itr3.hasNext()){
+                    ImmovableObj rock = (ImmovableObj) itr3.next();
+                    if(rock.intersects(bullet)){
+                        bullets.remove(bullet);
+                        itr = bullets.iterator();
+                    }
+                }
             }
         }
     }
@@ -709,6 +723,10 @@ public class Game implements Runnable {
             if(weapon.getType() == 2){
                 g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
                 g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height);
+            }
+            if(weapon.getType() == 3){
+                g.drawString("LASER", player.getX()+player.width/4, player.getY());
+                g.drawString("Ammo: " + weapon.getAmmoLASER(), 10, height);
             }
             //  Display the number of the wave
             g.drawString("Wave: " + waveCounter, 10, height-30);

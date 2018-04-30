@@ -44,7 +44,7 @@ public class Player extends Item{
         super(x, y, width, height);
         this.game = game;
         this.health = health;
-        direction = 1;
+        direction = 3;
         
         this.shootPistol = new Animation(Assets.pistolShoot, 50);
         this.animationFeet = new Animation(Assets.playerFeet, 25);
