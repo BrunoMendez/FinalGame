@@ -56,9 +56,15 @@ public class Weapon {
     
     public void tick(){
         if(game.getKeyManager().uno){
+            if(type != 1) {
+                Assets.pistolChangeSound.play();
+            }
             type = 1;
         }
         if(game.getKeyManager().dos){
+            if(type != 2) {
+                Assets.shotgunChangeSound.play();
+            }
             type = 2;
         }
     }
