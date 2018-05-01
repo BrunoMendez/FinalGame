@@ -345,6 +345,8 @@ public class Game implements Runnable {
         wavesControl(); 
         PlayerCollisionRocks();
         EnemyCollisonRocks();
+        EnemyCollisonTrees();
+        PlayerCollisionTrees();
         
     }
     
@@ -361,6 +363,7 @@ public class Game implements Runnable {
     private void tickGameOverMenu() {
         exitButton.tick();
     }
+    
     /**
      *  Player collision with rocks
      */
@@ -370,6 +373,47 @@ public class Game implements Runnable {
             ImmovableObj rock = (ImmovableObj) itr.next();
             rock.tick();
             if(player.intersects(rock)){
+                if(player.getDirection() == 4){
+                    player.setX(player.getX()+4);
+                }
+                else if(player.getDirection() == 3){
+                    player.setX(player.getX()-4);
+                }
+                else if(player.getDirection() == 1){
+                    player.setY(player.getY()+4);
+                }
+                else if(player.getDirection() == 2){
+                    player.setY(player.getY()-4);
+                }
+                if(player.getDirection() == 5){
+                    player.setY(player.getY()+2);
+                    player.setX(player.getX()-3);
+                }
+                else if(player.getDirection() == 6){
+                    player.setY(player.getY()+2);
+                    player.setX(player.getX()+3);
+                }
+                else if(player.getDirection() == 7){
+                    player.setY(player.getY()-2);
+                    player.setX(player.getX()-3);
+                }
+                else if(player.getDirection() == 8){
+                    player.setY(player.getY()-2);
+                    player.setX(player.getX()+3);
+                }
+            }
+        }
+    }
+    
+    /**
+     *  Player collision with trees
+     */
+    public void PlayerCollisionTrees(){
+        Iterator itr = trees.iterator();
+        while(itr.hasNext()){
+            ImmovableObj tree = (ImmovableObj) itr.next();
+            tree.tick();
+            if(player.intersects(tree)){
                 if(player.getDirection() == 4){
                     player.setX(player.getX()+4);
                 }
@@ -427,6 +471,39 @@ public class Game implements Runnable {
                         enemy.setX(enemy.getX()-2);
                     }
                     if(enemy.getY() + enemy.height >= rock.getY() && enemy.getDirection() == 2){
+                        enemy.setY(enemy.getY()-5);
+                        enemy.setX(enemy.getX()+2);
+                    }
+                }
+            } 
+        }
+    }
+    
+        /**
+     * Enemy collision with tree
+     */
+    public void EnemyCollisonTrees(){
+        Iterator itr = trees.iterator();
+        while(itr.hasNext()){
+            ImmovableObj tree = (ImmovableObj) itr.next();
+            Iterator itr2 = enemies.iterator();
+            while(itr2.hasNext()){
+                Enemy enemy = (Enemy) itr2.next();
+                if(enemy.intersects(tree)){
+                    itr2 = enemies.iterator();
+                    if(enemy.getX() <= tree.getX() + tree.width && enemy.getDirection() == 4){
+                        enemy.setX(enemy.getX()+2);
+                        enemy.setY(enemy.getY()+5);
+                    }
+                    if(enemy.getX() + enemy.width >= tree.getX() && enemy.getDirection() == 2){
+                        enemy.setX(enemy.getX()-2);
+                        enemy.setY(enemy.getY()-5);
+                    }
+                    if(enemy.getY() <= tree.getY() + tree.height && enemy.getDirection() == 1){
+                        enemy.setY(enemy.getY()+5);
+                        enemy.setX(enemy.getX()-2);
+                    }
+                    if(enemy.getY() + enemy.height >= tree.getY() && enemy.getDirection() == 2){
                         enemy.setY(enemy.getY()-5);
                         enemy.setX(enemy.getX()+2);
                     }
@@ -553,8 +630,22 @@ public class Game implements Runnable {
         //  PISTOL
         if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 200 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
             weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
-            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
+            if(player.getDirection() == 4){
+               bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), 1, this)); 
+            }
+            if(player.getDirection() == 3){
+                bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
+            }
+            if(player.getDirection() == 2){
+                bullets.add(new Bullet(player.getX() + player.getWidth()/4, player.getY() + player.getHeight()/2,
+                        5, 20, 10, player.getDirection(), 1, this));
+            }
+            if(player.getDirection() == 1){
+                bullets.add(new Bullet(player.getX() + player.getWidth() - player.getWidth()/4, player.getY(),
+                        5, 20, 10, player.getDirection(), 1, this));
+            }
             bulletTimer = System.currentTimeMillis();
         }
         //  SHOTGUN
@@ -671,6 +762,14 @@ public class Game implements Runnable {
                 while(itr3.hasNext()){
                     ImmovableObj rock = (ImmovableObj) itr3.next();
                     if(rock.intersects(bullet)){
+                        bullets.remove(bullet);
+                        itr = bullets.iterator();
+                    }
+                }
+                Iterator itr4 = trees.iterator();
+                while(itr4.hasNext()){
+                    ImmovableObj tree = (ImmovableObj) itr4.next();
+                    if(tree.intersects(bullet)){
                         bullets.remove(bullet);
                         itr = bullets.iterator();
                     }
