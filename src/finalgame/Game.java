@@ -581,10 +581,10 @@ public class Game implements Runnable {
                 boxes.remove(box);
                 itr = boxes.iterator();
                 //  Random weapon
-                if(waveCounter >= 5){
+                if(waveCounter >= 3){
                     randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);   
                 }
-                if(waveCounter >= 8){
+                if(waveCounter >= 4){
                     randomWeapon = ThreadLocalRandom.current().nextInt(1, 3 + 1);   
                 }
                 int randomAmmo = ThreadLocalRandom.current().nextInt(5, 10 + 1);
