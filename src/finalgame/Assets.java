@@ -30,7 +30,9 @@ public class Assets {
     public static BufferedImage playerShotgun[];
     public static BufferedImage pistolShoot[];
     public static BufferedImage shotgunShoot[];
-    
+    public static SoundClip buttonClickedSound;      // to acknowledge when a button is clicked
+    public static SoundClip pistolChangeSound;       // to feedback when changing weapon to pistol
+    public static SoundClip shotgunChangeSound;      // to feedback when changing weapon to shotgun
     /**
      * To initialize assets
      */
@@ -42,23 +44,18 @@ public class Assets {
 
         startButton = new BufferedImage[2];
         startButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonStartClear.png");
-        startButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonStartPressed.png");
         
         quitButton = new BufferedImage[2];
         quitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitClear.png");
-        quitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitPressed.png");
         
         resumeButton = new BufferedImage[2];
         resumeButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonResumeClear.png");
-        resumeButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonResumePressed.png");
         
-        exitButton = new BufferedImage[3];
+        exitButton = new BufferedImage[2];
         exitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClear.png");
-        exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitPressed.png");
-        exitButton[2] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClearGO.png");
-        
-        //  rocks
-        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock2.png"));
+        exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClearGO.png");
+        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
+
         rock = new BufferedImage[1];
         rock[0] = ssRock.crop(0, 0, 160, 150);
         
@@ -137,6 +134,10 @@ public class Assets {
         for(int i = 0; i<3; i++){
             shotgunShoot[i] = ImageLoader.loadImage("/images/player/shotgun/shoot/survivor-shoot_shotgun_"+ i + ".png");
         }
+        
+        buttonClickedSound = new SoundClip("/sounds/buttonClickGeneral.wav");
+        pistolChangeSound = new SoundClip("/sounds/pistolChange.wav");
+        shotgunChangeSound = new SoundClip("/sounds/shotgunChange.wav");
         
     }
 }

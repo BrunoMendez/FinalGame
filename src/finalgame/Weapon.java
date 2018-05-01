@@ -88,10 +88,16 @@ public class Weapon {
     public void tick(){
         // Pistol
         if(game.getKeyManager().uno){
+            if(type != 1) {
+                Assets.pistolChangeSound.play();
+            }
             type = 1;
         }
         // Shotgun
         if(game.getKeyManager().dos){
+            if(type != 2) {
+                Assets.shotgunChangeSound.play();
+            }
             type = 2;
         }
         // Laser

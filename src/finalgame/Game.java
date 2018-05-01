@@ -11,7 +11,6 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
-import java.awt.BorderLayout;
 /**
  *
  * @author antoniomejorado
@@ -56,6 +55,11 @@ public class Game implements Runnable {
     public MenuItem startButton;    //Start menu Button
     public MenuItem resumeButton;    // Resume pause menu button
     public MenuItem exitButton;   //Exit pause menu button
+    public boolean frameExists;   //Check whether a Frame has been created
+    private SoundClip backgroundMenuMusic; // to Store background music on the Menu
+    private SoundClip backgroundGameMusic; // to Store background music on Game
+    private boolean musicSelect;    // to know when music should change
+    
     /**
      * to create title, width and height and set the game is still not running
      *
@@ -75,15 +79,16 @@ public class Game implements Runnable {
         startButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7+50)), width/4,height/7-40,1, this);
         resumeButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7+100)), width/4,height/7-40,3, this);
         exitButton = new MenuItem(width/2 - (width/4/2), height/5+((height/7*2+90)), width/4,height/7-40,4, this);
-
+        backgroundMenuMusic = new SoundClip("/sounds/MenuSound.wav");
+        backgroundGameMusic = new SoundClip("/sounds/BackgroundInGame.wav");
+        
+        frameExists = false;
         gameOver = false;
         started = false;
         lastTime = System.currentTimeMillis();
         MAX_ENEMIES = 7;
         startOfWave = false;
         score = 0;
-        //tweet = new SoundClip("/sounds/twitter_ios.wav", 0, false);
-        //hit = new SoundClip("/sounds/hit.wav", 0, false);
         win = false;
         waveCounter = 1;
         bulletTimer = System.currentTimeMillis();
@@ -128,9 +133,16 @@ public class Game implements Runnable {
      */
     public void init() {
         //Display
+        if(frameExists == true) {
+            display.getJframe().dispose();
+        }
         display = new Display(title, getWidth(), getHeight());
+        frameExists = true;
         Assets.init();
-        
+        backgroundGameMusic.setLooping(true);
+        backgroundGameMusic.stop();
+        backgroundMenuMusic.setLooping(true);
+        backgroundMenuMusic.play();
         //Mouse
         display.getJframe().addMouseListener(mouseManager);
         display.getJframe().addMouseMotionListener(mouseManager);
@@ -216,6 +228,19 @@ public class Game implements Runnable {
             lastTime = now;
             // if delta is positive we tick the game
             if (delta >= 1) {
+                
+                if (musicSelect) {
+                    if (startGame) {
+                        backgroundMenuMusic.stop();
+                        backgroundGameMusic.play();
+                    }
+                    else {
+                        backgroundGameMusic.stop();
+                        backgroundMenuMusic.play();  
+                    }
+                    musicSelect = false;
+                }
+                
                 tick();
                 render();
                 delta--;
@@ -351,17 +376,17 @@ public class Game implements Runnable {
     }
     
     private void tickMainMenu() {
-        quitButton.tick();
-        startButton.tick();
+        quitButton.tick(g);
+        startButton.tick(g);
     }
     
     private void tickPauseMenu() {
-        resumeButton.tick();
-        exitButton.tick();
+        resumeButton.tick(g);
+        exitButton.tick(g);
     }
     
     private void tickGameOverMenu() {
-        exitButton.tick();
+        exitButton.tick(g);
     }
     
     /**
@@ -817,7 +842,7 @@ public class Game implements Runnable {
      * Render Main Menu screen
      * @param g 
      */
-    private void renderMenuScreen(Graphics g) {
+    public void renderMenuScreen(Graphics g) {
         //render Background
          g.drawImage(Assets.menu1, 0, 0, width, height, null);
          startButton.render(g);
@@ -939,4 +964,21 @@ public class Game implements Runnable {
     public boolean getGameOver(){
         return gameOver;
     }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public boolean isStartGame() {
+        return startGame;
+    }
+    
+    public boolean isMusicSelect() {
+        return musicSelect;
+    }
+    
+    public void setMusicSelect(boolean m) {
+        musicSelect = m;
+    }
+   
 }

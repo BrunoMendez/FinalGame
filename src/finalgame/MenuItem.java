@@ -25,20 +25,16 @@ public class MenuItem extends Item{
         clicked = false;
     }
 
-    @Override
-    public void tick() {
-        
-        if (clicked) {
-            
+    public void tick(Graphics g) {   
+        if (clicked) { 
             if (game.getMouseManager().getX() > getX() && game.getMouseManager().getX() < getX()+width) {
                 if (game.getMouseManager().getY() > getY() && game.getMouseManager().getY() < getY()+height) {
-                    System.out.println("Clicked on a Button");
-                    buttonAction();
-                    clicked = false;
+                    Assets.buttonClickedSound.play();
+                    buttonAction();                 
                 }
             }
-        }
-        clicked = false;
+            clicked = false;
+        }       
     }
 
     @Override
@@ -46,7 +42,7 @@ public class MenuItem extends Item{
         
         switch (itemType) {
             case 1:  
-                g.drawImage(Assets.startButton[0], getX(), getY(), getWidth(), getHeight(), null);
+                 g.drawImage(Assets.startButton[0], getX(), getY(), getWidth(), getHeight(), null);   
                 break;
             case 2:  
                 g.drawImage(Assets.quitButton[0], getX(), getY(), getWidth(), getHeight(), null);
@@ -70,8 +66,8 @@ public class MenuItem extends Item{
     }
     public void buttonAction(){
         if (itemType == 1) {
-            
             game.setStartGame(true);
+            game.setMusicSelect(true);
         }
         else if(itemType == 2) {
             System.exit(0);
@@ -101,6 +97,10 @@ public class MenuItem extends Item{
     }
     public void setClicked(boolean click){
         clicked = click;
+    }
+
+    @Override
+    public void tick() {
     }
     
     

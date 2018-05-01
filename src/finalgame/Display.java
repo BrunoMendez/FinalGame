@@ -16,6 +16,7 @@ public class Display {
     private String title; // Title of the window
     private int width; // Width of the window
     private int height; // Height of the window
+  
     
     
     /**
@@ -36,8 +37,9 @@ public class Display {
      */
     public void createDisplay(){
         // Create the app window
-        jframe = new JFrame(title);
         
+        
+        jframe = new JFrame(title);
         // set the size of the window
         jframe.setSize(width, height);
         
