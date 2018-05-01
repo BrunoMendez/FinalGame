@@ -140,8 +140,10 @@ public class Game implements Runnable {
         frameExists = true;
         Assets.init();
         backgroundGameMusic.setLooping(true);
+        backgroundGameMusic.setVolume(0.4);
         backgroundGameMusic.stop();
         backgroundMenuMusic.setLooping(true);
+        backgroundMenuMusic.setVolume(0.4);
         backgroundMenuMusic.play();
         //Mouse
         display.getJframe().addMouseListener(mouseManager);

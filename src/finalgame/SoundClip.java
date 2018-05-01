@@ -12,6 +12,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioSystem;
 import java.io.IOException;
 import java.net.URL;
+import javax.sound.sampled.FloatControl;
 /**
  *
  * @author antoniomejorado
@@ -23,7 +24,7 @@ public class SoundClip {
     private boolean looping = false;
     private int repeat = 0;
     private String filename = "";
-
+    private FloatControl volume;
     /**
      * Constructor default
      */
@@ -31,6 +32,7 @@ public class SoundClip {
         try {
             //crea el Buffer de sonido
             clip = AudioSystem.getClip();
+            
         } catch (LineUnavailableException e) { 
         }
     }
@@ -45,6 +47,7 @@ public class SoundClip {
         this();
         //Carga el archivo de sonido.
         load(filename);
+        volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
     }
 
     /** 
@@ -169,6 +172,11 @@ public class SoundClip {
     public void stop() {
         clip.stop();
     }
-
+    
+    public void setVolume(double vol) {
+        double gain = vol; // number between 0 and 1 (loudest)
+        float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+        volume.setValue(dB);
+    }
 }
 
