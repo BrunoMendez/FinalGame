@@ -86,7 +86,7 @@ public class Weapon {
     }
     
     public void tick(){
-        // Pistol
+      // Pistol
         if(game.getKeyManager().uno){
             if(type != 1) {
                 Assets.pistolChangeSound.play();

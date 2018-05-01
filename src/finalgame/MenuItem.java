@@ -55,7 +55,7 @@ public class MenuItem extends Item{
                     g.drawImage(Assets.exitButton[0], getX(), getY(), getWidth(), getHeight(), null);
                 }
                 else {
-                    g.drawImage(Assets.exitButton[2], getX(), getY(), getWidth(), getHeight(), null);
+                    g.drawImage(Assets.exitButton[1], getX(), getY(), getWidth(), getHeight(), null);
                 }
                 break;
             default: g.drawImage(Assets.startButton[0], getX(), getY(), getWidth(), getHeight(), null);
