@@ -37,6 +37,7 @@ public class Game implements Runnable {
     private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
     private ArrayList<ImmovableObj> rocks;
+    private ArrayList<ImmovableObj> trees;
     private boolean gameOver;            // To stop the game
     private boolean started;             // to start the game
     private boolean paused;                 // to pause the game
@@ -138,7 +139,7 @@ public class Game implements Runnable {
         
         //Boxes
         boxes = new ArrayList<Box>();
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < 10; i++){
             box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 15, 15, this);
             boxes.add(box);
         }
@@ -160,13 +161,23 @@ public class Game implements Runnable {
         display.getJframe().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
+        
         //rocks
         rocks = new ArrayList<ImmovableObj>();
         for(int i = 0; i < 10; i++){
             int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
             int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
-            ImmovableObj rock = new ImmovableObj(randX, randY, 50, 50);
+            ImmovableObj rock = new ImmovableObj(randX, randY, 50, 50, 2);
             rocks.add(rock); 
+        }
+        
+        //trees
+        trees = new ArrayList<ImmovableObj>();
+        for(int i = 0; i < 10; i++){
+            int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
+            int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
+            ImmovableObj tree = new ImmovableObj(randX, randY, 50, 50, 1);
+            trees.add(tree);
         }
         
         //enemies
@@ -460,16 +471,36 @@ public class Game implements Runnable {
             Box box = (Box) itr.next();
             box.tick();
             if(getPlayer().intersects(box)){
+                //  Guarda la weapon a la que se le va a agregar la municion
+                int randomWeapon = 1;
+                //  Remover la box cuando la "pisa"
                 boxes.remove(box);
                 itr = boxes.iterator();
-                int randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-                int randomAmmo = ThreadLocalRandom.current().nextInt(10, 20 + 1);
+                //  Random weapon
+                if(waveCounter >= 5){
+                    randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);   
+                }
+                if(waveCounter >= 8){
+                    randomWeapon = ThreadLocalRandom.current().nextInt(1, 3 + 1);   
+                }
+                int randomAmmo = ThreadLocalRandom.current().nextInt(5, 10 + 1);
+                if(waveCounter >= 8){
+                    randomAmmo = ThreadLocalRandom.current().nextInt(5, 10 + waveCounter/2 + 1);
+                }
                 //System.out.println("" + randomWeapon);
                 if(randomWeapon == 1){
                 weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()+randomAmmo);
                 }
                 if(randomWeapon == 2){
                 weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()+randomAmmo);
+                }
+                if(randomWeapon == 3 && weapon.getAmmoLASER() <= 100){
+                    if(weapon.getAmmoLASER() + randomAmmo > 100){
+                        weapon.setAmmoLASER(100);
+                    }
+                    else {
+                        weapon.setAmmoLASER(weapon.getAmmoLASER()+randomAmmo);
+                    }
                 }
             }
         }
@@ -520,7 +551,7 @@ public class Game implements Runnable {
     
     public void shootPlayer(){
         //  PISTOL
-        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 200 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
             weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
             bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
@@ -610,7 +641,18 @@ public class Game implements Runnable {
                     //  get specific enemy 
                     Enemy enemy = (Enemy) itr2.next();
                     if (enemy.intersects(bullet)){
-                        enemy.setHealth(enemy.getHealth()-30);
+                        //  Daño pistol
+                        if(weapon.getType() == 1){
+                            enemy.setHealth(enemy.getHealth()-30);
+                        }
+                        //  Daño shotgun
+                        if(weapon.getType() == 2){
+                            enemy.setHealth(enemy.getHealth()-30);
+                        }
+                        //  Daño laser
+                        if(weapon.getType() == 3){
+                            enemy.setHealth(enemy.getHealth()-40);
+                        }
                         // remove enemy
                         itr2 = enemies.iterator();
                         if(enemy.getHealth() <= 0){
@@ -624,6 +666,7 @@ public class Game implements Runnable {
                         crashed = true;
                     }
                 } 
+                //  Bullets se destruyen al chocar con una roca o arbol
                 Iterator itr3 = rocks.iterator();
                 while(itr3.hasNext()){
                     ImmovableObj rock = (ImmovableObj) itr3.next();
@@ -696,6 +739,12 @@ public class Game implements Runnable {
             while(itrRock.hasNext()){
                 ImmovableObj rock = (ImmovableObj) itrRock.next();
                 rock.render(g);
+            }
+            //render trees
+            Iterator itrTree = trees.iterator();
+            while(itrTree.hasNext()){
+                ImmovableObj tree = (ImmovableObj) itrTree.next();
+                tree.render(g);
             }
             //render boxes
             Iterator itrB = boxes.iterator();

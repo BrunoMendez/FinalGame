@@ -24,9 +24,9 @@ public class Weapon {
     public Weapon(Game game) {
        this.game = game; 
        type = 1;
-       ammoPISTOL = 30;
-       ammoSHOTGUN = 20;
-       ammoLASER = 100;
+       ammoPISTOL = 999;
+       ammoSHOTGUN = 0;
+       ammoLASER = 0;
     }
     
     /**
@@ -98,7 +98,5 @@ public class Weapon {
         if(game.getKeyManager().tres){
             type = 3;
         }
-    }
-    
-    
+    }   
 }
