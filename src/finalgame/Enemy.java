@@ -29,7 +29,6 @@ public class Enemy extends Item {
     private Animation animationAttack;  //attack animation
     private Animation currentAnimation;  //Current animation state;
     private long lastTime;
-    private boolean crashed;
     private int damage;
 
     public Enemy(int x, int y, int width, int height, int speed, int direction, int health, int enemyType, Game game) {
@@ -41,10 +40,9 @@ public class Enemy extends Item {
         this.enemyType = enemyType;
         this.lastTime = System.currentTimeMillis();
         this.animationRun = new Animation(Assets.zombieRun, 25);
-        this.animationAttack = new Animation(Assets.zombieAttack, 40);
-        this.crashed = false;
+        this.animationAttack = new Animation(Assets.zombieAttack, 20);
         this.currentAnimation = animationRun;
-        this.damage = 50;
+        this.damage = 10;
     }
 
     public void setLastTime(long lastTime) {
@@ -138,9 +136,12 @@ public class Enemy extends Item {
     @Override
     public void tick() {
         //Moving enemy towards player
+        // 1 up
+        // 2 down
+        // 3 right
+        // 4 left
         if(!game.getPlayer().intersects(this)){
             currentAnimation = animationRun;
-            crashed = false;
             if(game.getPlayer().getX() + (game.getPlayer().getWidth()/2) > getX() + (getWidth()/2)){
                 setX(getX() +  speed);
                 direction = 3;
@@ -159,11 +160,13 @@ public class Enemy extends Item {
             }
         }
         else{
-            crashed = true;
             currentAnimation = animationAttack;
             if(currentAnimation.isLoopCompleted()){
                 game.getPlayer().setHealth(game.getPlayer().getHealth()-damage);
-                
+                game.getPlayer().setIsHit(true);
+            }
+            else{
+                game.getPlayer().setIsHit(false);
             }
         }
         this.currentAnimation.tick();

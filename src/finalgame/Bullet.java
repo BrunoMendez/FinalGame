@@ -243,7 +243,10 @@ public class Bullet extends Item{
     
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.red);
+        g.setColor(Color.GRAY);
+        if(game.getWeapon().getType() == 3){
+            g.setColor(Color.cyan);   
+        }
         //g.fillRect(getX(), getY(), getWidth(), getHeight());
         //paintBullet();
         Rectangle rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -252,6 +255,7 @@ public class Bullet extends Item{
         Shape transformed = transform.createTransformedShape(rectangle);
         Graphics2D g2 = (Graphics2D)g;
         g2.fill(transformed);
+        g.setColor(Color.black);
     }
     
     public void paintBullet(Graphics g, int direction){

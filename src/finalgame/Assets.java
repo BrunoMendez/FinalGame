@@ -18,6 +18,7 @@ public class Assets {
     public static BufferedImage exitButton[];     // to store quit button images for Menu
     public static BufferedImage box[];          // to store the box image
     public static BufferedImage rock[];
+    public static BufferedImage tree[];
     public static BufferedImage playerUp[];      //to store player up animation
     public static BufferedImage playerDown[];      //to store player down animation
     public static BufferedImage playerRight[];     //to store player right animation
@@ -54,14 +55,21 @@ public class Assets {
         exitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClear.png");
         exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClearGO.png");
         SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
+
         rock = new BufferedImage[1];
-        rock[0] = ssRock.crop(0, 0, 256, 256);
+        rock[0] = ssRock.crop(0, 0, 160, 150);
+        
+        //  trees
+        SpriteSheet ssTree = new SpriteSheet(ImageLoader.loadImage("/images/tree.png"));
+        tree = new BufferedImage[1];
+        tree[0] = ssTree.crop(0, 0, 1184, 1280);
         
         //  To store the animation of the box
-        SpriteSheet ss = new SpriteSheet(ImageLoader.loadImage("/images/box1.png"));
-        SpriteSheet ss2 = new SpriteSheet(ImageLoader.loadImage("/images/box2.png"));
-	box = new BufferedImage[1];
-	box[0] = ss.crop(0, 0, 180, 150);
+        SpriteSheet ss = new SpriteSheet(ImageLoader.loadImage("/images/box3.png"));
+        SpriteSheet ss2 = new SpriteSheet(ImageLoader.loadImage("/images/box4.png"));
+	box = new BufferedImage[2];
+	box[0] = ss.crop(0, 0, 22, 21);
+        box[1] = ss2.crop(0, 0, 25, 20);
         
         //To store the player animation       
         SpriteSheet playerSS = new SpriteSheet (ImageLoader.loadImage("/images/player.png"));

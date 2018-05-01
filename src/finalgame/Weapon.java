@@ -12,12 +12,10 @@ package finalgame;
 public class Weapon {
     
     private Game game;
-    private boolean PISTOL, UZI, SHOTGUN, ROCKET;                       //  constants to store the position of thw weapons 
-    private String[] weaponString = new String[4];                      //  names of all the weapons
-    public int[] allWeaponsNum = new int[4];                            //  number of consecutive kills needed for each weapon
     private int type;
     private int ammoPISTOL;
     private int ammoSHOTGUN;
+    private int ammoLASER;
     
     /**
      * <code>Weapon</code> Constructor
@@ -26,82 +24,85 @@ public class Weapon {
     public Weapon(Game game) {
        this.game = game; 
        type = 1;
-       ammoPISTOL = 30;
-       ammoSHOTGUN = 20;
-       //addWeapon();
-       //addWeaponNames();
+       ammoPISTOL = 999;
+       ammoSHOTGUN = 0;
+       ammoLASER = 0;
     }
     
+    /**
+     * Getter ammo pistol 
+     * @return 
+     */
     public int getAmmoPISTOL() {
         return ammoPISTOL;
     }
-
+    
+    /**
+     * Setter ammo pistol
+     * @param ammoPISTOL 
+     */
     public void setAmmoPISTOL(int ammoPISTOL) {
         this.ammoPISTOL = ammoPISTOL;
     }
 
+    /**
+     * Getter ammo shotgun
+     * @return 
+     */
     public int getAmmoSHOTGUN() {
         return ammoSHOTGUN;
     }
 
+    /**
+     * Setter ammo shotgun
+     * @param ammoSHOTGUN 
+     */
     public void setAmmoSHOTGUN(int ammoSHOTGUN) {
         this.ammoSHOTGUN = ammoSHOTGUN;
     }
     
-    
+        /**
+     * Getter ammo shotgun
+     * @return 
+     */
+    public int getAmmoLASER() {
+        return ammoLASER;
+    }
 
+    /**
+     * Setter ammo shotgun
+     * @param ammoSHOTGUN 
+     */
+    public void setAmmoLASER(int ammoLASER) {
+        this.ammoLASER = ammoLASER;
+    }
+    
+    /**
+     * Return the weapon type
+     * @return 
+     */
     public int getType() {
         return type;
     }
     
     public void tick(){
+        // Pistol
         if(game.getKeyManager().uno){
             if(type != 1) {
                 Assets.pistolChangeSound.play();
             }
             type = 1;
         }
+        // Shotgun
         if(game.getKeyManager().dos){
             if(type != 2) {
                 Assets.shotgunChangeSound.play();
             }
             type = 2;
         }
-    }
-    /**
-     * Adds the number of consecutive kills needed for each upgrade
-     */
-    public void addWeapon(){
-    }
-    
-    /**
-     * Set the names of each upgrade
-     */
-    public void addWeaponNames(){
-        weaponString[0] = "PISTOL";
-        weaponString[1] = "UZU";
-        weaponString[2] = "SHOTGUN";
-        weaponString[3] = "ROCKET";
-    }
-    
-    /**
-     * Get the name of the weapon at n
-     * @param n
-     * @return weaopnString[n]
-     */
-    public String getWeaponNames(int n){
-        return weaponString[n];
-    }
-    
-    /**
-     * Get the weapon at n
-     * @param n 
-     */
-    public void getWeapon(){
-        if(PISTOL = game.getKeyManager().isUno()){
-            
+        // Laser
+        if(game.getKeyManager().tres){
+            type = 3;
         }
-        
-    }
-    
+    }   
 }

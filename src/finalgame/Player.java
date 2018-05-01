@@ -44,7 +44,7 @@ public class Player extends Item{
         super(x, y, width, height);
         this.game = game;
         this.health = health;
-        direction = 1;
+        direction = 3;
         
         this.shootPistol = new Animation(Assets.pistolShoot, 50);
         this.animationFeet = new Animation(Assets.playerFeet, 25);
@@ -79,7 +79,13 @@ public class Player extends Item{
     public int getDirection(){
         return direction;
     }
-    
+
+    public void setIsHit(boolean isHit) {
+        this.isHit = isHit;
+    }
+    public boolean isHit(){
+        return isHit;
+    }
     
     @Override
     public void tick() {
@@ -199,5 +205,13 @@ public class Player extends Item{
         g2.drawImage(a.getCurrentFrame(), 0, 0, null);
         g.drawImage(blankCanvas, getX(), getY(), 
                 getWidth(), getHeight(), null);
+        if(isHit){
+            g.setColor(Color.RED);
+            g.drawString("Health: " + health, getX()+getWidth()/4, getY() - 13);
+            g.setColor(Color.black);
+        }
+        else{
+            g.drawString("Health: " + health, getX()+getWidth()/4, getY() - 13);
+        }
     }
 }

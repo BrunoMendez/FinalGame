@@ -36,6 +36,7 @@ public class Game implements Runnable {
     private ArrayList<Bullet> bullets;          // player bullets
     private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
     private ArrayList<ImmovableObj> rocks;
+    private ArrayList<ImmovableObj> trees;
     private boolean gameOver;            // To stop the game
     private boolean started;             // to start the game
     private boolean paused;                 // to pause the game
@@ -113,11 +114,16 @@ public class Game implements Runnable {
     public int getHeight() {
         return height;
     }
-
+    /**
+     * To check if the game has started
+     * @return 
+     */
     public boolean isStarted() {
         return started;
     }
-
+    /**
+     * check started status
+    */
     public void setStarted(boolean started) {
         this.started = started;
     }
@@ -145,7 +151,7 @@ public class Game implements Runnable {
         
         //Boxes
         boxes = new ArrayList<Box>();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 10; i++){
             box = new Box(ThreadLocalRandom.current().nextInt(0, getWidth() + 1), ThreadLocalRandom.current().nextInt(0, getHeight() + 1), 15, 15, this);
             boxes.add(box);
         }
@@ -167,13 +173,23 @@ public class Game implements Runnable {
         display.getJframe().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
+        
         //rocks
         rocks = new ArrayList<ImmovableObj>();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 10; i++){
             int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
             int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
-            ImmovableObj rock = new ImmovableObj(randX, randY, 20, 20);
+            ImmovableObj rock = new ImmovableObj(randX, randY, 50, 50, 2);
             rocks.add(rock); 
+        }
+        
+        //trees
+        trees = new ArrayList<ImmovableObj>();
+        for(int i = 0; i < 10; i++){
+            int randX = ThreadLocalRandom.current().nextInt(0, getWidth() + 1);
+            int randY = ThreadLocalRandom.current().nextInt(0, getHeight() + 1);
+            ImmovableObj tree = new ImmovableObj(randX, randY, 50, 50, 1);
+            trees.add(tree);
         }
         
         //enemies
@@ -186,21 +202,6 @@ public class Game implements Runnable {
             Enemy enemy = new Enemy(randX, randY, 30, 30, 2, 0, 100, 0, this);
             enemies.add(enemy); 
         }
-        int randX2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getWidth()) 
-                : 3 * -(int)(Math.random() * getWidth());
-        int randY2 = (Math.random() > 0.5) ? 3 * (int)(Math.random() * getHeight())
-                : 3 * -(int)(Math.random() * getHeight());
-        Enemy2 enemy2 = new Enemy2(randX2, randY2, 56, 56, 0, 0, 100, this);
-        //creating enemies
-        /*
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 5; j++) {
-                int width_brick = getWidth() / 10;
-                Brick brick = new Brick(i * width_brick + 2, 30 * j + 10, width_brick - 10, 25, 5 - j, this);
-                bricks.add(brick);
-            }
-        }
-        */
         display.getJframe().addKeyListener(keyManager);
     }
 
@@ -247,15 +248,25 @@ public class Game implements Runnable {
         }
         stop();
     }
-
+    /**
+     * 
+     * @return keyManager
+     */
     public KeyManager getKeyManager() {
         return keyManager;
     }
-    
+    /**
+     * 
+     * @return mouseManager
+     */
     public MouseManager getMouseManager() {
         return mouseManager;
     }
     
+    /**
+     * 
+     * @return player
+     */
     public Player getPlayer() {
         return player;
     }
@@ -267,7 +278,10 @@ public class Game implements Runnable {
     public Box getBox() {
         return box;
     }
-
+    /**
+     * 
+     * @return enemies
+     */
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
@@ -305,21 +319,31 @@ public class Game implements Runnable {
     public void setPaused(boolean p) {
         paused = p;
     }
-        
+    /**
+     * main tick function
+     */
     private void tick() {
         keyManager.tick();
-        //check if player is over the box
-        paused = keyManager.getP();
-        
+        //check if game is started
+        if(startGame){
+            paused = keyManager.getP();
+        }
+        else{
+            paused = false;
+        }
+        // checks if game over
         if(player.getHealth() <= 0){
             gameOver = true;
         }
-        if (!startGame && !paused && !gameOver) {
+        //checks if we are in the main menu
+        if (!startGame && ! paused && !gameOver) {
             tickMainMenu();
         }
+        //checks if game is startes and unpaused
         if (startGame && !paused && !gameOver) {
             tickGame();
         }
+        //checks if game is paused
         if (paused && !gameOver) {
             tickPauseMenu();
         }
@@ -329,12 +353,14 @@ public class Game implements Runnable {
     }
     
     private void tickGame() {
-        
+        //checks if player is over box
         PlayerOverBox();
+        //spawns random boxes
         box.tick();
+        //weapon type
         weapon.tick();
+        //player movement
         player.tick();
-        //System.out.println(player.getHealth());
         //shoot tick
         shootPlayer();
         BulletTick();
@@ -344,6 +370,8 @@ public class Game implements Runnable {
         wavesControl(); 
         PlayerCollisionRocks();
         EnemyCollisonRocks();
+        EnemyCollisonTrees();
+        PlayerCollisionTrees();
         
     }
     
@@ -360,6 +388,7 @@ public class Game implements Runnable {
     private void tickGameOverMenu() {
         exitButton.tick(g);
     }
+    
     /**
      *  Player collision with rocks
      */
@@ -369,17 +398,74 @@ public class Game implements Runnable {
             ImmovableObj rock = (ImmovableObj) itr.next();
             rock.tick();
             if(player.intersects(rock)){
-                if(player.getX() <= rock.getX() + rock.width && player.getDirection() == 4){
-                    player.setX(player.getX()+3);
+                if(player.getDirection() == 4){
+                    player.setX(player.getX()+4);
                 }
-                if(player.getX() + player.width >= rock.getX() && player.getDirection() == 3){
+                else if(player.getDirection() == 3){
+                    player.setX(player.getX()-4);
+                }
+                else if(player.getDirection() == 1){
+                    player.setY(player.getY()+4);
+                }
+                else if(player.getDirection() == 2){
+                    player.setY(player.getY()-4);
+                }
+                if(player.getDirection() == 5){
+                    player.setY(player.getY()+2);
                     player.setX(player.getX()-3);
                 }
-                if(player.getY() <= rock.getY() + rock.height && player.getDirection() == 1){
-                    player.setY(player.getY()+3);
+                else if(player.getDirection() == 6){
+                    player.setY(player.getY()+2);
+                    player.setX(player.getX()+3);
                 }
-                if(player.getY() + player.height >= rock.getY() && player.getDirection() == 2){
-                    player.setY(player.getY()-3);
+                else if(player.getDirection() == 7){
+                    player.setY(player.getY()-2);
+                    player.setX(player.getX()-3);
+                }
+                else if(player.getDirection() == 8){
+                    player.setY(player.getY()-2);
+                    player.setX(player.getX()+3);
+                }
+            }
+        }
+    }
+    
+    /**
+     *  Player collision with trees
+     */
+    public void PlayerCollisionTrees(){
+        Iterator itr = trees.iterator();
+        while(itr.hasNext()){
+            ImmovableObj tree = (ImmovableObj) itr.next();
+            tree.tick();
+            if(player.intersects(tree)){
+                if(player.getDirection() == 4){
+                    player.setX(player.getX()+4);
+                }
+                else if(player.getDirection() == 3){
+                    player.setX(player.getX()-4);
+                }
+                else if(player.getDirection() == 1){
+                    player.setY(player.getY()+4);
+                }
+                else if(player.getDirection() == 2){
+                    player.setY(player.getY()-4);
+                }
+                if(player.getDirection() == 5){
+                    player.setY(player.getY()+2);
+                    player.setX(player.getX()-3);
+                }
+                else if(player.getDirection() == 6){
+                    player.setY(player.getY()+2);
+                    player.setX(player.getX()+3);
+                }
+                else if(player.getDirection() == 7){
+                    player.setY(player.getY()-2);
+                    player.setX(player.getX()-3);
+                }
+                else if(player.getDirection() == 8){
+                    player.setY(player.getY()-2);
+                    player.setX(player.getX()+3);
                 }
             }
         }
@@ -397,20 +483,53 @@ public class Game implements Runnable {
                 Enemy enemy = (Enemy) itr2.next();
                 if(enemy.intersects(rock)){
                     itr2 = enemies.iterator();
-                    if(enemy.getX() <= rock.getX() + rock.width && enemy.getDirection() == 1){
+                    if(enemy.getX() <= rock.getX() + rock.width && enemy.getDirection() == 4){
                         enemy.setX(enemy.getX()+2);
-                        enemy.setY(enemy.getY()+2);
+                        enemy.setY(enemy.getY()+5);
                     }
                     if(enemy.getX() + enemy.width >= rock.getX() && enemy.getDirection() == 2){
                         enemy.setX(enemy.getX()-2);
-                        enemy.setY(enemy.getY()-2);
+                        enemy.setY(enemy.getY()-5);
                     }
                     if(enemy.getY() <= rock.getY() + rock.height && enemy.getDirection() == 1){
-                        enemy.setY(enemy.getY()+2);
+                        enemy.setY(enemy.getY()+5);
                         enemy.setX(enemy.getX()-2);
                     }
                     if(enemy.getY() + enemy.height >= rock.getY() && enemy.getDirection() == 2){
-                        enemy.setY(enemy.getY()-2);
+                        enemy.setY(enemy.getY()-5);
+                        enemy.setX(enemy.getX()+2);
+                    }
+                }
+            } 
+        }
+    }
+    
+        /**
+     * Enemy collision with tree
+     */
+    public void EnemyCollisonTrees(){
+        Iterator itr = trees.iterator();
+        while(itr.hasNext()){
+            ImmovableObj tree = (ImmovableObj) itr.next();
+            Iterator itr2 = enemies.iterator();
+            while(itr2.hasNext()){
+                Enemy enemy = (Enemy) itr2.next();
+                if(enemy.intersects(tree)){
+                    itr2 = enemies.iterator();
+                    if(enemy.getX() <= tree.getX() + tree.width && enemy.getDirection() == 4){
+                        enemy.setX(enemy.getX()+2);
+                        enemy.setY(enemy.getY()+5);
+                    }
+                    if(enemy.getX() + enemy.width >= tree.getX() && enemy.getDirection() == 2){
+                        enemy.setX(enemy.getX()-2);
+                        enemy.setY(enemy.getY()-5);
+                    }
+                    if(enemy.getY() <= tree.getY() + tree.height && enemy.getDirection() == 1){
+                        enemy.setY(enemy.getY()+5);
+                        enemy.setX(enemy.getX()-2);
+                    }
+                    if(enemy.getY() + enemy.height >= tree.getY() && enemy.getDirection() == 2){
+                        enemy.setY(enemy.getY()-5);
                         enemy.setX(enemy.getX()+2);
                     }
                 }
@@ -454,16 +573,36 @@ public class Game implements Runnable {
             Box box = (Box) itr.next();
             box.tick();
             if(getPlayer().intersects(box)){
+                //  Guarda la weapon a la que se le va a agregar la municion
+                int randomWeapon = 1;
+                //  Remover la box cuando la "pisa"
                 boxes.remove(box);
                 itr = boxes.iterator();
-                int randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-                int randomAmmo = ThreadLocalRandom.current().nextInt(10, 20 + 1);
+                //  Random weapon
+                if(waveCounter >= 5){
+                    randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);   
+                }
+                if(waveCounter >= 8){
+                    randomWeapon = ThreadLocalRandom.current().nextInt(1, 3 + 1);   
+                }
+                int randomAmmo = ThreadLocalRandom.current().nextInt(5, 10 + 1);
+                if(waveCounter >= 8){
+                    randomAmmo = ThreadLocalRandom.current().nextInt(5, 10 + waveCounter/2 + 1);
+                }
                 //System.out.println("" + randomWeapon);
                 if(randomWeapon == 1){
                 weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()+randomAmmo);
                 }
                 if(randomWeapon == 2){
                 weapon.setAmmoSHOTGUN(weapon.getAmmoSHOTGUN()+randomAmmo);
+                }
+                if(randomWeapon == 3 && weapon.getAmmoLASER() <= 100){
+                    if(weapon.getAmmoLASER() + randomAmmo > 100){
+                        weapon.setAmmoLASER(100);
+                    }
+                    else {
+                        weapon.setAmmoLASER(weapon.getAmmoLASER()+randomAmmo);
+                    }
                 }
             }
         }
@@ -514,12 +653,24 @@ public class Game implements Runnable {
     
     public void shootPlayer(){
         //  PISTOL
-        System.out.println(player.getDirection() + " " + this.keyManager.space);
-        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 200 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
             weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
-            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
+            if(player.getDirection() == 4){
+               bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), 1, this)); 
+            }
+            if(player.getDirection() == 3){
+                bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
-            System.out.println(weapon.getAmmoPISTOL());
+            }
+            if(player.getDirection() == 2){
+                bullets.add(new Bullet(player.getX() + player.getWidth()/4, player.getY() + player.getHeight()/2,
+                        5, 20, 10, player.getDirection(), 1, this));
+            }
+            if(player.getDirection() == 1){
+                bullets.add(new Bullet(player.getX() + player.getWidth() - player.getWidth()/4, player.getY(),
+                        5, 20, 10, player.getDirection(), 1, this));
+            }
             bulletTimer = System.currentTimeMillis();
         }
         //  SHOTGUN
@@ -532,6 +683,12 @@ public class Game implements Runnable {
             bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 22, this));
             bulletTimer = System.currentTimeMillis();
+        }
+        //  LASER
+        if(this.getKeyManager().space && weapon.getType() == 3 && weapon.getAmmoLASER() > 0){
+            weapon.setAmmoLASER(weapon.getAmmoLASER()-1);
+            bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
+                        5, 20, 10, player.getDirection(), 1, this));   
         }
     }
     
@@ -600,7 +757,18 @@ public class Game implements Runnable {
                     //  get specific enemy 
                     Enemy enemy = (Enemy) itr2.next();
                     if (enemy.intersects(bullet)){
-                        enemy.setHealth(enemy.getHealth()-30);
+                        //  Daño pistol
+                        if(weapon.getType() == 1){
+                            enemy.setHealth(enemy.getHealth()-30);
+                        }
+                        //  Daño shotgun
+                        if(weapon.getType() == 2){
+                            enemy.setHealth(enemy.getHealth()-30);
+                        }
+                        //  Daño laser
+                        if(weapon.getType() == 3){
+                            enemy.setHealth(enemy.getHealth()-40);
+                        }
                         // remove enemy
                         itr2 = enemies.iterator();
                         if(enemy.getHealth() <= 0){
@@ -614,6 +782,23 @@ public class Game implements Runnable {
                         crashed = true;
                     }
                 } 
+                //  Bullets se destruyen al chocar con una roca o arbol
+                Iterator itr3 = rocks.iterator();
+                while(itr3.hasNext()){
+                    ImmovableObj rock = (ImmovableObj) itr3.next();
+                    if(rock.intersects(bullet)){
+                        bullets.remove(bullet);
+                        itr = bullets.iterator();
+                    }
+                }
+                Iterator itr4 = trees.iterator();
+                while(itr4.hasNext()){
+                    ImmovableObj tree = (ImmovableObj) itr4.next();
+                    if(tree.intersects(bullet)){
+                        bullets.remove(bullet);
+                        itr = bullets.iterator();
+                    }
+                }
             }
         }
     }
@@ -679,6 +864,12 @@ public class Game implements Runnable {
                 ImmovableObj rock = (ImmovableObj) itrRock.next();
                 rock.render(g);
             }
+            //render trees
+            Iterator itrTree = trees.iterator();
+            while(itrTree.hasNext()){
+                ImmovableObj tree = (ImmovableObj) itrTree.next();
+                tree.render(g);
+            }
             //render boxes
             Iterator itrB = boxes.iterator();
             while(itrB.hasNext()){
@@ -705,6 +896,10 @@ public class Game implements Runnable {
             if(weapon.getType() == 2){
                 g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
                 g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height);
+            }
+            if(weapon.getType() == 3){
+                g.drawString("LASER", player.getX()+player.width/4, player.getY());
+                g.drawString("Ammo: " + weapon.getAmmoLASER(), 10, height);
             }
             //  Display the number of the wave
             g.drawString("Wave: " + waveCounter, 10, height-30);
