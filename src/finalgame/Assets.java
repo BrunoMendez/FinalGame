@@ -54,8 +54,8 @@ public class Assets {
         exitButton = new BufferedImage[2];
         exitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClear.png");
         exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClearGO.png");
-        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock.png"));
-
+        
+        SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock2.png"));
         rock = new BufferedImage[1];
         rock[0] = ssRock.crop(0, 0, 160, 150);
         
