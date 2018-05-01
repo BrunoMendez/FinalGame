@@ -68,10 +68,11 @@ public class Assets {
         tree[0] = ssTree.crop(0, 0, 1184, 1280);
         
         //  To store the animation of the box
-        SpriteSheet ss = new SpriteSheet(ImageLoader.loadImage("/images/box1.png"));
-        SpriteSheet ss2 = new SpriteSheet(ImageLoader.loadImage("/images/box2.png"));
-	box = new BufferedImage[1];
-	box[0] = ss.crop(0, 0, 180, 150);
+        SpriteSheet ss = new SpriteSheet(ImageLoader.loadImage("/images/box3.png"));
+        SpriteSheet ss2 = new SpriteSheet(ImageLoader.loadImage("/images/box4.png"));
+	box = new BufferedImage[2];
+	box[0] = ss.crop(0, 0, 22, 21);
+        box[1] = ss2.crop(0, 0, 25, 20);
         
         //To store the player animation       
         SpriteSheet playerSS = new SpriteSheet (ImageLoader.loadImage("/images/player.png"));
