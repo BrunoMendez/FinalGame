@@ -17,7 +17,7 @@ public class Animation {
     private long lastTime;          // last registered time
     private long timer;             // time passed
     private BufferedImage[] frames; // to store every image
-    private boolean loopCompleted;
+    private boolean loopCompleted;  // to store the loop state
     
     /**
      * <b>Animation</b> constructor with specified frames and speed
@@ -25,12 +25,12 @@ public class Animation {
      * @param speed is the speed the animation will run as
      */
     public Animation(BufferedImage[] frames, int speed) {
-        this.frames = frames;
-        this.speed = speed;
-        index = 0;
-        timer = 0;
+        this.frames = frames;                  // getting initial frame
+        this.speed = speed;                    // getting initial speed
+        index = 0;                             // initialize index in 0
+        timer = 0;                             // initialize timer in 0
         lastTime = System.currentTimeMillis(); // getting initial time
-        this.loopCompleted = false;
+        this.loopCompleted = false;            // initialize lopp in flase
     }
     
     /**
@@ -57,6 +57,10 @@ public class Animation {
         return frames[index];
     }
 
+    /**
+     * Returns the state of the loop
+     * @return boolean
+     */
     public boolean isLoopCompleted() {
         return loopCompleted;
     }

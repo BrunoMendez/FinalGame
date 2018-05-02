@@ -16,49 +16,48 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author antoniomejorado
  */
 public class Game implements Runnable {
-    private boolean startGame;
-    private BufferStrategy bs;      // to have several buffers when displaying
-    private Graphics g;             // to paint objects
-    private Display display;        // to display in the game
-    String title;                   // title of the window
-    private int width;              // width of the window
-    private int height;             // height of the window
-    private Thread thread;          // thread to create the game
-    private boolean running;        // to set the game
-    private Player player;          // to use a player
-    private Weapon weapon;          //type of weapon
-    private Box box;                // to create a box
-    private ImmovableObj rock;
-    private KeyManager keyManager;  // to manage the keyboard
-    private MouseManager mouseManager; // to manage the mouse actions
-    private ArrayList<Enemy> enemies; // my enemies
-    private ArrayList<Box>  boxes;      // loot boxes
-    private ArrayList<Bullet> bullets;          // player bullets
-    private ArrayList<EnemyBullet> enemyBullets; //enemy bullets
-    private ArrayList<ImmovableObj> rocks;
-    private ArrayList<ImmovableObj> trees;
-    private boolean gameOver;            // To stop the game
-    private boolean started;             // to start the game
-    private boolean paused;                 // to pause the game
-    private long lastTime;      //to keep track of time
-    private int score;                 	 //score
-    private boolean win;
-    private long bulletTimer;
-    private long lastTimeTickBox;
-    private long lastTimeTickEnemy;
-    private long waveTextTimer;
-    private int MAX_ENEMIES;
-    private boolean startOfWave;
-    private int waveCounter;
-    private long lastTimeTick;      //timer for tick
-    public MenuItem quitButton;     //Quit Menu Button
-    public MenuItem startButton;    //Start menu Button
-    public MenuItem resumeButton;    // Resume pause menu button
-    public MenuItem exitButton;   //Exit pause menu button
-    public boolean frameExists;   //Check whether a Frame has been created
-    private SoundClip backgroundMenuMusic; // to Store background music on the Menu
-    private SoundClip backgroundGameMusic; // to Store background music on Game
-    private boolean musicSelect;    // to know when music should change
+    private boolean startGame;                      // to save the start of the game
+    private BufferStrategy bs;                      // to have several buffers when displaying
+    private Graphics g;                             // to paint objects
+    private Display display;                        // to display in the game
+    String title;                                   // title of the window
+    private int width;                              // width of the window
+    private int height;                             // height of the window
+    private Thread thread;                          // thread to create the game
+    private boolean running;                        // to set the game
+    private Player player;                          // to use a player
+    private Weapon weapon;                          //type of weapon
+    private Box box;                                // to create a box
+    private ImmovableObj rock;                      // rock
+    private KeyManager keyManager;                  // to manage the keyboard
+    private MouseManager mouseManager;              // to manage the mouse actions
+    private ArrayList<Enemy> enemies;               // my enemies
+    private ArrayList<Box>  boxes;                  // loot boxes
+    private ArrayList<Bullet> bullets;              // player bullets
+    private ArrayList<EnemyBullet> enemyBullets;    // enemy bullets
+    private ArrayList<ImmovableObj> rocks;          // array of rocks
+    private ArrayList<ImmovableObj> trees;          // store the trees
+    private boolean gameOver;                       // To stop the game
+    private boolean started;                        // to start the game
+    private boolean paused;                         // to pause the game
+    private long lastTime;                          // to keep track of time
+    private int score;                              // score
+    private boolean win;                            // win boolean
+    private long bulletTimer;                       // timer for the bullet
+    private long lastTimeTickBox;                   // timer for the box
+    private long lastTimeTickEnemy;                 // timer for the enemy
+    private int MAX_ENEMIES;                        // number of enemies
+    private boolean startOfWave;                    // the begining of a wave
+    private int waveCounter;                        // number of the wave
+    private long lastTimeTick;                      // timer for tick
+    public MenuItem quitButton;                     // Quit Menu Button
+    public MenuItem startButton;                    // Start menu Button
+    public MenuItem resumeButton;                   // Resume pause menu button
+    public MenuItem exitButton;                     // Exit pause menu button
+    public boolean frameExists;                     // Check whether a Frame has been created
+    private SoundClip backgroundMenuMusic;          // to Store background music on the Menu
+    private SoundClip backgroundGameMusic;          // to Store background music on Game
+    private boolean musicSelect;                    // to know when music should change
     
     /**
      * to create title, width and height and set the game is still not running
@@ -94,7 +93,6 @@ public class Game implements Runnable {
         bulletTimer = System.currentTimeMillis();
         lastTimeTickBox = System.currentTimeMillis();
         lastTimeTickEnemy = System.currentTimeMillis();
-        waveTextTimer = System.currentTimeMillis();
     }
 
     /**
@@ -280,8 +278,9 @@ public class Game implements Runnable {
     public Box getBox() {
         return box;
     }
+    
     /**
-     * 
+     * <code>Enemy</code> getter
      * @return enemies
      */
     public ArrayList<Enemy> getEnemies() {
@@ -556,6 +555,9 @@ public class Game implements Runnable {
         }
     }
     
+    /**
+     * Movement of the enemy
+     */
     public void enemySearchPlayer(){
         // getting every enemy by using iterator
         Iterator itr = enemies.iterator();
@@ -620,6 +622,9 @@ public class Game implements Runnable {
         }
     }
     
+    /**
+     * Shoot of the enemy
+     */
     public void shootEnemy() {
         Iterator itr = enemies.iterator();
         while (itr.hasNext()) {
@@ -653,6 +658,9 @@ public class Game implements Runnable {
         }
     }
     
+    /**
+     * Shoot of the player
+     */
     public void shootPlayer(){
         //  PISTOL
         if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 200 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){

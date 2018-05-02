@@ -8,12 +8,12 @@ import java.awt.image.BufferedImage;
  * @author bruno
  */
 public class Assets {
-    public static BufferedImage background;     // to strore background image
-    public static BufferedImage menu1;          // to store the main menu image
-    public static BufferedImage menu2;          // to store the pause menu image
-    public static BufferedImage menu3;          // to store the GameOver menu image    
-    public static BufferedImage startButton[];     // to store start button images for Menu
-    public static BufferedImage quitButton[];     // to store quit button images for Menu
+    public static BufferedImage background;         // to strore background image
+    public static BufferedImage menu1;              // to store the main menu image
+    public static BufferedImage menu2;              // to store the pause menu image
+    public static BufferedImage menu3;              // to store the GameOver menu image    
+    public static BufferedImage startButton[];      // to store start button images for Menu
+    public static BufferedImage quitButton[];       // to store quit button images for Menu
     public static BufferedImage resumeButton[];     // to store quit button images for Menu
     public static BufferedImage exitButton[];     // to store quit button images for Menu
     public static BufferedImage box[];          // to store the box image
@@ -42,24 +42,32 @@ public class Assets {
      * To initialize assets
      */
     public static void init(){
+        //  to store the background image
         background = ImageLoader.loadImage("/images/background-exam.jpg");
+        
+        //  store images for the menus
         menu1 = ImageLoader.loadImage("/images/MenuImages/MenuBackground.png");
         menu2 = ImageLoader.loadImage("/images/MenuImages/PauseBackground.png");
         menu3 = ImageLoader.loadImage("/images/MenuImages/GameOverBackground.png");
 
+        //  store image for the button
         startButton = new BufferedImage[2];
         startButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonStartClear.png");
         
+        //  store image for quit button
         quitButton = new BufferedImage[2];
         quitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonQuitClear.png");
         
+        //  store image for resume button
         resumeButton = new BufferedImage[2];
         resumeButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonResumeClear.png");
         
+        //  store image for exit button
         exitButton = new BufferedImage[2];
         exitButton[0] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClear.png");
         exitButton[1] = ImageLoader.loadImage("/images/MenuImages/ButtonExitClearGO.png");
         
+        //  store the rock image
         SpriteSheet ssRock = new SpriteSheet(ImageLoader.loadImage("/images/rock2.png"));
         rock = new BufferedImage[1];
         rock[0] = ssRock.crop(0, 0, 160, 150);
@@ -140,6 +148,7 @@ public class Assets {
             shotgunShoot[i] = ImageLoader.loadImage("/images/player/shotgun/shoot/survivor-shoot_shotgun_"+ i + ".png");
         }
         
+        // save sounds
         buttonClickedSound = new SoundClip("/sounds/buttonClickGeneral.wav");
         pistolChangeSound = new SoundClip("/sounds/pistolChange.wav");
         shotgunChangeSound = new SoundClip("/sounds/shotgunChange.wav");

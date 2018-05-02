@@ -19,17 +19,17 @@ import javax.swing.ImageIcon;
  */
 public class Enemy extends Item {
 
-    private Game game;
-    private int speed;      //enemy speedX
-    private int direction;     //enemy speedY
-    private int points;     //points the enemy grants
-    private int enemyType;  //0 - normal, 1 - shooter
-    private int health;     //enemy health
-    private Animation animationRun;     //run animation
-    private Animation animationAttack;  //attack animation
-    private Animation currentAnimation;  //Current animation state;
-    private long lastTime;
-    private int damage;
+    private Game game;                      // game instance
+    private int speed;                      // enemy speedX
+    private int direction;                  // enemy speedY
+    private int points;                     // points the enemy grants
+    private int enemyType;                  // 0 - normal, 1 - shooter
+    private int health;                     // enemy health
+    private Animation animationRun;         // run animation
+    private Animation animationAttack;      // attack animation
+    private Animation currentAnimation;     // Current animation state;
+    private long lastTime;                  // save time
+    private int damage;                     // damage of the enemy
 
     public Enemy(int x, int y, int width, int height, int speed, int direction, int health, int enemyType, Game game) {
         super(x, y, width, height);
@@ -42,13 +42,21 @@ public class Enemy extends Item {
         this.animationRun = new Animation(Assets.zombieRun, 25);
         this.animationAttack = new Animation(Assets.zombieAttack, 20);
         this.currentAnimation = animationRun;
-        this.damage = 10;
+        this.damage = 10;   // initial damage
     }
 
+    /**
+     * <code>LastTime</code> setter
+     * @param lastTime 
+     */
     public void setLastTime(long lastTime) {
         this.lastTime = lastTime;
     }
 
+    /**
+     * <code>lasTime</code> getter
+     * @return 
+     */
     public long getLastTime() {
         return lastTime;
     }
