@@ -171,6 +171,7 @@ public class Enemy extends Item {
             currentAnimation = animationAttack;
             if(currentAnimation.isLoopCompleted()){
                 game.getPlayer().setHealth(game.getPlayer().getHealth()-damage);
+                Assets.zombieGruntSound.play();
                 game.getPlayer().setIsHit(true);
             }
             else{

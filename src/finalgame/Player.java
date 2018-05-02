@@ -163,9 +163,11 @@ public class Player extends Item{
         //Shoot
         if(game.getKeyManager().space){
             if(weaponType == PISTOL){
+                Assets.pistolShotSound.play();
                 currentAnimation = shootPistol;
             }
             else if(weaponType == SHOTGUN){
+                Assets.shotgunShotSound.play();
                 currentAnimation = shootShotgun;
             }
         }

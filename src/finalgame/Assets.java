@@ -15,24 +15,29 @@ public class Assets {
     public static BufferedImage startButton[];      // to store start button images for Menu
     public static BufferedImage quitButton[];       // to store quit button images for Menu
     public static BufferedImage resumeButton[];     // to store quit button images for Menu
-    public static BufferedImage exitButton[];       // to store quit button images for Menu
-    public static BufferedImage box[];              // to store the box image
-    public static BufferedImage rock[];             // to store the rock image
-    public static BufferedImage tree[];             // to store the tree image
-    public static BufferedImage playerUp[];         // to store player up animation
-    public static BufferedImage playerDown[];       // to store player down animation
-    public static BufferedImage playerRight[];      // to store player right animation
-    public static BufferedImage playerLeft[];       // to store player left animation
-    public static BufferedImage zombieRun[];        // zombie run animation
-    public static BufferedImage zombieAttack[];     // zombie attack animation
-    public static BufferedImage playerFeet[];       // zombie feet animation
-    public static BufferedImage playerPistol[];     // pistol player animation
-    public static BufferedImage playerShotgun[];    // shotgun player animation
-    public static BufferedImage pistolShoot[];      // pistol shoot animation
-    public static BufferedImage shotgunShoot[];     // shotgun shoot animation
-    public static SoundClip buttonClickedSound;     // to acknowledge when a button is clicked
-    public static SoundClip pistolChangeSound;      // to feedback when changing weapon to pistol
-    public static SoundClip shotgunChangeSound;     // to feedback when changing weapon to shotgun
+    public static BufferedImage exitButton[];     // to store quit button images for Menu
+    public static BufferedImage box[];          // to store the box image
+    public static BufferedImage rock[];
+    public static BufferedImage tree[];
+    public static BufferedImage playerUp[];      //to store player up animation
+    public static BufferedImage playerDown[];      //to store player down animation
+    public static BufferedImage playerRight[];     //to store player right animation
+    public static BufferedImage playerLeft[];     //to store player left animation
+    public static BufferedImage zombieRun[];    //zombie run animation
+    public static BufferedImage zombieAttack[]; //zombie attack animation
+    public static BufferedImage playerFeet[];
+    public static BufferedImage playerPistol[];
+    public static BufferedImage playerShotgun[];
+    public static BufferedImage pistolShoot[];
+    public static BufferedImage shotgunShoot[];
+    public static SoundClip buttonClickedSound;      // to acknowledge when a button is clicked
+    public static SoundClip pistolChangeSound;       // to feedback when changing weapon to pistol
+    public static SoundClip shotgunChangeSound;      // to feedback when changing weapon to shotgun
+    public static SoundClip laserChangeSound;        // to feedback when changing weapon to laser
+    public static SoundClip pistolShotSound;      // to feedback when shooting pistol
+    public static SoundClip laserSound;
+    public static SoundClip shotgunShotSound;       // to feedback when shooting shotgun
+    public static SoundClip zombieGruntSound;       // to feedback when zombie bites;
     /**
      * To initialize assets
      */
@@ -147,6 +152,11 @@ public class Assets {
         buttonClickedSound = new SoundClip("/sounds/buttonClickGeneral.wav");
         pistolChangeSound = new SoundClip("/sounds/pistolChange.wav");
         shotgunChangeSound = new SoundClip("/sounds/shotgunChange.wav");
+        laserChangeSound = new SoundClip("/sounds/laserChange.wav");
+        pistolShotSound = new SoundClip("/sounds/pistolShot.wav");
+        shotgunShotSound = new SoundClip("/sounds/shotgunShot.wav");
+        //laserSound = new SoundClip("/sounds/laser.wav");
+        zombieGruntSound = new SoundClip("/sounds/zombieBiteSound.wav");
         
     }
 }
