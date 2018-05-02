@@ -163,11 +163,9 @@ public class Player extends Item{
         //Shoot
         if(game.getKeyManager().space){
             if(weaponType == PISTOL){
-                Assets.pistolShotSound.play();
                 currentAnimation = shootPistol;
             }
             else if(weaponType == SHOTGUN){
-                Assets.shotgunShotSound.play();
                 currentAnimation = shootShotgun;
             }
         }
@@ -177,17 +175,17 @@ public class Player extends Item{
         currentAnimation.tick();
         
         // reset x position and y position if colision
-        if (getX() + 50 >= game.getWidth()) {
-            setX(game.getWidth() - 50);
+        if (getX() + 47 >= game.getWidth()) {
+            setX(game.getWidth() - 47);
         }
-        else if (getX() <=-25) {
-            setX(-25);
+        else if (getX() <=0) {
+            setX(0);
         }
-        if(getY() + 75 >= game.getHeight()){
-            setY(game.getHeight() - 75);
+        if(getY() + 47 >= game.getHeight()){
+            setY(game.getHeight() - 47);
         }
-        else if(getY() <= -18){
-            setY(-18);
+        else if(getY() <= 0){
+            setY(0);
         }
     }
 

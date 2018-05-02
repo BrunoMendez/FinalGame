@@ -70,13 +70,13 @@ public class KeyManager implements KeyListener {
      @Override
      public void keyReleased(KeyEvent e) {
          if (keys[KeyEvent.VK_P]){
-             
+            
          }
          else {
-         keys[e.getKeyCode()] = false;
+            keys[e.getKeyCode()] = false;
          }
      }
-     
+
      /**
       * to enable or disable moves on every tick
       */

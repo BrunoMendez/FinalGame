@@ -9,7 +9,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 /**
  *
@@ -710,7 +712,7 @@ public class Game implements Runnable {
      */
     public void shootPlayer(){
         //  PISTOL
-        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 200 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
+        if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 1 && weapon.getAmmoPISTOL() > 0){
             weapon.setAmmoPISTOL(weapon.getAmmoPISTOL()-1);
             if(player.getDirection() == 4){
                bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
@@ -729,6 +731,7 @@ public class Game implements Runnable {
                         5, 20, 10, player.getDirection(), 1, this));
             }
             bulletTimer = System.currentTimeMillis();
+            Assets.pistolShotSound.play();
         }
         //  SHOTGUN
         if(this.getKeyManager().space && System.currentTimeMillis() - bulletTimer >= 500 && weapon.getType() == 2 && weapon.getAmmoSHOTGUN() > 0){
@@ -740,6 +743,7 @@ public class Game implements Runnable {
             bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 22, this));
             bulletTimer = System.currentTimeMillis();
+             Assets.shotgunShotSound.play();
         }
         //  LASER
         if(this.getKeyManager().space && weapon.getType() == 3 && weapon.getAmmoLASER() > 0){
