@@ -90,11 +90,11 @@ public class Player extends Item{
     @Override
     public void tick() {
         weaponType = game.getWeapon().getType();
-        if(System.currentTimeMillis() - hitTime > 5000 && health < 100){
-            health+=10;
+        if(isHit){
             hitTime = System.currentTimeMillis();
         }
-        if(isHit){
+        if(System.currentTimeMillis() - hitTime > 5000 && health < 100){
+            health+=10;
             hitTime = System.currentTimeMillis();
         }
         // move player
@@ -199,14 +199,14 @@ public class Player extends Item{
     
     private void drawAnimation(Animation a, Graphics g){
         //drawing rotated image
-        ImageIcon icon = new ImageIcon(a.getCurrentFrame());
-        BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = (Graphics2D)blankCanvas.getGraphics();
-        
-        g2.rotate(Math.toRadians(degrees), icon.getIconWidth()/ 2, icon.getIconHeight()/ 2);
-        g2.drawImage(a.getCurrentFrame(), 0, 0, null);
-        g.drawImage(blankCanvas, getX(), getY(), 
-                getWidth(), getHeight(), null);
+        Graphics2D g2 = (Graphics2D)g.create();
+        double radians = Math.toRadians( degrees );
+        g2.translate(getX()+getWidth()/2, getY()+getHeight()/2);
+        g2.rotate(radians);
+        g2.translate(-getWidth()/2, -getHeight()/2);
+        g2.drawImage(a.getCurrentFrame(), 0, 0, getWidth(), getHeight(), null);
+
+        g2.dispose();
         if(isHit){
             g.setColor(Color.RED);
             g.drawString("Health: " + health, getX()+getWidth()/4, getY() - 13);
