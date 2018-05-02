@@ -14,8 +14,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Box extends Item{
 
-    private Animation box;
-    private Game game;
+    private Animation box;                               // Box animation instance
+    private Game game;                                   // intance of the game
     private int xBox;                                    // aux to store the new x of the box
     private int yBox;                                    // aux to store the new y of the box
     private int x;                                       // x position of the box
@@ -96,6 +96,7 @@ public class Box extends Item{
 
     @Override
     public void render(Graphics g) {
+        //  Render the box image
         g.drawImage(box.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
     }
 }

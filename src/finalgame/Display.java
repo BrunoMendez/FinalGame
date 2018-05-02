@@ -37,8 +37,6 @@ public class Display {
      */
     public void createDisplay(){
         // Create the app window
-        
-        
         jframe = new JFrame(title);
         // set the size of the window
         jframe.setSize(width, height);

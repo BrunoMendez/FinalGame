@@ -15,9 +15,9 @@ import java.awt.Rectangle;
 
 public class EnemyBullet extends Item{
 
-    private int width;
-    private int height;
-    private Game game;
+    private int width;          // width of the bullet
+    private int height;         // height of the bullet
+    private Game game;          // game instance
     private int speed;          // speed of the bullet
     private int damage;         // damage of the bullet
     private int type;           // type of the bullet

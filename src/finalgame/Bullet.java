@@ -21,15 +21,15 @@ import javax.swing.ImageIcon;
 
 public class Bullet extends Item{
 
-    private int width;
-    private int height;
-    private Game game;
-    private int speed;          // speed of the bullet
-    private int damage;         // damage of the bullet
-    private int type;           // type of the bullet
-    private int direction;      // Direction the player is facing
-    private Rectangle hitBox;   //hit box
-    private int degrees;
+    private int width;              // save width of the bullet
+    private int height;             // save height of the bullet
+    private Game game;              // game instance
+    private int speed;              // speed of the bullet
+    private int damage;             // damage of the bullet
+    private int type;               // type of the bullet
+    private int direction;          // Direction the player is facing
+    private Rectangle hitBox;       // hit box
+    private int degrees;            // save the degrees of the bullet
     
     /**
      * <code>Bullet</code> Constructor 
@@ -45,7 +45,7 @@ public class Bullet extends Item{
         this.game = game;
         this.speed = speed;
         this.direction = direction;
-        degrees = 0;
+        degrees = 0;                // initializr degrees in 0
     }
     
     /**
@@ -64,6 +64,10 @@ public class Bullet extends Item{
         return hitBox;
     }
 
+    /**
+     * <code>Type</code> Getter
+     * @return type 
+     */
     public int getType() {
         return type;
     }
