@@ -23,9 +23,9 @@ public class Weapon {
      */
     public Weapon(Game game) {
        this.game = game; 
-       type = 2;
+       type = 1;
        ammoPISTOL = 15;
-       ammoSHOTGUN = 10;
+       ammoSHOTGUN = 0;
        ammoLASER = 0;
     }
     
