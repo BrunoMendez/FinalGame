@@ -412,19 +412,19 @@ public class Game implements Runnable {
                     player.setY(player.getY()-4);
                 }
                 if(player.getDirection() == 5){
-                    player.setY(player.getY()+2);
+                    player.setY(player.getY()+3);
                     player.setX(player.getX()-3);
                 }
                 else if(player.getDirection() == 6){
-                    player.setY(player.getY()+2);
+                    player.setY(player.getY()+3);
                     player.setX(player.getX()+3);
                 }
                 else if(player.getDirection() == 7){
-                    player.setY(player.getY()-2);
+                    player.setY(player.getY()-3);
                     player.setX(player.getX()-3);
                 }
                 else if(player.getDirection() == 8){
-                    player.setY(player.getY()-2);
+                    player.setY(player.getY()-3);
                     player.setX(player.getX()+3);
                 }
             }
@@ -453,19 +453,19 @@ public class Game implements Runnable {
                     player.setY(player.getY()-4);
                 }
                 if(player.getDirection() == 5){
-                    player.setY(player.getY()+2);
+                    player.setY(player.getY()+3);
                     player.setX(player.getX()-3);
                 }
                 else if(player.getDirection() == 6){
-                    player.setY(player.getY()+2);
+                    player.setY(player.getY()+3);
                     player.setX(player.getX()+3);
                 }
                 else if(player.getDirection() == 7){
-                    player.setY(player.getY()-2);
+                    player.setY(player.getY()-3);
                     player.setX(player.getX()-3);
                 }
                 else if(player.getDirection() == 8){
-                    player.setY(player.getY()-2);
+                    player.setY(player.getY()-3);
                     player.setX(player.getX()+3);
                 }
             }
@@ -757,7 +757,7 @@ public class Game implements Runnable {
                 //  re set y position
                 bullets.remove(bullet);
                 itr = bullets.iterator();
-                System.out.println(bullets.size());
+                //System.out.println(bullets.size());
             } else {
                 //  create a boolean to check removing bullet
                 boolean crashed = false;
