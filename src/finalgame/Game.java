@@ -648,7 +648,7 @@ public class Game implements Runnable {
                 if(waveCounter >= 3){
                     randomWeapon = ThreadLocalRandom.current().nextInt(1, 2 + 1);   
                 }
-                if(waveCounter >= 4){
+                if(waveCounter >= 5){
                     randomWeapon = ThreadLocalRandom.current().nextInt(1, 3 + 1);   
                 }
                 int randomAmmo = ThreadLocalRandom.current().nextInt(5, 10 + 1);
