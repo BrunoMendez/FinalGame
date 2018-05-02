@@ -21,23 +21,23 @@ import javax.swing.ImageIcon;
  */
 public class Player extends Item{
 
-    private int health;
-    private Game game;
-    private Animation animationPistol;
-    private Animation animationFeet;
-    private Animation shootPistol;
-    private Animation animationShotgun;
-    private Animation shootShotgun;
-    private int lastAnimation;
-    private int direction;
-    private long hitTime;
-    private boolean isHit;
-    private int weaponType;
-    private boolean isIdle;
-    private final int PISTOL = 1;
-    private final int SHOTGUN = 2;
-    private Animation currentAnimation;
-    private int degrees;
+    private int health;                     //health of the player
+    private Game game;                      //game attribute
+    private Animation animationPistol;      //pistol animation
+    private Animation animationFeet;        //walking animation
+    private Animation shootPistol;          //shooting pistol animation
+    private Animation animationShotgun;     //shotgun animation
+    private Animation shootShotgun;         //shooting shotgun animation
+    private int lastAnimation;              //last animation used
+    private int direction;                  //player direction
+    private long hitTime;                   //time to hit player
+    private boolean isHit;                  //player hit flag
+    private int weaponType;                 //player weapons
+    private boolean isIdle;                 //player idle flag
+    private final int PISTOL = 1;           //pistol int
+    private final int SHOTGUN = 2;          //shotgun int
+    private Animation currentAnimation;     //animation currently running
+    private int degrees;                    //player walk degrees
     
     
     public Player(int x, int y, int width, int height, int health, Game game) {
@@ -61,10 +61,18 @@ public class Player extends Item{
         isIdle = true;
     }
 
+    /**
+     * To get the health of the player
+     * @return an <code>int</code> of the health of the player
+     */
     public int getHealth() {
         return health;
     }
 
+    /**
+     * To set the health of the player
+     * @param health to set the health of the player
+     */
     public void setHealth(int health) {
         this.health = health;
     }
@@ -80,16 +88,27 @@ public class Player extends Item{
         return direction;
     }
 
+    /**
+     * To set if the player is hit
+     * @param isHit to set if the player is hit
+     */
     public void setIsHit(boolean isHit) {
         this.isHit = isHit;
     }
+    
+    /**
+     * To get if the player is hit
+     * @return a <code>boolean</code> if the player is hit
+     */
     public boolean isHit(){
         return isHit;
     }
     
     @Override
     public void tick() {
+        //player weapons
         weaponType = game.getWeapon().getType();
+        //player hit time
         if(isHit){
             hitTime = System.currentTimeMillis();
         }
@@ -153,7 +172,7 @@ public class Player extends Item{
         else{
             isIdle = true;
         }
-        
+        //weapon animations
         if(weaponType == PISTOL){
             currentAnimation = animationPistol;
         }
