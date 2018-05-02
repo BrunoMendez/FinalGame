@@ -19,10 +19,6 @@ public class Assets {
     public static BufferedImage box[];          // to store the box image
     public static BufferedImage rock[];
     public static BufferedImage tree[];
-    public static BufferedImage playerUp[];      //to store player up animation
-    public static BufferedImage playerDown[];      //to store player down animation
-    public static BufferedImage playerRight[];     //to store player right animation
-    public static BufferedImage playerLeft[];     //to store player left animation
     public static BufferedImage zombieRun[];    //zombie run animation
     public static BufferedImage zombieAttack[]; //zombie attack animation
     public static BufferedImage playerFeet[];
@@ -77,17 +73,6 @@ public class Assets {
         box[1] = ss2.crop(0, 0, 25, 20);
         
         //To store the player animation       
-        SpriteSheet playerSS = new SpriteSheet (ImageLoader.loadImage("/images/player.png"));
-        playerUp = new BufferedImage[9];
-        playerDown = new BufferedImage[9];
-        playerRight = new BufferedImage[9];
-        playerLeft = new BufferedImage[9];
-        for(int i = 0; i<9; i++){
-            playerUp[i] = playerSS.crop(i*64, 0, 64, 64);
-            playerLeft[i] = playerSS.crop(i*64, 64, 64, 64);
-            playerDown[i] = playerSS.crop(i*64, 128, 64, 64);
-            playerRight[i] = playerSS.crop(i*64, 192, 64, 64);
-        }
         
         //To store zombie running animation
         zombieRun = new BufferedImage[32];
