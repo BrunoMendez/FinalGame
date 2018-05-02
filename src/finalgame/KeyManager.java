@@ -99,4 +99,20 @@ public class KeyManager implements KeyListener {
      public void setP(boolean pause){
          keys[KeyEvent.VK_P] = pause;
      }
+     
+     public void clear() {
+         keys[KeyEvent.VK_UP] = false;
+         keys[KeyEvent.VK_DOWN] = false;
+         keys[KeyEvent.VK_LEFT] = false;
+         keys[KeyEvent.VK_RIGHT] = false;
+         keys[KeyEvent.VK_SPACE] = false;
+         keys[KeyEvent.VK_1] = false;
+         keys[KeyEvent.VK_2] = false;
+         keys[KeyEvent.VK_3] = false;
+         keys[KeyEvent.VK_S] = false;
+     }
+     public void clearKeysMenu() {
+         clear();
+         keys[KeyEvent.VK_P] = false;
+     }
 }

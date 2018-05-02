@@ -7,6 +7,7 @@ package finalgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public class Game implements Runnable {
     private ArrayList<ImmovableObj> trees;          // store the trees
     private boolean gameOver;                       // To stop the game
     private boolean started;                        // to start the game
-    private boolean paused;                         // to pause the game
+    public boolean paused;                         // to pause the game
     private long lastTime;                          // to keep track of time
     private int score;                              // score
     private boolean win;                            // win boolean
@@ -418,6 +419,7 @@ public class Game implements Runnable {
     private void tickMainMenu() {
         quitButton.tick(g);
         startButton.tick(g);
+        keyManager.clearKeysMenu();
     }
     
     /**
@@ -426,6 +428,7 @@ public class Game implements Runnable {
     private void tickPauseMenu() {
         resumeButton.tick(g);
         exitButton.tick(g);
+        keyManager.clear();
     }
     
     /**
@@ -1010,5 +1013,6 @@ public class Game implements Runnable {
     public void setMusicSelect(boolean m) {
         musicSelect = m;
     }
+   
    
 }
