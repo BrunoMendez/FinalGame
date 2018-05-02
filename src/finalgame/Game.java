@@ -287,36 +287,74 @@ public class Game implements Runnable {
         return enemies;
     }
     
+    /**
+     * <code>Bullet</code> getter
+     * @return 
+     */
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
+    /**
+     * <code>EnemyBullet</code> getter
+     * @return 
+     */
     public ArrayList<EnemyBullet> getEnemyBullets() {
         return enemyBullets;
     }
 
+    /**
+     * <code>Score</code> getter
+     * @return 
+     */
     public int getScore() {
         return score;
     }
     
+    /**
+     * <code>Score</code> setter
+     * @param score 
+     */
     public void setScore(int score) {
         this.score = score;
     }
-
-        
+   
+    /**
+     * <code>Weapon</code> getter
+     * @return 
+     */
     public Weapon getWeapon() {
         return weapon;
     }
     
+    /**
+     * <code>startGame</code> getter
+     * @return 
+     */
     public boolean getStartGame() {
         return startGame;
     }
+    
+    /**
+     * <code>startGame</code> setter
+     * @param s 
+     */
     public void setStartGame(boolean s) {
         startGame = s;
     }
+    
+    /**
+     * <code>paused</code> getter
+     * @return 
+     */
     public boolean getPaused() {
         return paused;
     }
+    
+    /**
+     * <code>p</code> setter
+     * @param p 
+     */
     public void setPaused(boolean p) {
         paused = p;
     }
@@ -376,16 +414,25 @@ public class Game implements Runnable {
         
     }
     
+    /**
+     * Tick for main menu images
+     */
     private void tickMainMenu() {
         quitButton.tick(g);
         startButton.tick(g);
     }
     
+    /**
+     * Tick for pause menu
+     */
     private void tickPauseMenu() {
         resumeButton.tick(g);
         exitButton.tick(g);
     }
     
+    /**
+     * Tick for game over menu
+     */
     private void tickGameOverMenu() {
         exitButton.tick(g);
     }
@@ -967,26 +1014,50 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * <code>gameOver</code> setter
+     * @param b 
+     */
     void setGameOver(boolean b) {
        gameOver = b;
     }
     
+    /**
+     * <code>gameOver</code> getter
+     * @return 
+     */
     public boolean getGameOver(){
         return gameOver;
     }
 
+    /**
+     * <code>paused</code> getter
+     * @return 
+     */
     public boolean isPaused() {
         return paused;
     }
 
+    /**
+     * <code>startGame</code> getter
+     * @return 
+     */
     public boolean isStartGame() {
         return startGame;
     }
     
+    /**
+     * <code>musicSelect</code> getter
+     * @return 
+     */
     public boolean isMusicSelect() {
         return musicSelect;
     }
     
+    /**
+     * <code>musicSelect</code> setter
+     * @return 
+     */
     public void setMusicSelect(boolean m) {
         musicSelect = m;
     }

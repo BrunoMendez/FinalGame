@@ -13,7 +13,7 @@ import java.awt.Graphics;
  */
 public class ImmovableObj extends Item{
 
-    private Animation rock;
+    private Animation rock;     
     private Animation tree;
     private Game game;
     private int type;
