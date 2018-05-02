@@ -33,6 +33,11 @@ public class Assets {
     public static SoundClip buttonClickedSound;      // to acknowledge when a button is clicked
     public static SoundClip pistolChangeSound;       // to feedback when changing weapon to pistol
     public static SoundClip shotgunChangeSound;      // to feedback when changing weapon to shotgun
+    public static SoundClip laserChangeSound;        // to feedback when changing weapon to laser
+    public static SoundClip pistolShotSound;      // to feedback when shooting pistol
+    public static SoundClip laserSound;
+    public static SoundClip shotgunShotSound;       // to feedback when shooting shotgun
+    public static SoundClip zombieGruntSound;       // to feedback when zombie bites;
     /**
      * To initialize assets
      */
@@ -138,6 +143,11 @@ public class Assets {
         buttonClickedSound = new SoundClip("/sounds/buttonClickGeneral.wav");
         pistolChangeSound = new SoundClip("/sounds/pistolChange.wav");
         shotgunChangeSound = new SoundClip("/sounds/shotgunChange.wav");
+        laserChangeSound = new SoundClip("/sounds/laserChange.wav");
+        pistolShotSound = new SoundClip("/sounds/pistolShot.wav");
+        shotgunShotSound = new SoundClip("/sounds/shotgunShot.wav");
+        //laserSound = new SoundClip("/sounds/laser.wav");
+        zombieGruntSound = new SoundClip("/sounds/zombieBiteSound.wav");
         
     }
 }
