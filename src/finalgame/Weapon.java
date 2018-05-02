@@ -23,9 +23,9 @@ public class Weapon {
      */
     public Weapon(Game game) {
        this.game = game; 
-       type = 1;
-       ammoPISTOL = 999;
-       ammoSHOTGUN = 0;
+       type = 2;
+       ammoPISTOL = 15;
+       ammoSHOTGUN = 10;
        ammoLASER = 0;
     }
     
@@ -89,19 +89,22 @@ public class Weapon {
       // Pistol
         if(game.getKeyManager().uno){
             if(type != 1) {
-                Assets.pistolChangeSound.play();
+               Assets.pistolChangeSound.play();
             }
             type = 1;
         }
         // Shotgun
         if(game.getKeyManager().dos){
             if(type != 2) {
-                Assets.shotgunChangeSound.play();
+               Assets.shotgunChangeSound.play();
             }
             type = 2;
         }
         // Laser
         if(game.getKeyManager().tres){
+            if(type != 3) {
+               Assets.laserChangeSound.play();
+            }
             type = 3;
         }
     }   
