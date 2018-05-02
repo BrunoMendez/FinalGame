@@ -718,17 +718,21 @@ public class Game implements Runnable {
                bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
                         5, 20, 10, player.getDirection(), 1, this)); 
             }
-            if(player.getDirection() == 3){
+            else if(player.getDirection() == 3){
                 bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
             }
-            if(player.getDirection() == 2){
+            else if(player.getDirection() == 2){
                 bullets.add(new Bullet(player.getX() + player.getWidth()/4, player.getY() + player.getHeight()/2,
                         5, 20, 10, player.getDirection(), 1, this));
             }
-            if(player.getDirection() == 1){
+            else if(player.getDirection() == 1){
                 bullets.add(new Bullet(player.getX() + player.getWidth() - player.getWidth()/4, player.getY(),
                         5, 20, 10, player.getDirection(), 1, this));
+            }
+            else{
+                bullets.add(new Bullet(player.getX() + player.getWidth()/2, player.getY(),
+                        5, 20, 10, player.getDirection(), 1, this)); 
             }
             bulletTimer = System.currentTimeMillis();
             Assets.pistolShotSound.play();
