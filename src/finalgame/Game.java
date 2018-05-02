@@ -377,7 +377,7 @@ public class Game implements Runnable {
         if (!startGame && ! paused && !gameOver) {
             tickMainMenu();
         }
-        //checks if game is startes and unpaused
+        //checks if game is started and unpaused
         if (startGame && !paused && !gameOver) {
             tickGame();
         }
@@ -401,11 +401,12 @@ public class Game implements Runnable {
         player.tick();
         //shoot tick
         shootPlayer();
-        BulletTick();
+        
         //randomly create new boxes
         createNewBox();
-        enemySearchPlayer();
         wavesControl(); 
+        enemySearchPlayer();
+        BulletTick();
         PlayerCollisionRocks();
         EnemyCollisonRocks();
         EnemyCollisonTrees();
@@ -900,11 +901,11 @@ public class Game implements Runnable {
             //string showing what weapon player is using.
             if(weapon.getType() == 1){
                 g.drawString("PISTOL", player.getX()+player.width/3, player.getY());
-                g.drawString("Ammo: " + weapon.getAmmoPISTOL(), 10, height-5);
+                g.drawString("Ammo: " + weapon.getAmmoPISTOL(), 10, height-10);
             }
             if(weapon.getType() == 2){
                 g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
-                g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height-5);
+                g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height-10);
             }
             if(weapon.getType() == 3){
                 g.drawString("LASER", player.getX()+player.width/4, player.getY());
