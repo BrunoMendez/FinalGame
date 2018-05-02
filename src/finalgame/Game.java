@@ -36,7 +36,6 @@ public class Game implements Runnable {
     private ArrayList<Enemy> enemies;               // my enemies
     private ArrayList<Box>  boxes;                  // loot boxes
     private ArrayList<Bullet> bullets;              // player bullets
-    private ArrayList<EnemyBullet> enemyBullets;    // enemy bullets
     private ArrayList<ImmovableObj> rocks;          // array of rocks
     private ArrayList<ImmovableObj> trees;          // store the trees
     private boolean gameOver;                       // To stop the game
@@ -301,10 +300,7 @@ public class Game implements Runnable {
      * <code>EnemyBullet</code> getter
      * @return 
      */
-    public ArrayList<EnemyBullet> getEnemyBullets() {
-        return enemyBullets;
-    }
-
+    
     /**
      * <code>Score</code> getter
      * @return 
@@ -671,41 +667,7 @@ public class Game implements Runnable {
         }
     }
     
-    /**
-     * Shoot of the enemy
-     */
-    public void shootEnemy() {
-        Iterator itr = enemies.iterator();
-        while (itr.hasNext()) {
-            Enemy enemy = (Enemy) itr.next();
-            if (System.currentTimeMillis() - enemy.getLastTime() >= 500) {
-                switch (enemy.getDirection()) {
-                case 1: 
-                    enemyBullets.add(new EnemyBullet(enemy.getX() + 
-                            enemy.getWidth()/2, enemy.getY(),
-                        5, 20, 10, enemy.getDirection(), this));
-                    break;
-                case 2: 
-                    enemyBullets.add(new EnemyBullet(enemy.getX() + 
-                            enemy.getWidth()/2, enemy.getY() + enemy.getHeight(),
-                        5, 20, 10, enemy.getDirection(), this));
-                    break;
-                case 3:
-                    enemyBullets.add(new EnemyBullet(enemy.getX() + 
-                            enemy.getWidth(), enemy.getY() + enemy.getHeight()/2 
-                                    + 10, 20, 5, 10, enemy.getDirection(), this));
-                    break;
-                case 4:
-                    enemyBullets.add(new EnemyBullet(enemy.getX(), enemy.getY()
-                            + enemy.getHeight()/2,
-                        20, 5, 10, enemy.getDirection(), this));
-                    break;
-                }
-                enemy.setLastTime(System.currentTimeMillis());
-            }
-            enemy.tick();
-        }
-    }
+    
     
     /**
      * Shoot of the player
@@ -761,28 +723,7 @@ public class Game implements Runnable {
     /**
      * Shoot of the enemy (Not implemented yet)
      */
-    public void enemyBulletTick() {
-        Iterator itr = enemyBullets.iterator();
-        while (itr.hasNext()) {
-            EnemyBullet enemyBullet = (EnemyBullet) itr.next();
-            enemyBullet.tick();
-            if (enemyBullet.getY() <= 0) {
-                enemyBullets.remove(enemyBullet);
-                itr = enemyBullets.iterator();
-            } else {
-                boolean crashed = false;
-                //if enemybullet crashes player
-                while (!crashed){
-                    if (player.intersects(enemyBullet)){
-                        //player.setHealth(player.getHealth() - cantidad);
-                        enemyBullets.remove(enemyBullet);
-                        itr = enemyBullets.iterator();
-                        crashed = true;
-                    }
-                } 
-            }
-        }
-    }
+    
     
     /**
      * Bullet tick function
@@ -956,20 +897,20 @@ public class Game implements Runnable {
             //string showing what weapon player is using.
             if(weapon.getType() == 1){
                 g.drawString("PISTOL", player.getX()+player.width/3, player.getY());
-                g.drawString("Ammo: " + weapon.getAmmoPISTOL(), 10, height);
+                g.drawString("Ammo: " + weapon.getAmmoPISTOL(), 10, height-5);
             }
             if(weapon.getType() == 2){
                 g.drawString("SHOTGUN", player.getX()+player.width/4, player.getY());
-                g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height);
+                g.drawString("Ammo: " + weapon.getAmmoSHOTGUN(), 10, height-5);
             }
             if(weapon.getType() == 3){
                 g.drawString("LASER", player.getX()+player.width/4, player.getY());
-                g.drawString("Ammo: " + weapon.getAmmoLASER(), 10, height);
+                g.drawString("Ammo: " + weapon.getAmmoLASER(), 10, height-10);
             }
             //  Display the number of the wave
-            g.drawString("Wave: " + waveCounter, 10, height-30);
+            g.drawString("Wave: " + waveCounter, 10, height-40);
             //  Display the number of enemies in the map
-            g.drawString("Enemies: " + enemies.size(), 10, height - 15);
+            g.drawString("Enemies: " + enemies.size(), 10, height - 25);
             bs.show();
             g.dispose();
     }
