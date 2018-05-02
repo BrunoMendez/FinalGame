@@ -139,6 +139,19 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         frameExists = true;
         Assets.init();
+        
+        gameOver = false;
+        started = false;
+        lastTime = System.currentTimeMillis();
+        MAX_ENEMIES = 7;
+        startOfWave = false;
+        score = 0;
+        win = false;
+        waveCounter = 1;
+        bulletTimer = System.currentTimeMillis();
+        lastTimeTickBox = System.currentTimeMillis();
+        lastTimeTickEnemy = System.currentTimeMillis();
+        
         backgroundGameMusic.setLooping(true);
         backgroundGameMusic.setVolume(0.4);
         backgroundGameMusic.stop();
