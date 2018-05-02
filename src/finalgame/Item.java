@@ -11,10 +11,10 @@ import java.awt.Rectangle;
  * @author bruno
  */
 public abstract class Item {
-    protected int x;    // to store x position
-    protected int y;    // to store y position
-    protected int width;
-    protected int height;
+    protected int x;        // to store x position
+    protected int y;        // to store y position
+    protected int width;    // to store item width
+    protected int height;   // to store item height
     
     /**
      * Set the initial values to create the item
@@ -60,28 +60,52 @@ public abstract class Item {
         return x;
     }
     
+    /**
+     * To get the width of the item
+     * @return an <code>int</code> of the width of the player
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * To get the height of the item
+     * @return an <code>int</code> of the height of the player
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * To set the width of the item
+     * @param width to set the width of the item
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * To set the height of the item
+     * @param height to set the height of the item
+     */
     public void setHeight(int height) {
         this.height = height;
     }
     
-    
+    /**
+     * To check intersection of this with obj
+     * @param obj to check intersection with this
+     * @return a <code>boolean</code> of this intersecting with obj
+     */
     public boolean intersects(Object obj){
         return (obj instanceof Item && 
                 this.getBounds().intersects(((Item) obj).getBounds()));
     }
     
+    /**
+     * To get the bounds of the item
+     * @return a <code>Rectangle</code> of the bounds of the item
+     */
     private Rectangle getBounds() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }

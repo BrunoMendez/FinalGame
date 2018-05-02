@@ -13,10 +13,10 @@ import java.awt.Graphics;
  */
 public class ImmovableObj extends Item{
 
-    private Animation rock;     
-    private Animation tree;
-    private Game game;
-    private int type;
+    private Animation rock;     //animation for rock  
+    private Animation tree;     //animation for tree
+    private Game game;          //game attribute   
+    private int type;           //type of object
     
     public ImmovableObj(int x, int y, int width, int height, int type) {
         super(x, y, width, height);
@@ -26,6 +26,10 @@ public class ImmovableObj extends Item{
         tree = new Animation(Assets.tree, 2000);
     }
    
+    /**
+     * To get the type of immovableobj
+     * @return an <code>int</code> of the type of immovableobj
+     */
     public int getType() {
         return type;
     }
@@ -36,6 +40,7 @@ public class ImmovableObj extends Item{
 
     @Override
     public void render(Graphics g) {
+        //to render rock or tree based on the type
         if(getType() == 1){
             g.drawImage(rock.getCurrentFrame(), getX(), getY(), 50, 50, null);
         }

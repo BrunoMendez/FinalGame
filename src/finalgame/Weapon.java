@@ -11,11 +11,11 @@ package finalgame;
  */
 public class Weapon {
     
-    private Game game;
-    private int type;
-    private int ammoPISTOL;
-    private int ammoSHOTGUN;
-    private int ammoLASER;
+    private Game game;          //game attribute
+    private int type;           //type of weapon
+    private int ammoPISTOL;     //ammo for pistol
+    private int ammoSHOTGUN;    //ammo for shotgun
+    private int ammoLASER;      //ammo for laser
     
     /**
      * <code>Weapon</code> Constructor

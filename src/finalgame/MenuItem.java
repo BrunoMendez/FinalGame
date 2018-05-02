@@ -14,9 +14,9 @@ import java.awt.event.MouseEvent;
  * @author santiago
  */
 public class MenuItem extends Item{
-    private int itemType;
-    private Game game;
-    public boolean clicked;
+    private int itemType;       //type of menu item
+    private Game game;          //game attribute
+    public boolean clicked;     //to check if the menu item is clicked
     
     public MenuItem(int x, int y, int width, int height, int itemType, Game game) {
         super(x, y, width, height);
@@ -41,6 +41,7 @@ public class MenuItem extends Item{
     public void render(Graphics g) {
         
         switch (itemType) {
+            //render each type of menu button
             case 1:  
                  g.drawImage(Assets.startButton[0], getX(), getY(), getWidth(), getHeight(), null);   
                 break;
@@ -65,6 +66,7 @@ public class MenuItem extends Item{
         
     }
     public void buttonAction(){
+        // each type of action the buttons perform
         if (itemType == 1) {
             game.setStartGame(true);
             game.setMusicSelect(true);
